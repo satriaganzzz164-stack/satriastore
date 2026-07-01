@@ -1,581 +1,763 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Pribadi — SatzAI</title>
-<style>
-:root {
-  --bg:      #07050f;
-  --bg2:     #0e0a1a;
-  --bg3:     #140f22;
-  --border:  rgba(160,100,255,0.15);
-  --accent:  #a855f7;
-  --neon:    #e879f9;
-  --accent2: #06b6d4;
-  --text:    #f0eaff;
-  --muted:   rgba(240,234,255,0.45);
-  --radius:  16px;
-  --glow:    0 0 40px rgba(168,85,247,0.2);
-  --user-bg: rgba(168,85,247,0.12);
-  --ai-bg:   rgba(255,255,255,0.04);
-}
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  font-size: 15px;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SatzAI — AI Pribadi</title>
+  <style>
+    :root {
+      --bg: #07050f;
+      --bg2: #0e0a1a;
+      --bg3: #140f22;
+      --border: rgba(160, 100, 255, 0.15);
+      --accent: #a855f7;
+      --neon: #e879f9;
+      --accent2: #06b6d4;
+      --text: #f0eaff;
+      --muted: rgba(240, 234, 255, 0.45);
+      --radius: 16px;
+      --glow: 0 0 40px rgba(168, 85, 247, 0.2)
+    }
 
-/* PARTICLES */
-#particles {
-  position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 0; pointer-events: none;
-}
-body::before {
-  content: '';
-  position: fixed; top: -200px; left: 50%;
-  transform: translateX(-50%);
-  width: 800px; height: 500px;
-  background: radial-gradient(ellipse, rgba(168,85,247,0.1) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
 
-/* HEADER */
-header {
-  position: relative; z-index: 10;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 24px; height: 60px;
-  background: rgba(7,5,15,0.9);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.logo {
-  font-size: 20px; font-weight: 800;
-  background: linear-gradient(135deg, var(--accent), var(--neon));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.header-right { display: flex; align-items: center; gap: 10px; }
-.status-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
-  animation: blink 2s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
-.status-txt { font-size: 13px; color: var(--muted); }
-.clear-btn {
-  padding: 7px 16px; border-radius: 8px;
-  background: rgba(168,85,247,0.1);
-  border: 1px solid rgba(168,85,247,0.3);
-  color: var(--muted); font-size: 13px; cursor: pointer;
-  transition: all .2s;
-}
-.clear-btn:hover { color: var(--text); background: rgba(168,85,247,0.2); }
+    html,
+    body {
+      height: 100%
+    }
 
-/* SETUP PANEL */
-#setup-panel {
-  position: fixed; inset: 0; z-index: 200;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(10px);
-  display: flex; align-items: center; justify-content: center;
-}
-.setup-box {
-  background: var(--bg2);
-  border: 1px solid rgba(168,85,247,0.3);
-  border-radius: 20px; padding: 40px;
-  max-width: 460px; width: 90%;
-  box-shadow: var(--glow);
-}
-.setup-box h2 {
-  font-size: 24px; font-weight: 900; margin-bottom: 8px;
-  background: linear-gradient(135deg, var(--accent), var(--neon));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.setup-box p { color: var(--muted); font-size: 14px; margin-bottom: 28px; line-height: 1.7; }
-.setup-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; display: block; letter-spacing: .06em; text-transform: uppercase; }
-.setup-input {
-  width: 100%; padding: 13px 16px;
-  background: rgba(168,85,247,0.06);
-  border: 1px solid var(--border);
-  border-radius: 10px; color: var(--text);
-  font-size: 14px; margin-bottom: 12px;
-  transition: border-color .2s;
-  font-family: 'Courier New', monospace;
-}
-.setup-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(168,85,247,0.1); }
-.setup-input::placeholder { color: var(--muted); font-family: 'Segoe UI', sans-serif; }
-.ai-name-input {
-  width: 100%; padding: 13px 16px;
-  background: rgba(168,85,247,0.06);
-  border: 1px solid var(--border);
-  border-radius: 10px; color: var(--text);
-  font-size: 14px; margin-bottom: 24px;
-  transition: border-color .2s;
-}
-.ai-name-input:focus { outline: none; border-color: var(--accent); }
-.ai-name-input::placeholder { color: var(--muted); }
-.setup-btn {
-  width: 100%; padding: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--neon));
-  border: none; border-radius: 12px;
-  color: #fff; font-size: 16px; font-weight: 800;
-  cursor: pointer; transition: all .25s;
-}
-.setup-btn:hover { opacity: .88; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(168,85,247,0.4); }
-.setup-note {
-  font-size: 12px; color: var(--muted);
-  text-align: center; margin-top: 14px;
-  line-height: 1.6;
-}
-.setup-note a { color: var(--accent); text-decoration: none; }
-.setup-note a:hover { text-decoration: underline; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden
+    }
 
-/* CHAT AREA */
-#chat-wrap {
-  flex: 1; overflow-y: auto;
-  padding: 24px; position: relative; z-index: 1;
-  display: flex; flex-direction: column; gap: 16px;
-}
-#chat-wrap::-webkit-scrollbar { width: 4px; }
-#chat-wrap::-webkit-scrollbar-track { background: transparent; }
-#chat-wrap::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 9px; }
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none
+    }
 
-/* WELCOME */
-.welcome {
-  text-align: center; padding: 48px 20px;
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-}
-.welcome-icon { font-size: 56px; animation: float 3s ease-in-out infinite; }
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-.welcome h2 {
-  font-size: 28px; font-weight: 900;
-  background: linear-gradient(135deg, var(--accent), var(--neon));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.welcome p { color: var(--muted); max-width: 380px; line-height: 1.7; }
-.suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
-.sug-btn {
-  padding: 8px 16px; border-radius: 99px;
-  background: rgba(168,85,247,0.08);
-  border: 1px solid rgba(168,85,247,0.25);
-  color: var(--muted); font-size: 13px; cursor: pointer;
-  transition: all .2s;
-}
-.sug-btn:hover { background: rgba(168,85,247,0.18); color: var(--text); border-color: var(--accent); }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0
+    }
 
-/* MESSAGES */
-.msg-row {
-  display: flex; gap: 12px; align-items: flex-start;
-  animation: msgIn .3s ease;
-}
-@keyframes msgIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-.msg-row.user { flex-direction: row-reverse; }
-.msg-avatar {
-  width: 36px; height: 36px; border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0;
-}
-.msg-row.ai .msg-avatar {
-  background: linear-gradient(135deg, rgba(168,85,247,0.3), rgba(232,121,249,0.2));
-  border: 1px solid rgba(168,85,247,0.3);
-}
-.msg-row.user .msg-avatar {
-  background: linear-gradient(135deg, rgba(6,182,212,0.3), rgba(34,211,238,0.2));
-  border: 1px solid rgba(6,182,212,0.3);
-}
-.msg-bubble {
-  max-width: 72%; padding: 14px 18px;
-  border-radius: 16px; line-height: 1.7; font-size: 14px;
-  position: relative;
-}
-.msg-row.ai .msg-bubble {
-  background: var(--ai-bg);
-  border: 1px solid var(--border);
-  border-top-left-radius: 4px;
-}
-.msg-row.user .msg-bubble {
-  background: var(--user-bg);
-  border: 1px solid rgba(168,85,247,0.25);
-  border-top-right-radius: 4px;
-  text-align: right;
-}
-.msg-time {
-  font-size: 11px; color: var(--muted);
-  margin-top: 6px; display: block;
-}
-.msg-row.user .msg-time { text-align: right; }
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 60px;
+      background: rgba(7, 5, 15, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0
+    }
 
-/* TYPING */
-.typing-dots { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
-.typing-dots span {
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--accent);
-  animation: typedot 1.2s infinite;
-}
-.typing-dots span:nth-child(2) { animation-delay: .2s; }
-.typing-dots span:nth-child(3) { animation-delay: .4s; }
-@keyframes typedot { 0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-6px);opacity:1} }
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
 
-/* INPUT AREA */
-#input-area {
-  position: relative; z-index: 10;
-  padding: 16px 24px 20px;
-  background: rgba(7,5,15,0.9);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-}
-.input-wrap {
-  display: flex; gap: 10px; align-items: flex-end;
-  background: rgba(168,85,247,0.06);
-  border: 1px solid var(--border);
-  border-radius: 14px; padding: 10px 14px;
-  transition: border-color .2s;
-}
-.input-wrap:focus-within {
-  border-color: rgba(168,85,247,0.5);
-  box-shadow: 0 0 0 3px rgba(168,85,247,0.08);
-}
-#user-input {
-  flex: 1; background: none; border: none;
-  color: var(--text); font-size: 15px;
-  resize: none; outline: none;
-  font-family: inherit;
-  max-height: 120px; min-height: 24px;
-  line-height: 1.5;
-}
-#user-input::placeholder { color: var(--muted); }
-.send-btn {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent), var(--neon));
-  border: none; color: #fff; font-size: 18px;
-  cursor: pointer; transition: all .2s;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.send-btn:hover { opacity: .88; transform: scale(1.05); }
-.send-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-.input-hint {
-  text-align: center; font-size: 12px;
-  color: var(--muted); margin-top: 10px;
-}
-.input-hint span { color: var(--accent); }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
 
-/* MODEL INFO */
-.model-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 4px 12px; border-radius: 99px;
-  background: rgba(168,85,247,0.08);
-  border: 1px solid rgba(168,85,247,0.2);
-  font-size: 12px; color: var(--muted);
-}
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+      animation: blink 2s infinite
+    }
 
-@media (max-width: 600px) {
-  header { padding: 0 14px; }
-  #chat-wrap { padding: 16px; }
-  #input-area { padding: 12px 14px 16px; }
-  .msg-bubble { max-width: 88%; font-size: 14px; }
-  .setup-box { padding: 28px 22px; }
-}
-</style>
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .4
+      }
+    }
+
+    .status-txt {
+      font-size: 13px;
+      color: var(--muted)
+    }
+
+    .clear-btn {
+      padding: 7px 16px;
+      border-radius: 8px;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .clear-btn:hover {
+      color: var(--text);
+      background: rgba(168, 85, 247, 0.2)
+    }
+
+    .model-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      font-size: 12px;
+      color: var(--muted)
+    }
+
+    #chat-wrap {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px
+    }
+
+    #chat-wrap::-webkit-scrollbar {
+      width: 4px
+    }
+
+    #chat-wrap::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 9px
+    }
+
+    .welcome {
+      text-align: center;
+      padding: 48px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px
+    }
+
+    .welcome-icon {
+      font-size: 56px;
+      animation: float 3s ease-in-out infinite
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-10px)
+      }
+    }
+
+    .welcome h2 {
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .welcome p {
+      color: var(--muted);
+      max-width: 380px;
+      line-height: 1.7
+    }
+
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 8px
+    }
+
+    .sug-btn {
+      padding: 8px 16px;
+      border-radius: 99px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .2s
+    }
+
+    .sug-btn:hover {
+      background: rgba(168, 85, 247, 0.18);
+      color: var(--text);
+      border-color: var(--accent)
+    }
+
+    .msg-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      animation: msgIn .3s ease
+    }
+
+    @keyframes msgIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .msg-row.user {
+      flex-direction: row-reverse
+    }
+
+    .msg-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0
+    }
+
+    .msg-row.ai .msg-avatar {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(232, 121, 249, 0.2));
+      border: 1px solid rgba(168, 85, 247, 0.3)
+    }
+
+    .msg-row.user .msg-avatar {
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(34, 211, 238, 0.2));
+      border: 1px solid rgba(6, 182, 212, 0.3)
+    }
+
+    .msg-bubble {
+      max-width: 72%;
+      padding: 14px 18px;
+      border-radius: 16px;
+      line-height: 1.7;
+      font-size: 14px
+    }
+
+    .msg-row.ai .msg-bubble {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-top-left-radius: 4px
+    }
+
+    .msg-row.user .msg-bubble {
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-top-right-radius: 4px;
+      text-align: right
+    }
+
+    .msg-time {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+      display: block
+    }
+
+    .msg-row.user .msg-time {
+      text-align: right
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 4px 0
+    }
+
+    .typing-dots span {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: typedot 1.2s infinite
+    }
+
+    .typing-dots span:nth-child(2) {
+      animation-delay: .2s
+    }
+
+    .typing-dots span:nth-child(3) {
+      animation-delay: .4s
+    }
+
+    @keyframes typedot {
+
+      0%,
+      60%,
+      100% {
+        transform: translateY(0);
+        opacity: .4
+      }
+
+      30% {
+        transform: translateY(-6px);
+        opacity: 1
+      }
+    }
+
+    #input-area {
+      position: relative;
+      z-index: 10;
+      padding: 16px 24px 20px;
+      background: rgba(7, 5, 15, 0.9);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0
+    }
+
+    .input-wrap {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      background: rgba(168, 85, 247, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 14px;
+      transition: border-color .2s
+    }
+
+    .input-wrap:focus-within {
+      border-color: rgba(168, 85, 247, 0.5);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.08)
+    }
+
+    #user-input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 15px;
+      resize: none;
+      outline: none;
+      font-family: inherit;
+      max-height: 120px;
+      min-height: 24px;
+      line-height: 1.5
+    }
+
+    #user-input::placeholder {
+      color: var(--muted)
+    }
+
+    .send-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--neon));
+      border: none;
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0
+    }
+
+    .send-btn:hover {
+      opacity: .88;
+      transform: scale(1.05)
+    }
+
+    .send-btn:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+      transform: none
+    }
+
+    .input-hint {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px
+    }
+
+    .input-hint span {
+      color: var(--accent)
+    }
+
+    /* LOADING SCREEN */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px
+    }
+
+    .loading-logo {
+      font-size: 48px;
+      animation: float 2s ease-in-out infinite
+    }
+
+    .loading-txt {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), var(--neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text
+    }
+
+    .loading-sub {
+      font-size: 14px;
+      color: var(--muted)
+    }
+
+    .loading-bar {
+      width: 200px;
+      height: 3px;
+      background: rgba(168, 85, 247, 0.15);
+      border-radius: 99px;
+      overflow: hidden
+    }
+
+    .loading-fill {
+      height: 100%;
+      background: linear-gradient(135deg, var(--accent), var(--neon));
+      border-radius: 99px;
+      animation: loading 1.5s ease-in-out infinite
+    }
+
+    @keyframes loading {
+      0% {
+        width: 0%;
+        margin-left: 0
+      }
+
+      50% {
+        width: 100%;
+        margin-left: 0
+      }
+
+      100% {
+        width: 0%;
+        margin-left: 100%
+      }
+    }
+
+    @media(max-width:600px) {
+      header {
+        padding: 0 14px
+      }
+
+      #chat-wrap {
+        padding: 16px
+      }
+
+      #input-area {
+        padding: 12px 14px 16px
+      }
+
+      .msg-bubble {
+        max-width: 88%
+      }
+    }
+  </style>
 </head>
+
 <body>
+  <canvas id="particles"></canvas>
 
-<canvas id="particles"></canvas>
-
-<!-- SETUP PANEL -->
-<div id="setup-panel">
-  <div class="setup-box">
-    <h2>⚡ Setup AI Pribadi</h2>
-    <p>Masukkan API Key Groq kamu dan beri nama AI-nya. API Key disimpan di browser kamu saja — tidak dikirim ke manapun selain Groq.</p>
-
-    <label class="setup-label">API Key Groq</label>
-    <input type="password" class="setup-input" id="api-key-input"
-      placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxx">
-
-    <label class="setup-label">Nama AI Kamu</label>
-    <input type="text" class="ai-name-input" id="ai-name-input"
-      placeholder="Contoh: SatzAI, Jarvis, Nova..." maxlength="20">
-
-    <label class="setup-label">Kepribadian AI (opsional)</label>
-    <input type="text" class="ai-name-input" id="ai-persona-input"
-      placeholder="Contoh: Asisten yang ramah dan lucu..." maxlength="100">
-
-    <button class="setup-btn" onclick="startAI()">🚀 Mulai Chat</button>
-    <div class="setup-note">
-      Belum punya API Key?
-      <a href="https://console.groq.com" target="_blank">Daftar gratis di console.groq.com</a><br>
-      API Key kamu aman — hanya tersimpan di browser ini.
+  <!-- LOADING -->
+  <div id="loading-screen">
+    <div class="loading-logo">🤖</div>
+    <div class="loading-txt">SATRIA AI</div>
+    <div class="loading-sub">Menghubungkan ke AI...</div>
+    <div class="loading-bar">
+      <div class="loading-fill"></div>
     </div>
   </div>
-</div>
 
-<!-- HEADER -->
-<header>
-  <div class="logo" id="ai-title">⚡ AI Pribadi</div>
-  <div class="header-right">
-    <div class="model-badge">🤖 LLaMA 3.3 · Groq</div>
-    <div class="status-dot" id="status-dot"></div>
-    <div class="status-txt" id="status-txt">Online</div>
-    <button class="clear-btn" onclick="clearChat()">🗑 Hapus Chat</button>
-  </div>
-</header>
+  <header>
+    <div class="logo">⚡ SatzAI</div>
+    <div class="header-right">
+      <div class="model-badge">🤖 LLaMA 3.3 · Groq</div>
+      <div class="status-dot"></div>
+      <div class="status-txt">Online</div>
+      <button class="clear-btn" onclick="clearChat()">🗑 Hapus Chat</button>
+    </div>
+  </header>
 
-<!-- CHAT -->
-<div id="chat-wrap">
-  <div class="welcome" id="welcome-msg">
-    <div class="welcome-icon">🤖</div>
-    <h2 id="welcome-title">Halo! Saya AI Pribadi kamu</h2>
-    <p id="welcome-sub">Tanyakan apa saja — saya siap membantu kamu 24/7. Mulai chat di bawah!</p>
-    <div class="suggestions">
-      <button class="sug-btn" onclick="sendSuggestion('Halo! Perkenalkan dirimu')">👋 Perkenalan</button>
-      <button class="sug-btn" onclick="sendSuggestion('Buatkan saya motivasi hari ini')">💪 Motivasi</button>
-      <button class="sug-btn" onclick="sendSuggestion('Bantu saya buat caption Instagram yang keren')">📸 Caption IG</button>
-      <button class="sug-btn" onclick="sendSuggestion('Jelaskan apa itu artificial intelligence dengan bahasa mudah')">🧠 Tentang AI</button>
-      <button class="sug-btn" onclick="sendSuggestion('Buatkan saya ide bisnis online yang menarik')">💡 Ide Bisnis</button>
-      <button class="sug-btn" onclick="sendSuggestion('Tolong bantu saya belajar coding Python dari nol')">💻 Belajar Coding</button>
+  <div id="chat-wrap">
+    <div class="welcome" id="welcome-msg">
+      <div class="welcome-icon">🤖</div>
+      <h2>Halo! Saya SatzAI 👋</h2>
+      <p>Asisten AI pribadi kamu yang siap membantu 24/7. Tanyakan apa saja!</p>
+      <div class="suggestions">
+        <button class="sug-btn" onclick="sendSug('Halo! Perkenalkan dirimu')">👋 Perkenalan</button>
+        <button class="sug-btn" onclick="sendSug('Buatkan saya kata-kata romantis untuk pacar')">💕 Kata
+          Romantis</button>
+        <button class="sug-btn" onclick="sendSug('Buatkan saya motivasi hari ini')">💪 Motivasi</button>
+        <button class="sug-btn" onclick="sendSug('Bantu saya buat caption Instagram yang keren')">📸 Caption
+          IG</button>
+        <button class="sug-btn" onclick="sendSug('Buatkan saya ide kencan yang romantis')">🌹 Ide Kencan</button>
+        <button class="sug-btn" onclick="sendSug('Buatkan saya ide bisnis online yang menarik')">💡 Ide
+          Bisnis</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- INPUT -->
-<div id="input-area">
-  <div class="input-wrap">
-    <textarea id="user-input" placeholder="Ketik pesan kamu di sini..." rows="1"></textarea>
-    <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+  <div id="input-area">
+    <div class="input-wrap">
+      <textarea id="user-input" placeholder="Ketik pesan kamu di sini..." rows="1"></textarea>
+      <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+    </div>
+    <div class="input-hint">Tekan <span>Enter</span> untuk kirim · <span>Shift+Enter</span> untuk baris baru</div>
   </div>
-  <div class="input-hint">Tekan <span>Enter</span> untuk kirim · <span>Shift+Enter</span> untuk baris baru</div>
-</div>
 
-<script>
-// ── PARTICLES ────────────────────────────────────────────────
-(function(){
-  var cv=document.getElementById('particles'),cx=cv.getContext('2d');
-  function resize(){cv.width=innerWidth;cv.height=innerHeight;}
-  resize();window.addEventListener('resize',resize);
-  var dots=[];
-  for(var i=0;i<60;i++){
-    dots.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,
-      r:Math.random()*1.3+.3,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,a:Math.random()*.35+.08});
-  }
-  function draw(){
-    cx.clearRect(0,0,cv.width,cv.height);
-    dots.forEach(function(d){
-      d.x+=d.vx;d.y+=d.vy;
-      if(d.x<0||d.x>cv.width)d.vx*=-1;
-      if(d.y<0||d.y>cv.height)d.vy*=-1;
-      cx.beginPath();cx.arc(d.x,d.y,d.r,0,Math.PI*2);
-      cx.fillStyle='rgba(168,85,247,'+d.a+')';cx.fill();
+  <script>
+    // ── PARTICLES ────────────────────────────────────────────────
+    (function () {
+      var cv = document.getElementById('particles'), cx = cv.getContext('2d');
+      function resize() { cv.width = innerWidth; cv.height = innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+      var dots = [];
+      for (var i = 0; i < 60; i++) {
+        dots.push({
+          x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+          r: Math.random() * 1.3 + .3, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .25,
+          a: Math.random() * .35 + .08
+        });
+      }
+      function draw() {
+        cx.clearRect(0, 0, cv.width, cv.height);
+        dots.forEach(function (d) {
+          d.x += d.vx; d.y += d.vy;
+          if (d.x < 0 || d.x > cv.width) d.vx *= -1;
+          if (d.y < 0 || d.y > cv.height) d.vy *= -1;
+          cx.beginPath(); cx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          cx.fillStyle = 'rgba(168,85,247,' + d.a + ')'; cx.fill();
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ── STATE ────────────────────────────────────────────────────
+    var messages = [];
+    var isLoading = false;
+    var AI_PERSONA = 'Kamu adalah SatzAI, asisten AI pribadi yang ramah, pintar, lucu, dan selalu siap membantu. Kamu berbicara dalam Bahasa Indonesia dengan santai dan bersahabat seperti teman dekat. Kamu dibuat oleh Satria untuk orang-orang tersayangnya.';
+
+    // ── INIT — ambil API Key dari backend ────────────────────────
+    var GROQ_KEY = '';
+
+    function init() {
+      // Coba ambil dari endpoint proxy
+      fetch('/api/key')
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          if (d && d.key) {
+            GROQ_KEY = d.key;
+          }
+          hideLoading();
+        })
+        .catch(function () {
+          // Kalau tidak ada endpoint, minta user input manual
+          hideLoading();
+          promptManual();
+        });
+    }
+
+    function hideLoading() {
+      setTimeout(function () {
+        var ls = document.getElementById('loading-screen');
+        if (ls) {
+          ls.style.opacity = '0'; ls.style.transition = 'opacity .5s';
+          setTimeout(function () { ls.style.display = 'none'; }, 500);
+        }
+      }, 1200);
+    }
+
+    function promptManual() {
+      // Fallback: minta API Key manual
+      var key = prompt('Masukkan API Key Groq kamu:\n(Daftar gratis di console.groq.com)');
+      if (key && key.trim()) {
+        GROQ_KEY = key.trim();
+      }
+    }
+
+    // ── SEND ─────────────────────────────────────────────────────
+    function sendMessage() {
+      var input = document.getElementById('user-input');
+      var text = input.value.trim();
+      if (!text || isLoading) return;
+      input.value = ''; input.style.height = 'auto';
+      doSend(text);
+    }
+
+    function sendSug(text) {
+      if (isLoading) return;
+      doSend(text);
+    }
+
+    function doSend(text) {
+      var wc = document.getElementById('welcome-msg');
+      if (wc) wc.style.display = 'none';
+
+      addMsg('user', text);
+      messages.push({ role: 'user', content: text });
+
+      var tid = showTyping();
+      isLoading = true;
+      document.getElementById('send-btn').disabled = true;
+
+      var payload = {
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'system', content: AI_PERSONA }].concat(messages),
+        max_tokens: 1024,
+        temperature: 0.8
+      };
+
+      if (!GROQ_KEY) {
+        removeTyping(tid);
+        addMsg('ai', '❌ API Key belum tersedia. Hubungi Satria untuk mendapatkan akses! 😊');
+        isLoading = false;
+        document.getElementById('send-btn').disabled = false;
+        return;
+      }
+
+      fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+        body: JSON.stringify(payload)
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          removeTyping(tid);
+          if (data.error) {
+            addMsg('ai', '❌ Error: ' + data.error.message);
+          } else {
+            var reply = data.choices[0].message.content;
+            messages.push({ role: 'assistant', content: reply });
+            addMsg('ai', reply);
+          }
+        })
+        .catch(function () {
+          removeTyping(tid);
+          addMsg('ai', '❌ Gagal terhubung. Periksa koneksi internet kamu.');
+        })
+        .finally(function () {
+          isLoading = false;
+          document.getElementById('send-btn').disabled = false;
+        });
+    }
+
+    // ── ADD MSG ──────────────────────────────────────────────────
+    function addMsg(role, text) {
+      var wrap = document.getElementById('chat-wrap');
+      var now = new Date();
+      var time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+      var row = document.createElement('div');
+      row.className = 'msg-row ' + role;
+      var avatar = document.createElement('div');
+      avatar.className = 'msg-avatar';
+      avatar.textContent = role === 'ai' ? '🤖' : '💕';
+      var bubble = document.createElement('div');
+      bubble.className = 'msg-bubble';
+      var formatted = text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code style="background:rgba(168,85,247,0.15);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px">$1</code>')
+        .replace(/\n/g, '<br>');
+      bubble.innerHTML = formatted + '<span class="msg-time">' + time + '</span>';
+      row.appendChild(avatar); row.appendChild(bubble);
+      wrap.appendChild(row);
+      wrap.scrollTop = wrap.scrollHeight;
+    }
+
+    // ── TYPING ───────────────────────────────────────────────────
+    var tc = 0;
+    function showTyping() {
+      var id = 't' + (++tc);
+      var wrap = document.getElementById('chat-wrap');
+      var row = document.createElement('div');
+      row.className = 'msg-row ai'; row.id = id;
+      row.innerHTML = '<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+      wrap.appendChild(row); wrap.scrollTop = wrap.scrollHeight;
+      return id;
+    }
+    function removeTyping(id) { var el = document.getElementById(id); if (el) el.remove(); }
+
+    // ── CLEAR ────────────────────────────────────────────────────
+    function clearChat() {
+      messages = [];
+      var wrap = document.getElementById('chat-wrap');
+      wrap.innerHTML = '<div class="welcome" id="welcome-msg"><div class="welcome-icon">🤖</div><h2>Halo! Saya SatzAI 👋</h2><p>Asisten AI pribadi kamu yang siap membantu 24/7. Tanyakan apa saja!</p><div class="suggestions"><button class="sug-btn" onclick="sendSug(\'Halo! Perkenalkan dirimu\')">👋 Perkenalan</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya kata-kata romantis untuk pacar\')">💕 Kata Romantis</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya motivasi hari ini\')">💪 Motivasi</button><button class="sug-btn" onclick="sendSug(\'Bantu saya buat caption Instagram yang keren\')">📸 Caption IG</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya ide kencan yang romantis\')">🌹 Ide Kencan</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya ide bisnis online yang menarik\')">💡 Ide Bisnis</button></div></div>';
+    }
+
+    // ── ENTER ────────────────────────────────────────────────────
+    document.getElementById('user-input').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
+    document.getElementById('user-input').addEventListener('input', function () {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
 
-// ── STATE ────────────────────────────────────────────────────
-var API_KEY    = '';
-var AI_NAME    = 'SATRIA AI';
-var AI_PERSONA = 'Kamu adalah asisten AI yang ramah, pintar, dan selalu siap membantu. Kamu berbicara dalam Bahasa Indonesia dengan santai dan bersahabat.';
-var messages   = [];
-var isLoading  = false;
-
-// ── SETUP ────────────────────────────────────────────────────
-function startAI(){
-  var key     = document.getElementById('api-key-input').value.trim();
-  var name    = document.getElementById('ai-name-input').value.trim();
-  var persona = document.getElementById('ai-persona-input').value.trim();
-
-  if(!key){
-    alert('API Key tidak boleh kosong! Daftar gratis di console.groq.com');
-    return;
-  }
-  if(!key.startsWith('gsk_')){
-    alert('API Key Groq harus dimulai dengan "gsk_". Pastikan sudah copy dengan benar!');
-    return;
-  }
-
-  API_KEY    = key;
-  AI_NAME    = name || 'AI Pribadi';
-  AI_PERSONA = persona
-    ? 'Kamu adalah '+AI_NAME+'. '+persona+' Kamu selalu berbicara dalam Bahasa Indonesia.'
-    : 'Kamu adalah '+AI_NAME+', asisten AI pribadi yang ramah, pintar, dan selalu siap membantu. Kamu berbicara dalam Bahasa Indonesia dengan santai dan bersahabat.';
-
-  // simpan ke localStorage
-  try{
-    localStorage.setItem('groq_key', key);
-    localStorage.setItem('ai_name',  AI_NAME);
-    localStorage.setItem('ai_persona', AI_PERSONA);
-  }catch(e){}
-
-  // update UI
-  document.getElementById('ai-title').textContent     = '⚡ '+AI_NAME;
-  document.getElementById('welcome-title').textContent = 'Halo! Saya '+AI_NAME;
-  document.title = AI_NAME+' — AI Pribadi';
-
-  document.getElementById('setup-panel').style.display='none';
-}
-
-// load dari localStorage kalau ada
-(function(){
-  try{
-    var k=localStorage.getItem('groq_key');
-    var n=localStorage.getItem('ai_name');
-    var p=localStorage.getItem('ai_persona');
-    if(k){
-      document.getElementById('api-key-input').value=k;
-      if(n)document.getElementById('ai-name-input').value=n;
-    }
-  }catch(e){}
-})();
-
-// ── SEND MESSAGE ─────────────────────────────────────────────
-function sendMessage(){
-  var input=document.getElementById('user-input');
-  var text=input.value.trim();
-  if(!text||isLoading)return;
-  input.value='';
-  input.style.height='auto';
-  doSend(text);
-}
-
-function sendSuggestion(text){
-  if(isLoading)return;
-  doSend(text);
-}
-
-function doSend(text){
-  // sembunyikan welcome
-  var wc=document.getElementById('welcome-msg');
-  if(wc)wc.style.display='none';
-
-  // tambah pesan user
-  addMsg('user', text);
-  messages.push({role:'user', content:text});
-
-  // tampilkan typing
-  var typingId=showTyping();
-  isLoading=true;
-  document.getElementById('send-btn').disabled=true;
-
-  // kirim ke Groq API
-  var payload={
-    model:'llama-3.3-70b-versatile',
-    messages:[{role:'system',content:AI_PERSONA}].concat(messages),
-    max_tokens:1024,
-    temperature:0.8
-  };
-
-  fetch('https://api.groq.com/openai/v1/chat/completions',{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer '+API_KEY
-    },
-    body:JSON.stringify(payload)
-  })
-  .then(function(res){return res.json();})
-  .then(function(data){
-    removeTyping(typingId);
-    if(data.error){
-      var errMsg='❌ Error: '+data.error.message;
-      addMsg('ai',errMsg);
-    }else{
-      var reply=data.choices[0].message.content;
-      messages.push({role:'assistant',content:reply});
-      addMsg('ai',reply);
-    }
-  })
-  .catch(function(err){
-    removeTyping(typingId);
-    addMsg('ai','❌ Gagal terhubung ke AI. Periksa API Key dan koneksi internet kamu.');
-    console.error(err);
-  })
-  .finally(function(){
-    isLoading=false;
-    document.getElementById('send-btn').disabled=false;
-  });
-}
-
-// ── ADD MESSAGE ──────────────────────────────────────────────
-function addMsg(role, text){
-  var wrap=document.getElementById('chat-wrap');
-  var now=new Date();
-  var time=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
-
-  var row=document.createElement('div');
-  row.className='msg-row '+role;
-
-  var avatar=document.createElement('div');
-  avatar.className='msg-avatar';
-  avatar.textContent=role==='ai'?'🤖':'👤';
-
-  var bubble=document.createElement('div');
-  bubble.className='msg-bubble';
-
-  // format teks (bold, newline)
-  var formatted=text
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .replace(/`(.*?)`/g,'<code style="background:rgba(168,85,247,0.15);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px">$1</code>')
-    .replace(/\n/g,'<br>');
-
-  bubble.innerHTML=formatted+'<span class="msg-time">'+time+'</span>';
-
-  row.appendChild(avatar);
-  row.appendChild(bubble);
-  wrap.appendChild(row);
-  wrap.scrollTop=wrap.scrollHeight;
-}
-
-// ── TYPING ───────────────────────────────────────────────────
-var typingCounter=0;
-function showTyping(){
-  var id='typing-'+(++typingCounter);
-  var wrap=document.getElementById('chat-wrap');
-  var row=document.createElement('div');
-  row.className='msg-row ai'; row.id=id;
-  row.innerHTML='<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
-  wrap.appendChild(row);
-  wrap.scrollTop=wrap.scrollHeight;
-  return id;
-}
-function removeTyping(id){
-  var el=document.getElementById(id);
-  if(el)el.remove();
-}
-
-// ── CLEAR ────────────────────────────────────────────────────
-function clearChat(){
-  messages=[];
-  var wrap=document.getElementById('chat-wrap');
-  wrap.innerHTML='<div class="welcome" id="welcome-msg"><div class="welcome-icon">🤖</div><h2 id="welcome-title">Halo! Saya '+AI_NAME+'</h2><p>Tanyakan apa saja — saya siap membantu kamu 24/7. Mulai chat di bawah!</p><div class="suggestions"><button class="sug-btn" onclick="sendSuggestion(\'Halo! Perkenalkan dirimu\')">👋 Perkenalan</button><button class="sug-btn" onclick="sendSuggestion(\'Buatkan saya motivasi hari ini\')">💪 Motivasi</button><button class="sug-btn" onclick="sendSuggestion(\'Bantu saya buat caption Instagram yang keren\')">📸 Caption IG</button><button class="sug-btn" onclick="sendSuggestion(\'Jelaskan apa itu artificial intelligence dengan bahasa mudah\')">🧠 Tentang AI</button><button class="sug-btn" onclick="sendSuggestion(\'Buatkan saya ide bisnis online yang menarik\')">💡 Ide Bisnis</button><button class="sug-btn" onclick="sendSuggestion(\'Tolong bantu saya belajar coding Python dari nol\')">💻 Belajar Coding</button></div></div>';
-}
-
-// ── ENTER TO SEND ────────────────────────────────────────────
-document.getElementById('user-input').addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&!e.shiftKey){
-    e.preventDefault();
-    sendMessage();
-  }
-});
-
-// auto resize textarea
-document.getElementById('user-input').addEventListener('input',function(){
-  this.style.height='auto';
-  this.style.height=Math.min(this.scrollHeight,120)+'px';
-});
-</script>
+    // ── START ────────────────────────────────────────────────────
+    init();
+  </script>
 </body>
+
 </html>
