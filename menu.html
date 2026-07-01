@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu — Satria Store</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #07050f;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #f0eaff;
+    padding: 24px;
+  }
+  h1 {
+    font-size: 26px;
+    margin-bottom: 32px;
+    background: linear-gradient(135deg, #a855f7, #e879f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 320px;
+  }
+  a.btn {
+    display: block;
+    text-align: center;
+    padding: 16px;
+    border-radius: 12px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #f0eaff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all .2s;
+  }
+  a.btn:hover {
+    background: rgba(168, 85, 247, 0.25);
+    transform: translateY(-2px);
+  }
+</style>
+</head>
+<body>
+  <h1>⚡ Satria Store</h1>
+  <div class="menu">
+    <a class="btn" href="index.html">🛒 Buka Toko</a>
+    <a class="btn" href="ai.html">🤖 Chat AI Pribadi</a>
+  </div>
+</body>
+</html>
