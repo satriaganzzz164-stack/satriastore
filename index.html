@@ -7,20 +7,20 @@
     <title>SatzStore — Digital Services Premium</title>
     <style>
         :root {
-            --bg: #07050f;
-            --bg2: #0e0a1a;
-            --bg3: #140f22;
-            --border: rgba(160, 100, 255, 0.12);
-            --accent: #a855f7;
+            --bg: #05070d;
+            --bg2: #0a0f1a;
+            --bg3: #0d1522;
+            --border: rgba(56, 189, 248, 0.14);
+            --accent: #2563eb;
             --accent2: #06b6d4;
-            --neon: #e879f9;
+            --neon: #38bdf8;
             --neon2: #22d3ee;
             --gold: #fbbf24;
-            --text: #f0eaff;
-            --muted: rgba(240, 234, 255, 0.4);
-            --card: rgba(168, 85, 247, 0.04);
+            --text: #eaf2ff;
+            --muted: rgba(234, 242, 255, 0.42);
+            --card: rgba(56, 189, 248, 0.05);
             --radius: 16px;
-            --glow: 0 0 40px rgba(168, 85, 247, 0.2)
+            --glow: 0 0 40px rgba(37, 99, 235, 0.25)
         }
 
         *,
@@ -76,7 +76,7 @@
             transform: translateX(-50%);
             width: 900px;
             height: 600px;
-            background: radial-gradient(ellipse, rgba(168, 85, 247, 0.1) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0
         }
@@ -90,9 +90,10 @@
             justify-content: space-between;
             padding: 0 32px;
             height: 64px;
-            background: rgba(7, 5, 15, 0.88);
+            background: rgba(5, 7, 13, 0.88);
             backdrop-filter: blur(24px);
-            border-bottom: 1px solid var(--border)
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 1px 0 rgba(56, 189, 248, 0.06)
         }
 
         .nav-left {
@@ -106,7 +107,7 @@
             height: 40px;
             border-radius: 10px;
             border: 1px solid var(--border);
-            background: rgba(168, 85, 247, 0.08);
+            background: rgba(37, 99, 235, 0.08);
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -127,7 +128,7 @@
         }
 
         .menu-btn:hover {
-            background: rgba(168, 85, 247, 0.18);
+            background: rgba(37, 99, 235, 0.18);
             border-color: var(--accent)
         }
 
@@ -138,6 +139,7 @@
         .nav-logo {
             font-size: 22px;
             font-weight: 800;
+            letter-spacing: .01em;
             background: linear-gradient(135deg, var(--accent), var(--neon));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -149,25 +151,6 @@
             display: flex;
             align-items: center;
             gap: 10px
-        }
-
-        .cart-btn {
-            padding: 8px 18px;
-            border-radius: 10px;
-            background: rgba(168, 85, 247, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.3);
-            color: var(--text);
-            font-size: 14px;
-            cursor: pointer;
-            transition: all .2s;
-            display: flex;
-            align-items: center;
-            gap: 8px
-        }
-
-        .cart-btn:hover {
-            background: rgba(168, 85, 247, 0.2);
-            box-shadow: var(--glow)
         }
 
         .cart-badge {
@@ -210,7 +193,7 @@
             max-width: 80vw;
             z-index: 401;
             background: var(--bg2);
-            border-right: 1px solid rgba(168, 85, 247, 0.25);
+            border-right: 1px solid rgba(37, 99, 235, 0.25);
             box-shadow: var(--glow);
             transform: translateX(-100%);
             transition: transform .32s cubic-bezier(.4, 0, .2, 1);
@@ -253,7 +236,7 @@
         }
 
         .side-close-btn:hover {
-            background: rgba(168, 85, 247, 0.1);
+            background: rgba(37, 99, 235, 0.1);
             color: var(--text)
         }
 
@@ -275,14 +258,20 @@
         }
 
         .side-nav-item:hover {
-            background: rgba(168, 85, 247, 0.08);
+            background: rgba(37, 99, 235, 0.08);
             color: var(--text)
         }
 
         .side-nav-item.active {
-            background: rgba(168, 85, 247, 0.14);
+            background: rgba(37, 99, 235, 0.14);
             border-left-color: var(--accent);
             color: var(--text)
+        }
+
+        .side-nav-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 10px 22px
         }
 
         .page {
@@ -321,11 +310,11 @@
             gap: 8px;
             padding: 6px 18px;
             border-radius: 99px;
-            background: rgba(168, 85, 247, 0.1);
-            border: 1px solid rgba(168, 85, 247, 0.35);
+            background: rgba(37, 99, 235, 0.12);
+            border: 1px solid rgba(37, 99, 235, 0.4);
             font-size: 12px;
             font-weight: 700;
-            color: #c084fc;
+            color: #7dd3fc;
             letter-spacing: .1em;
             text-transform: uppercase;
             margin-bottom: 24px
@@ -456,7 +445,7 @@
         }
 
         .filter-btn.active {
-            background: rgba(168, 85, 247, 0.18);
+            background: rgba(37, 99, 235, 0.18);
             border-color: var(--accent);
             color: var(--text);
             font-weight: 700
@@ -501,9 +490,9 @@
         }
 
         .product-card:hover {
-            border-color: rgba(168, 85, 247, 0.5);
+            border-color: rgba(37, 99, 235, 0.5);
             transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(168, 85, 247, 0.15)
+            box-shadow: 0 20px 60px rgba(37, 99, 235, 0.16)
         }
 
         .p-icon {
@@ -586,7 +575,7 @@
             padding: 5px 12px;
             border-radius: 8px;
             border: 1px solid var(--border);
-            background: rgba(168, 85, 247, 0.06);
+            background: rgba(37, 99, 235, 0.06);
             color: var(--muted);
             font-size: 12px;
             font-weight: 600;
@@ -601,7 +590,7 @@
         }
 
         .durasi-pill.sel {
-            background: rgba(168, 85, 247, 0.22);
+            background: rgba(37, 99, 235, 0.22);
             border-color: var(--accent);
             color: var(--text)
         }
@@ -633,8 +622,8 @@
         .add-btn {
             padding: 9px 18px;
             border-radius: 10px;
-            background: rgba(168, 85, 247, 0.12);
-            border: 1px solid rgba(168, 85, 247, 0.35);
+            background: rgba(37, 99, 235, 0.12);
+            border: 1px solid rgba(37, 99, 235, 0.35);
             color: var(--text);
             font-size: 13px;
             font-weight: 700;
@@ -646,7 +635,7 @@
         .add-btn:hover {
             background: linear-gradient(135deg, var(--accent), var(--neon));
             border-color: transparent;
-            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.35)
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35)
         }
 
         .add-btn.added {
@@ -694,7 +683,7 @@
         }
 
         .dash-card:hover {
-            border-color: rgba(168, 85, 247, 0.4);
+            border-color: rgba(37, 99, 235, 0.4);
             transform: translateY(-2px)
         }
 
@@ -758,7 +747,7 @@
         }
 
         .svc-item:hover {
-            border-color: rgba(168, 85, 247, 0.3)
+            border-color: rgba(37, 99, 235, 0.3)
         }
 
         .svc-dot {
@@ -856,7 +845,7 @@
         }
 
         .cart-item:hover {
-            border-color: rgba(168, 85, 247, 0.3)
+            border-color: rgba(37, 99, 235, 0.3)
         }
 
         .ci-icon {
@@ -959,7 +948,7 @@
         .checkout-btn:hover {
             opacity: .88;
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(168, 85, 247, 0.4)
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.4)
         }
 
         /* HISTORY */
@@ -982,7 +971,7 @@
         }
 
         .hist-item:hover {
-            border-color: rgba(168, 85, 247, 0.3)
+            border-color: rgba(37, 99, 235, 0.3)
         }
 
         .hi-icon {
@@ -1033,8 +1022,8 @@
         }
 
         .hi-badge.proses {
-            background: rgba(168, 85, 247, 0.12);
-            color: var(--accent)
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--neon)
         }
 
         .hi-badge.gagal {
@@ -1049,7 +1038,7 @@
             right: 28px;
             z-index: 9999;
             background: var(--bg3);
-            border: 1px solid rgba(168, 85, 247, 0.4);
+            border: 1px solid rgba(37, 99, 235, 0.4);
             border-radius: 12px;
             padding: 14px 22px;
             font-size: 14px;
@@ -1098,7 +1087,7 @@
 
         .modal {
             background: var(--bg2);
-            border: 1px solid rgba(168, 85, 247, 0.3);
+            border: 1px solid rgba(37, 99, 235, 0.3);
             border-radius: 20px;
             padding: 36px;
             max-width: 440px;
@@ -1196,24 +1185,25 @@
             <button class="menu-btn" onclick="toggleMenu()" aria-label="Buka menu">
                 <span></span><span></span><span></span>
             </button>
-            <div class="nav-logo" onclick="goPage('store')">⚡𝐒𝐀𝐓𝐗𝐗𝐂𝐋𝐎𝐔𝐃𝐒</div>
-        </div>
-        <div class="nav-right">
-            <button class="cart-btn" onclick="goPage('cart')">
-                🛒 Keranjang <span class="cart-badge" id="cart-count">0</span>
-            </button>
+            <div class="nav-logo" onclick="goPage('store')">𝐒𝐀𝐓𝐗𝐗𝐂𝐋𝐎𝐔𝐃𝐒</div>
         </div>
     </nav>
 
     <div class="side-overlay" id="sideOverlay" onclick="closeMenu()"></div>
     <aside class="side-drawer" id="sideDrawer">
         <div class="side-drawer-header">
-            <span class="side-drawer-title">⚡𝐒𝐀𝐓𝐗𝐗𝐂𝐋𝐎𝐔𝐃𝐒</span>
+            <span class="side-drawer-title">𝐒𝐀𝐓𝐗𝐗𝐂𝐋𝐎𝐔𝐃𝐒</span>
             <button class="side-close-btn" onclick="closeMenu()" aria-label="Tutup menu">✕</button>
         </div>
         <button class="side-nav-item active" id="tab-store" onclick="goPage('store'); closeMenu()">🛍️ Store</button>
+        <div class="side-nav-divider"></div>
         <button class="side-nav-item" id="tab-dashboard" onclick="goPage('dashboard'); closeMenu()">📊
             Dashboard</button>
+        <button class="side-nav-item" id="tab-cart" onclick="goPage('cart'); closeMenu()">
+            <span style="flex:1">🛒 Keranjang</span>
+            <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <div class="side-nav-divider"></div>
         <button class="side-nav-item" id="tab-history" onclick="goPage('history'); closeMenu()">🕘 Riwayat</button>
     </aside>
 
@@ -1222,8 +1212,8 @@
         <div class="hero">
             <div class="hero-badge">⚡ DIGITAL PREMIUM STORE</div>
             <h1><span
-                    style="background:linear-gradient(135deg,#b90ddb,rgba(192, 186, 199, 0.842));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">SATXX
-                    STORE</span><br><span class="grad">Dana Pelajar </span></h1>
+                    style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">DIGITAL
+                    STORE</span><br><span class="grad">BY SATZ </span></h1>
             <p>Bot WhatsApp, API Key, Nomor Kosong, SMM Panel, dan layanan digital premium lainnya. Proses instan,
                 support 24/7.</p>
             <div class="hero-stats">
@@ -1370,7 +1360,7 @@
                     if (d.x < 0 || d.x > cv.width) d.vx *= -1;
                     if (d.y < 0 || d.y > cv.height) d.vy *= -1;
                     cx.beginPath(); cx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-                    cx.fillStyle = 'rgba(168,85,247,' + d.a + ')'; cx.fill();
+                    cx.fillStyle = 'rgba(56,189,248,' + d.a + ')'; cx.fill();
                 });
                 requestAnimationFrame(draw);
             }
@@ -1423,7 +1413,7 @@
             { id: 10, cat: 'apikey', icon: '🔑', name: 'API Key WA Multi', badge: 'new', desc: 'Multi-device API key. Hubungkan hingga 10 device WA sekaligus.', type: 'fixed', price: 150000, period: '/ bulan' }
         ];
         var CAT_NAME = { sewabot: 'SewaBot', jadibot: 'JadiBot', nokos: 'Nokos', smm: 'SMM Panel', apikey: 'API Key' };
-        var CAT_BG = { sewabot: 'rgba(168,85,247,0.15)', jadibot: 'rgba(6,182,212,0.15)', nokos: 'rgba(34,197,94,0.15)', smm: 'rgba(251,191,36,0.12)', apikey: 'rgba(232,121,249,0.15)' };
+        var CAT_BG = { sewabot: 'rgba(37,99,235,0.15)', jadibot: 'rgba(6,182,212,0.15)', nokos: 'rgba(34,197,94,0.15)', smm: 'rgba(251,191,36,0.12)', apikey: 'rgba(56,189,248,0.15)' };
         var WA = '6281340514077';
 
         // durasi terpilih per produk
