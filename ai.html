@@ -534,7 +534,7 @@
       <div class="model-badge">🤖 LLaMA 3.3 · Groq</div>
       <div class="status-dot"></div>
       <div class="status-txt">Online</div>
-      <button class="clear-btn" onclick="clearChat()">🗑 Hapus Chat</button>
+      
     </div>
   </header>
 
@@ -717,12 +717,6 @@
     }
     function removeTyping(id) { var el = document.getElementById(id); if (el) el.remove(); }
 
-    // ── CLEAR ────────────────────────────────────────────────────
-    function clearChat() {
-      messages = [];
-      var wrap = document.getElementById('chat-wrap');
-      wrap.innerHTML = '<div class="welcome" id="welcome-msg"><div class="welcome-icon">🤖</div><h2>Halo! Saya SatzAI 👋</h2><p>Asisten AI pribadi kamu yang siap membantu 24/7. Tanyakan apa saja!</p><div class="suggestions"><button class="sug-btn" onclick="sendSug(\'Halo! Perkenalkan dirimu\')">👋 Perkenalan</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya kata-kata romantis untuk pacar\')">💕 Kata Romantis</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya motivasi hari ini\')">💪 Motivasi</button><button class="sug-btn" onclick="sendSug(\'Bantu saya buat caption Instagram yang keren\')">📸 Caption IG</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya ide kencan yang romantis\')">🌹 Ide Kencan</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya ide bisnis online yang menarik\')">💡 Ide Bisnis</button></div></div>';
-    }
 
     // ── ENTER ────────────────────────────────────────────────────
     document.getElementById('user-input').addEventListener('keydown', function (e) {
