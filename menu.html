@@ -28,12 +28,13 @@
     position: relative;
   }
 
-  canvas#rain {
+  #bg-video {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
+    object-fit: cover;
     z-index: 0;
-    opacity: 0.55;
+    filter: brightness(0.55) saturate(1.1);
   }
 
   body::before {
@@ -164,7 +165,7 @@
 </head>
 <body>
 
-<canvas id="rain"></canvas>
+<video id="bg-video" src="back.mp4" autoplay muted loop playsinline></video>
 <audio id="bgm" src="satria.mp3" loop></audio>
 
 <div class="panel">
@@ -187,48 +188,9 @@
 <footer>SATRIA SYSTEM // ONLINE</footer>
 
 <script>
-  // ── DIGITAL RAIN EFFECT ──────────────────────────────
-  var canvas = document.getElementById('rain');
-  var ctx = canvas.getContext('2d');
-  function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-
-  var chars = 'アカサタナハマヤラワ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  var fontSize = 15;
-  var columns = Math.floor(canvas.width / fontSize);
-  var drops = [];
-  for (var i = 0; i < columns; i++) drops[i] = Math.random() * -50;
-
-  function draw() {
-    ctx.fillStyle = 'rgba(7, 5, 15, 0.12)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.font = fontSize + 'px monospace';
-
-    for (var i = 0; i < drops.length; i++) {
-      var text = chars[Math.floor(Math.random() * chars.length)];
-      var x = i * fontSize;
-      var y = drops[i] * fontSize;
-
-      var grad = ctx.createLinearGradient(0, y - 100, 0, y);
-      grad.addColorStop(0, 'rgba(168,85,247,0)');
-      grad.addColorStop(1, 'rgba(232,121,249,0.9)');
-      ctx.fillStyle = grad;
-      ctx.fillText(text, x, y);
-
-      if (y > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
-    }
-    requestAnimationFrame(draw);
-  }
-  draw();
-
   // ── MUSIK BACKGROUND ─────────────────────────────────
   var bgm = document.getElementById('bgm');
-  bgm.volume = 1.0;
+  bgm.volume = 0.5;
 
   // Coba autoplay langsung (biasanya diblokir browser sampai ada interaksi)
   bgm.play().catch(function () {
