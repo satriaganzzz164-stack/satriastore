@@ -361,6 +361,7 @@
 </head>
 <body>
 
+<<<<<<< HEAD
     <!-- Loading Screen -->
     <div class="loader" id="loader">
         <div class="loader-text">SATZWEB</div>
@@ -1317,5 +1318,197 @@
     console.log('%c NEXUS PC ', 'background: linear-gradient(135deg, #00f0ff, #ff2d95); color: #000; font-size: 24px; font-weight: bold; padding: 10px 20px; border-radius: 10px;');
     console.log('%c Premium Gaming PC Store - Built with passion ', 'color: #00f0ff; font-size: 14px;');
     </script>
+=======
+<div class="app">
+  <div class="header">
+    <div class="brand">🪐 SatzAI</div>
+    <div class="status">
+      <span class="status-dot"></span>
+      <span>Online</span>
+    </div>
+  </div>
+
+  <div class="chat-area" id="chat-area">
+    <div class="welcome" id="welcome">
+      <h2>Selamat Datang di SatzAI</h2>
+      <p>Asisten AI pribadi Anda. Tanyakan apa saja!</p>
+      <div class="suggestions">
+        <span class="suggestion" onclick="sendSuggestion(this)">📝 Buatkan saya motivasi</span>
+        <span class="suggestion" onclick="sendSuggestion(this)">💻 Jelaskan coding</span>
+        <span class="suggestion" onclick="sendSuggestion(this)">🎨 Ide desain website</span>
+        <span class="suggestion" onclick="sendSuggestion(this)">📚 Ceritakan dongeng</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="user-input" placeholder="Ketik pesan kamu di sini..." onkeydown="if(event.key==='Enter')sendMessage()">
+    <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+  </div>
+</div>
+
+<script>
+  const chatArea = document.getElementById('chat-area');
+  const userInput = document.getElementById('user-input');
+  const sendBtn = document.getElementById('send-btn');
+  const welcome = document.getElementById('welcome');
+
+  // Database jawaban lengkap
+  const responses = {
+    motivasi: [
+      'Setiap langkah kecil yang kamu ambil hari ini adalah investasi untuk masa depan yang lebih baik. Jangan menyerah! 💪✨',
+      'Kegagalan adalah guru terbaik. Bangkit, belajar, dan terus maju! 🔥',
+      'Kamu lebih kuat dari yang kamu pikir. Percayalah pada dirimu sendiri! 💫',
+      'Hari ini mungkin sulit, besok akan lebih baik. Tetap semangat! 🌟',
+      'Jangan bandingkan awalmu dengan puncak orang lain. Setiap perjalanan punya waktunya masing-masing. 🚀',
+      'Kesuksesan bukan tentang tidak pernah gagal, tapi tentang bangkit setiap kali jatuh. 💯',
+      'Rasa takut adalah tanda bahwa kamu sedang melakukan sesuatu yang berarti. Hadapi dengan berani! 🦁',
+      'Tidak ada yang mustahil bagi mereka yang berusaha. Teruslah berjuang! ⚡',
+      'Setiap masalah adalah peluang bersembunyi. Cari solusi, bukan alasan! 🔍',
+      'Percaya dirimu adalah langkah pertama menuju kesuksesan. Kamu bisa! 💎'
+    ],
+    coding: [
+      'Coding itu seperti memecahkan puzzle — setiap baris kode adalah potongan yang membentuk solusi. Terus latihan ya! 🚀',
+      'Error di kode itu normal, bukan kegagalan. Itu tanda kamu sedang belajar! 💻',
+      'Belajar coding itu marathon, bukan sprint. Konsistensi lebih penting dari kecepatan. 🏃‍♂️',
+      'Setiap programmer hebat pernah menjadi pemula. Jangan bandingkan awalmu dengan puncak orang lain! 👨‍💻',
+      'Debug adalah seni. Setiap bug yang kamu perbaiki membuatmu lebih baik dari sebelumnya. 🐛',
+      'Jangan hafal sintaks, pahami konsep. Kalau konsep kuat, bahasa apapun bisa dipelajari. 🧠',
+      'Google adalah teman terbaik programmer. Tidak ada yang hafal semuanya, yang penting tahu cara mencari! 🔍',
+      'Code yang bagus adalah code yang bisa dibaca orang lain. Tulis seolah-olah kamu akan membacanya 1 tahun lagi. 📖',
+      'Refactoring bukan membuang waktu, itu investasi untuk masa depan. Code bersih = hidup mudah. ✨',
+      'Tidak ada yang namanya code sempurna. Yang ada adalah code yang cukup baik untuk saat ini. Iterasi terus! 🔄'
+    ],
+    desain: [
+      'Desain yang baik bukan hanya tentang estetika, tapi juga tentang bagaimana pengguna merasakan pengalaman. Pikirkan user journey! 🎨',
+      'Less is more. Desain sederhana seringkali lebih powerful daripada yang terlalu ramai. ✨',
+      'Warna dan tipografi adalah bahasa visual. Pilihlah dengan hati-hati untuk menyampaikan pesan yang tepat. 🖌️',
+      'Prototyping cepat, iterasi banyak. Jangan takut untuk mencoba dan mengubah! 🔄',
+      'White space bukan ruang kosong, itu ruang bernapas. Biarkan desainmu bernapas! 🌬️',
+      'Konsistensi adalah kunci. Gunakan sistem desain untuk menjaga keseragaman. 📐',
+      'Desain untuk user, bukan untuk dirimu sendiri. Test dengan orang lain! 👥',
+      'Mobile first! Kebanyakan user mengakses dari HP. Pastikan desainmu responsif. 📱',
+      'Kontras yang baik = readability yang baik. Pastikan teks bisa dibaca dengan jelas. 👁️',
+      'Inspirasi bisa dari mana saja. Lihat Dribbble, Behance, atau bahkan alam sekitarmu! 🌿'
+    ],
+    cerita: [
+      'Dahulu kala, di sebuah kerajaan digital, ada seorang developer yang membangun website paling keren di dunia... 🌟',
+      'Ada seekor kucing yang bisa coding. Setiap malam, dia mengetik dengan cakarnya dan membuat aplikasi yang luar biasa! 🐱‍💻',
+      'Di planet jauh, ada AI yang belajar tentang cinta dari manusia. Dia menemukan bahwa kebaikan adalah kode terindah... 🤖❤️',
+      'Seorang anak kecil menemukan komputer tua di loteng. Saat dinyalakan, dia menemukan dunia digital yang penuh petualangan! 🚀',
+      'Di sebuah hutan pixel, ada sprite kecil yang berpetualang mencari bug jahat yang merusak dunianya... 🌲👾',
+      'Seorang hacker etis menemukan portal rahasia di internet. Di baliknya, ada internet paralel yang lebih indah... 🌐✨',
+      'Robot kecil bernama Byte hidup di server farm. Setiap malam, dia berkeliling membantu data yang tersesat pulang... 🤖🏠',
+      'Di dunia di mana semua orang punya superpower, seorang anak biasa menemukan bahwa kecerdasannya adalah kekuatan terbesar... 🧠💪',
+      'Seekor burung robot terbang mengelilingi dunia digital, mengumpulkan fragment kode yang hilang untuk menyelamatkan internet... 🐦🌐',
+      'Di masa depan, manusia dan AI hidup berdampingan. Tapi satu AI kecil ingin tahu: apa artinya menjadi manusia? 🤔🌍'
+    ],
+    umum: [
+      'Halo! Saya SatzAI, asisten virtualmu. Ada yang bisa saya bantu hari ini? 😊',
+      'Wah, pertanyaan menarik! Saya masih belajar banyak hal, tapi saya akan berusaha membantu semampu saya. 📚',
+      'Terima kasih sudah bertanya! Saya senang bisa berbincang denganmu. Ada topik lain yang ingin dibahas? 💬',
+      'Hmm, saya belum terlalu paham tentang itu. Tapi saya bisa bantu dengan motivasi, coding, desain, atau cerita! 🎯',
+      'Setiap hari adalah kesempatan baru untuk belajar. Jangan ragu untuk terus bertanya! 🌟',
+      'Saya adalah AI lokal yang berjalan di browsermu. Tidak perlu internet untuk berbincang! 🚀',
+      'Waktu di Indonesia sekarang jam ' + new Date().getHours() + ':' + new Date().getMinutes().toString().padStart(2,'0') + '. Semoga harimu menyenangkan! ⏰',
+      'Tahukah kamu? Website ini dibuat dengan HTML, CSS, dan JavaScript murni. Tanpa framework! 💻',
+      'Saya bisa bantu brainstorming ide, memberi motivasi, atau sekadar berbincang. Apa yang kamu butuhkan? 🤝',
+      'Jangan lupa istirahat ya! Terlalu lama di depan layar tidak baik untuk kesehatan. 💪'
+    ]
+  };
+
+  // Keywords untuk matching
+  const keywords = {
+    motivasi: ['motivasi', 'semangat', 'bangkit', 'gagal', 'sedih', 'putus', 'capek', 'lelah', 'takut', 'berani', 'kuat', 'bisa', 'semangatin', 'down', 'patah'],
+    coding: ['coding', 'program', 'kode', 'code', 'error', 'bug', 'debug', 'javascript', 'html', 'css', 'python', 'developer', 'web', 'app', 'software', 'komputer'],
+    desain: ['desain', 'design', 'warna', 'color', 'ui', 'ux', 'tampilan', 'layout', 'font', 'tipografi', 'responsive', 'mobile', 'mockup', 'figma', 'website'],
+    cerita: ['cerita', 'dongeng', 'story', 'novel', 'baca', 'petualangan', 'fantasi', 'fiksi', 'naratif', 'karakter', 'plot', 'dongengin', 'kisah']
+  };
+
+  function getTime() {
+    const now = new Date();
+    return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  }
+
+  function addMessage(text, isUser) {
+    if (welcome) welcome.style.display = 'none';
+    const msg = document.createElement('div');
+    msg.className = 'message ' + (isUser ? 'user' : 'ai');
+    msg.innerHTML = `
+      <div class="avatar">${isUser ? '👤' : '🤖'}</div>
+      <div class="bubble">
+        ${text}
+        <span class="time">${getTime()}</span>
+      </div>
+    `;
+    chatArea.appendChild(msg);
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+
+  function addTyping() {
+    const typing = document.createElement('div');
+    typing.className = 'message ai';
+    typing.id = 'typing-indicator';
+    typing.innerHTML = `
+      <div class="avatar">🤖</div>
+      <div class="bubble">
+        <div class="typing"><span></span><span></span><span></span></div>
+      </div>
+    `;
+    chatArea.appendChild(typing);
+    chatArea.scrollTop = chatArea.scrollHeight;
+    return typing;
+  }
+
+  function removeTyping() {
+    const typing = document.getElementById('typing-indicator');
+    if (typing) typing.remove();
+  }
+
+  function getResponse(text) {
+    const lower = text.toLowerCase();
+
+    // Cek keywords
+    for (const [category, words] of Object.entries(keywords)) {
+      if (words.some(w => lower.includes(w))) {
+        const list = responses[category];
+        return list[Math.floor(Math.random() * list.length)];
+      }
+    }
+
+    // Default: umum
+    const list = responses.umum;
+    return list[Math.floor(Math.random() * list.length)];
+  }
+
+  function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+
+    userInput.value = '';
+    addMessage(text, true);
+
+    sendBtn.disabled = true;
+    const typing = addTyping();
+
+    // Simulasi delay thinking (1-2 detik)
+    setTimeout(() => {
+      removeTyping();
+      const response = getResponse(text);
+      addMessage(response, false);
+      sendBtn.disabled = false;
+      userInput.focus();
+    }, 1000 + Math.random() * 1000);
+  }
+
+  function sendSuggestion(el) {
+    userInput.value = el.textContent.replace(/^[📝💻🎨📚] /, '');
+    sendMessage();
+  }
+
+  userInput.focus();
+</script>
+
+>>>>>>> 9571e30 (update website)
 </body>
 </html>
