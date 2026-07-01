@@ -17,8 +17,6 @@ header{position:relative;z-index:10;display:flex;align-items:center;justify-cont
 .status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e;animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
 .status-txt{font-size:13px;color:var(--muted)}
-.clear-btn{padding:7px 16px;border-radius:8px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.3);color:var(--muted);font-size:13px;cursor:pointer;transition:all .2s}
-.clear-btn:hover{color:var(--text);background:rgba(168,85,247,0.2)}
 .model-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.2);font-size:12px;color:var(--muted)}
 #chat-wrap{flex:1;overflow-y:auto;padding:24px;position:relative;z-index:1;display:flex;flex-direction:column;gap:16px}
 #chat-wrap::-webkit-scrollbar{width:4px}
@@ -85,7 +83,6 @@ header{position:relative;z-index:10;display:flex;align-items:center;justify-cont
     <div class="model-badge">🤖 LLaMA 3.3 · Groq</div>
     <div class="status-dot"></div>
     <div class="status-txt">Online</div>
-    <button class="clear-btn" onclick="clearChat()">🗑 Hapus Chat</button>
   </div>
 </header>
 
@@ -144,24 +141,9 @@ var messages  = [];
 var isLoading = false;
 var AI_PERSONA = 'Kamu adalah SatzAI, asisten AI pribadi yang ramah, pintar, lucu, dan selalu siap membantu. Kamu berbicara dalam Bahasa Indonesia dengan santai dan bersahabat seperti teman dekat. Kamu dibuat oleh Satria untuk orang-orang tersayangnya.';
 
-// ── INIT — ambil API Key dari backend ────────────────────────
-var GROQ_KEY = '';
-
+// ── INIT — langsung siap, tidak perlu API key ─────────────────
 function init(){
-  // Coba ambil dari endpoint proxy
-  fetch('/api/key')
-    .then(function(r){return r.json();})
-    .then(function(d){
-      if(d && d.key){
-        GROQ_KEY = d.key;
-      }
-      hideLoading();
-    })
-    .catch(function(){
-      // Kalau tidak ada endpoint, minta user input manual
-      hideLoading();
-      promptManual();
-    });
+  hideLoading();
 }
 
 function hideLoading(){
@@ -170,14 +152,6 @@ function hideLoading(){
     if(ls){ls.style.opacity='0';ls.style.transition='opacity .5s';
     setTimeout(function(){ls.style.display='none';},500);}
   },1200);
-}
-
-function promptManual(){
-  // Fallback: minta API Key manual
-  var key=prompt('Masukkan API Key Groq kamu:\n(Daftar gratis di console.groq.com)');
-  if(key && key.trim()){
-    GROQ_KEY=key.trim();
-  }
 }
 
 // ── SEND ─────────────────────────────────────────────────────
@@ -212,18 +186,10 @@ function doSend(text){
     temperature:0.8
   };
 
-  if(!GROQ_KEY){
-    removeTyping(tid);
-    addMsg('ai','❌ API Key belum tersedia. Hubungi Satria untuk mendapatkan akses! 😊');
-    isLoading=false;
-    document.getElementById('send-btn').disabled=false;
-    return;
-  }
-
-  fetch('https://api.groq.com/openai/v1/chat/completions',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+GROQ_KEY},
-    body:JSON.stringify(payload)
+  fetch('https://groq-proxy.store29.workers.dev', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
   })
   .then(function(r){return r.json();})
   .then(function(data){
@@ -282,13 +248,6 @@ function showTyping(){
   return id;
 }
 function removeTyping(id){var el=document.getElementById(id);if(el)el.remove();}
-
-// ── CLEAR ────────────────────────────────────────────────────
-function clearChat(){
-  messages=[];
-  var wrap=document.getElementById('chat-wrap');
-  wrap.innerHTML='<div class="welcome" id="welcome-msg"><div class="welcome-icon">🤖</div><h2>Halo! Saya SatzAI 👋</h2><p>Asisten AI pribadi kamu yang siap membantu 24/7. Tanyakan apa saja!</p><div class="suggestions"><button class="sug-btn" onclick="sendSug(\'Halo! Perkenalkan dirimu\')">👋 Perkenalan</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya kata-kata romantis untuk pacar\')">💕 Kata Romantis</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya motivasi hari ini\')">💪 Motivasi</button><button class="sug-btn" onclick="sendSug(\'Bantu saya buat caption Instagram yang keren\')">📸 Caption IG</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya ide kencan yang romantis\')">🌹 Ide Kencan</button><button class="sug-btn" onclick="sendSug(\'Buatkan saya ide bisnis online yang menarik\')">💡 Ide Bisnis</button></div></div>';
-}
 
 // ── ENTER ────────────────────────────────────────────────────
 document.getElementById('user-input').addEventListener('keydown',function(e){
