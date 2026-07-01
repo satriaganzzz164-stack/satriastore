@@ -48,7 +48,6 @@
     padding: 40px 20px;
   }
 
-  /* Header */
   .header {
     text-align: center;
     margin-bottom: 40px;
@@ -75,7 +74,6 @@
     font-size: 14px;
   }
 
-  /* Tabs */
   .tabs {
     display: flex;
     gap: 10px;
@@ -106,7 +104,6 @@
     box-shadow: 0 0 30px rgba(168,85,247,0.3);
   }
 
-  /* Panel */
   .panel {
     background: var(--panel);
     border: 1px solid var(--border);
@@ -117,7 +114,6 @@
     animation: fadeUp 0.8s 0.2s ease both;
   }
 
-  /* Input */
   .input-group {
     margin-bottom: 24px;
   }
@@ -151,7 +147,6 @@
     resize: vertical;
   }
 
-  /* Color picker */
   .color-row {
     display: flex;
     gap: 12px;
@@ -188,7 +183,6 @@
   .color-white { background: #fff; }
   .color-black { background: #000; border: 1px solid rgba(255,255,255,0.2); }
 
-  /* Size slider */
   .slider-row {
     display: flex;
     align-items: center;
@@ -206,6 +200,7 @@
   .slider-row input[type="range"] {
     flex: 1;
     -webkit-appearance: none;
+    appearance: none;
     height: 6px;
     border-radius: 3px;
     background: rgba(255,255,255,0.1);
@@ -213,6 +208,7 @@
   }
   .slider-row input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
+    appearance: none;
     width: 20px; height: 20px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--accent), var(--neon));
@@ -227,7 +223,6 @@
     text-align: right;
   }
 
-  /* QR Result */
   .qr-result {
     display: flex;
     flex-direction: column;
@@ -248,7 +243,6 @@
     border-radius: 8px;
   }
 
-  /* Buttons */
   .btn-row {
     display: flex;
     gap: 12px;
@@ -287,7 +281,6 @@
     background: rgba(168,85,247,0.1);
   }
 
-  /* Scan result */
   .scan-result {
     margin-top: 24px;
     padding: 20px;
@@ -315,7 +308,6 @@
   }
   .scan-result a:hover { text-decoration: underline; }
 
-  /* Scanner */
   #reader {
     border-radius: 16px;
     overflow: hidden;
@@ -325,14 +317,9 @@
   #reader video {
     border-radius: 16px;
   }
-  #reader__dashboard_section_csr span {
-    color: var(--text) !important;
-  }
 
-  /* Hidden */
   .hidden { display: none !important; }
 
-  /* Footer */
   footer {
     text-align: center;
     margin-top: 40px;
@@ -341,13 +328,11 @@
     letter-spacing: 1px;
   }
 
-  /* Animations */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Responsive */
   @media (max-width: 600px) {
     .header h1 { font-size: 28px; }
     .panel { padding: 24px; }
@@ -355,6 +340,7 @@
     .tab-btn { padding: 10px 20px; font-size: 13px; }
   }
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -370,7 +356,6 @@
     <button class="tab-btn" onclick="switchTab('scan')">📷 Scan</button>
   </div>
 
-  <!-- GENERATE TAB -->
   <div id="tab-generate" class="panel">
     <div class="input-group">
       <label>Isi QR Code</label>
@@ -413,7 +398,6 @@
     </div>
   </div>
 
-  <!-- SCAN TAB -->
   <div id="tab-scan" class="panel hidden">
     <div id="reader"></div>
     <div class="scan-result" id="scan-result">
@@ -439,7 +423,6 @@
   let qrCodeObj = null;
   let html5QrCode = null;
 
-  // Tab switch
   function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
@@ -448,7 +431,6 @@
     if (tab === 'generate') stopScan();
   }
 
-  // Set color
   function setColor(el, color) {
     document.querySelectorAll('.color-option').forEach(c => c.classList.remove('active'));
     el.classList.add('active');
@@ -456,20 +438,16 @@
     generateQR();
   }
 
-  // Update size
   function updateSize(val) {
     currentSize = parseInt(val);
     document.getElementById('size-value').textContent = val + 'px';
   }
 
-  // Generate QR
   function generateQR() {
     const text = document.getElementById('qr-text').value.trim();
     if (!text) return;
-
     const container = document.getElementById('qrcode');
     container.innerHTML = '';
-
     qrCodeObj = new QRCode(container, {
       text: text,
       width: currentSize,
@@ -480,20 +458,15 @@
     });
   }
 
-  // Download QR
   function downloadQR() {
     const img = document.querySelector('#qrcode img');
-    if (!img) {
-      alert('Generate QR dulu ya!');
-      return;
-    }
+    if (!img) { alert('Generate QR dulu ya!'); return; }
     const link = document.createElement('a');
     link.download = 'satria-qr-' + Date.now() + '.png';
     link.href = img.src;
     link.click();
   }
 
-  // Copy text
   function copyQR() {
     const text = document.getElementById('qr-text').value;
     navigator.clipboard.writeText(text).then(() => {
@@ -504,19 +477,17 @@
     });
   }
 
-  // Start scan
   function startScan() {
     const result = document.getElementById('scan-result');
     result.classList.remove('show');
-
     html5QrCode = new Html5Qrcode("reader");
     html5QrCode.start(
       { facingMode: "environment" },
       { fps: 10, qrbox: { width: 250, height: 250 } },
       (decodedText) => {
         document.getElementById('scan-text').innerHTML =
-          decodedText.startsWith('http') 
-            ? '<a href="' + decodedText + '" target="_blank">' + decodedText + '</a>' 
+          decodedText.startsWith('http')
+            ? '<a href="' + decodedText + '" target="_blank">' + decodedText + '</a>'
             : decodedText;
         result.classList.add('show');
         stopScan();
@@ -527,7 +498,6 @@
     });
   }
 
-  // Stop scan
   function stopScan() {
     if (html5QrCode) {
       html5QrCode.stop().then(() => {
@@ -537,7 +507,6 @@
     }
   }
 
-  // Generate default on load
   window.onload = () => generateQR();
 </script>
 
