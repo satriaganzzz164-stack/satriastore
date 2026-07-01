@@ -165,6 +165,7 @@
 <body>
 
 <canvas id="rain"></canvas>
+<audio id="bgm" src="music.mp3" loop></audio>
 
 <div class="panel">
   <div class="eyebrow">Satria Network</div>
@@ -174,11 +175,11 @@
   <div class="menu">
     <a class="btn" href="index.html">
       <span class="icon">🛒</span>
-      <span class="label">Buka Toko<small>CEK PRODUK</small></span>
+      <span class="label">Buka Toko<small>Lihat produk & belanja</small></span>
     </a>
     <a class="btn" href="ai.html">
       <span class="icon">🤖</span>
-      <span class="label">Chat AI Pribadi<small>TANYA TANYA AI</small></span>
+      <span class="label">Chat AI Pribadi<small>Ngobrol sama SatzAI</small></span>
     </a>
   </div>
 </div>
@@ -224,6 +225,30 @@
     requestAnimationFrame(draw);
   }
   draw();
+
+  // ── MUSIK BACKGROUND ─────────────────────────────────
+  var bgm = document.getElementById('bgm');
+  bgm.volume = 0.5;
+
+  // Coba autoplay langsung (biasanya diblokir browser sampai ada interaksi)
+  bgm.play().catch(function () {
+    // Kalau diblokir, mainkan begitu ada klik/sentuhan pertama di halaman
+    function unlockAudio() {
+      bgm.play();
+      document.removeEventListener('click', unlockAudio);
+      document.removeEventListener('touchstart', unlockAudio);
+    }
+    document.addEventListener('click', unlockAudio);
+    document.addEventListener('touchstart', unlockAudio);
+  });
+
+  // Hentikan musik begitu pengguna pindah ke halaman lain (toko/AI)
+  var navButtons = document.querySelectorAll('.btn');
+  navButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      bgm.pause();
+    });
+  });
 </script>
 
 </body>
