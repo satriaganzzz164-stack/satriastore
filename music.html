@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Satria Music — Audio Visualizer</title>
+<style>
+  :root {
+    --bg: #07050f;
+    --panel: rgba(14, 10, 26, 0.7);
+    --accent: #a855f7;
+    --neon: #e879f9;
+    --cyan: #06b6d4;
+    --lime: #84cc16;
+    --rose: #f43f5e;
+    --gold: #fbbf24;
+    --text: #f0eaff;
+    --muted: rgba(240, 234, 255, 0.5);
+    --border: rgba(168, 85, 247, 0.25);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    min-height: 100vh;
+    background: var(--bg);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -20%; left: 50%;
+    transform: translateX(-50%);
+    width: 900px; height: 700px;
+    background: radial-gradient(ellipse, rgba(168,85,247,0.15) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .header .eyebrow {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--neon));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 6px;
+  }
+  .header p {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* Visualizer Canvas */
+  .visualizer-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 60px rgba(168, 85, 247, 0.1);
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  #visualizer {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .visualizer-overlay {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    transition: opacity 0.5s;
+  }
+  .visualizer-overlay.hidden {
+    opacity: 0;
+  }
+  .visualizer-overlay .icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 20px rgba(168,85,247,0.5));
+  }
+  .visualizer-overlay p {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* Upload Area */
+  .upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    text-align: center;
+    margin-bottom: 24px;
+    transition: all 0.3s;
+    cursor: pointer;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .upload-area:hover {
+    border-color: var(--neon);
+    background: rgba(168, 85, 247, 0.08);
+  }
+  .upload-area.dragover {
+    border-color: var(--neon);
+    background: rgba(168, 85, 247, 0.15);
+    transform: scale(1.02);
+  }
+  .upload-area .icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+  .upload-area p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .upload-area small {
+    color: rgba(240, 234, 255, 0.3);
+    font-size: 12px;
+  }
+  #file-input {
+    display: none;
+  }
+
+  /* Controls */
+  .controls-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(14px);
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .track-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .track-cover {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--neon));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .track-details h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .track-details p {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Progress */
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .time {
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 40px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--neon));
+    width: 0%;
+    transition: width 0.1s linear;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -6px; top: 50%;
+    transform: translateY(-50%);
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--neon);
+    box-shadow: 0 0 10px var(--neon);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .progress-bar:hover .progress-fill::after {
+    opacity: 1;
+  }
+
+  /* Buttons */
+  .control-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .ctrl-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+  }
+  .ctrl-btn:hover {
+    color: var(--neon);
+    transform: scale(1.1);
+  }
+  .ctrl-btn.play {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--neon));
+    color: #fff;
+    font-size: 24px;
+    box-shadow: 0 0 30px rgba(168,85,247,0.3);
+  }
+  .ctrl-btn.play:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 40px rgba(168,85,247,0.5);
+  }
+
+  /* Volume */
+  .volume-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .volume-row i {
+    color: var(--muted);
+    font-size: 16px;
+  }
+  .volume-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.1);
+    outline: none;
+  }
+  .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--neon);
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(232,121,249,0.5);
+  }
+
+  /* Theme Colors */
+  .theme-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .theme-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  .theme-btn:hover {
+    border-color: var(--neon);
+    color: var(--text);
+  }
+  .theme-btn.active {
+    background: linear-gradient(135deg, var(--accent), var(--neon));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(168,85,247,0.3);
+  }
+
+  /* Playlist */
+  .playlist-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(14px);
+    flex: 1;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .playlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .playlist-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+  .playlist-count {
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.05);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+  .playlist {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+  .playlist::-webkit-scrollbar {
+    width: 4px;
+  }
+  .playlist::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 2px;
+  }
+  .track-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .track-item:hover {
+    background: rgba(168, 85, 247, 0.1);
+  }
+  .track-item.active {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid var(--border);
+  }
+  .track-item .num {
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 24px;
+    text-align: center;
+  }
+  .track-item .num.playing {
+    color: var(--neon);
+  }
+  .track-item .name {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .track-item .dur {
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .track-item .remove {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px;
+    opacity: 0;
+    transition: all 0.3s;
+  }
+  .track-item:hover .remove {
+    opacity: 1;
+  }
+  .track-item .remove:hover {
+    color: var(--rose);
+  }
+
+  /* Empty state */
+  .empty-playlist {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-playlist .icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+  }
+  .empty-playlist p {
+    font-size: 14px;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  .playing .num {
+    animation: pulse 1s infinite;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 24px; }
+    .visualizer-container { height: 220px; }
+    .control-buttons { gap: 16px; }
+    .ctrl-btn.play { width: 48px; height: 48px; font-size: 20px; }
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="eyebrow">Satria Network</div>
+    <h1>🎵 SATRIA MUSIC</h1>
+    <p>Audio Visualizer — Upload & Feel the Beat</p>
+  </div>
+
+  <div class="visualizer-container">
+    <canvas id="visualizer"></canvas>
+    <div class="visualizer-overlay" id="overlay">
+      <div class="icon">🎧</div>
+      <p>Upload lagu untuk melihat visualizer</p>
+    </div>
+  </div>
+
+  <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()">
+    <div class="icon">📁</div>
+    <p>Klik atau drag & drop file MP3 di sini</p>
+    <small>Format: MP3, WAV, OGG | Max 50MB</small>
+    <input type="file" id="file-input" accept="audio/*" multiple onchange="handleFiles(this.files)">
+  </div>
+
+  <div class="controls-panel">
+    <div class="track-info">
+      <div class="track-cover">🎵</div>
+      <div class="track-details">
+        <h3 id="track-name">Belum ada lagu</h3>
+        <p id="track-artist">Upload file audio untuk mulai</p>
+      </div>
+    </div>
+
+    <div class="progress-row">
+      <span class="time" id="current-time">0:00</span>
+      <div class="progress-bar" id="progress-bar" onclick="seek(event)">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+      <span class="time" id="duration">0:00</span>
+    </div>
+
+    <div class="control-buttons">
+      <button class="ctrl-btn" onclick="prevTrack()">⏮️</button>
+      <button class="ctrl-btn play" id="play-btn" onclick="togglePlay()">▶️</button>
+      <button class="ctrl-btn" onclick="nextTrack()">⏭️</button>
+    </div>
+
+    <div class="volume-row">
+      <i>🔊</i>
+      <input type="range" class="volume-slider" id="volume" min="0" max="100" value="70" oninput="setVolume(this.value)">
+    </div>
+  </div>
+
+  <div class="theme-row">
+    <button class="theme-btn active" onclick="setTheme('purple')">💜 Purple</button>
+    <button class="theme-btn" onclick="setTheme('cyan')">💙 Cyan</button>
+    <button class="theme-btn" onclick="setTheme('pink')">💗 Pink</button>
+    <button class="theme-btn" onclick="setTheme('lime')">💚 Lime</button>
+    <button class="theme-btn" onclick="setTheme('rainbow')">🌈 Rainbow</button>
+  </div>
+
+  <div class="playlist-panel">
+    <div class="playlist-header">
+      <h3>Playlist</h3>
+      <span class="playlist-count" id="playlist-count">0 lagu</span>
+    </div>
+    <div class="playlist" id="playlist">
+      <div class="empty-playlist">
+        <div class="icon">🎶</div>
+        <p>Playlist kosong. Upload lagu untuk memulai.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>SATRIA SYSTEM // MUSIC VISUALIZER</footer>
+</div>
+
+<audio id="audio" crossorigin="anonymous"></audio>
+
+<script>
+  const audio = document.getElementById('audio');
+  const canvas = document.getElementById('visualizer');
+  const ctx = canvas.getContext('2d');
+  const playBtn = document.getElementById('play-btn');
+  const overlay = document.getElementById('overlay');
+  const progressBar = document.getElementById('progress-bar');
+  const progressFill = document.getElementById('progress-fill');
+  const currentTimeEl = document.getElementById('current-time');
+  const durationEl = document.getElementById('duration');
+  const trackNameEl = document.getElementById('track-name');
+  const trackArtistEl = document.getElementById('track-artist');
+  const playlistEl = document.getElementById('playlist');
+  const playlistCountEl = document.getElementById('playlist-count');
+  const uploadArea = document.getElementById('upload-area');
+
+  let audioCtx, analyser, source, dataArray;
+  let playlist = [];
+  let currentTrack = -1;
+  let isPlaying = false;
+  let animationId;
+  let theme = 'purple';
+  const themes = {
+    purple: ['#a855f7', '#e879f9', '#c084fc'],
+    cyan: ['#06b6d4', '#22d3ee', '#67e8f9'],
+    pink: ['#f43f5e', '#fb7185', '#fda4af'],
+    lime: ['#84cc16', '#a3e635', '#bef264'],
+    rainbow: null
+  };
+
+  function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function initAudioContext() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      source = audioCtx.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      dataArray = new Uint8Array(analyser.frequencyBinCount);
+    }
+  }
+
+  function drawVisualizer() {
+    animationId = requestAnimationFrame(drawVisualizer);
+    if (!analyser) return;
+
+    analyser.getByteFrequencyData(dataArray);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const barCount = 64;
+    const barWidth = canvas.width / barCount;
+    const colors = themes[theme];
+
+    for (let i = 0; i < barCount; i++) {
+      const dataIndex = Math.floor(i * (dataArray.length / barCount));
+      const value = dataArray[dataIndex];
+      const percent = value / 255;
+      const barHeight = percent * canvas.height * 0.85;
+      const x = i * barWidth;
+      const y = canvas.height - barHeight;
+
+      let gradient;
+      if (theme === 'rainbow') {
+        const hue = (i / barCount) * 360;
+        gradient = ctx.createLinearGradient(x, canvas.height, x, y);
+        gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
+        gradient.addColorStop(1, `hsl(${hue}, 80%, 70%)`);
+      } else {
+        gradient = ctx.createLinearGradient(x, canvas.height, x, y);
+        gradient.addColorStop(0, colors[0]);
+        gradient.addColorStop(0.5, colors[1]);
+        gradient.addColorStop(1, colors[2] || colors[1]);
+      }
+
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.roundRect(x + 1, y, barWidth - 2, barHeight, 4);
+      ctx.fill();
+
+      // Glow effect
+      ctx.shadowColor = theme === 'rainbow' ? `hsl(${(i/barCount)*360}, 80%, 50%)` : colors[1];
+      ctx.shadowBlur = 10 * percent;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+  }
+
+  function handleFiles(files) {
+    Array.from(files).forEach(file => {
+      if (file.type.startsWith('audio/')) {
+        const url = URL.createObjectURL(file);
+        playlist.push({
+          name: file.name.replace(/\.[^/.]+$/, ''),
+          url: url,
+          duration: '0:00'
+        });
+      }
+    });
+    updatePlaylist();
+    if (currentTrack === -1 && playlist.length > 0) {
+      loadTrack(0);
+    }
+  }
+
+  function updatePlaylist() {
+    playlistCountEl.textContent = playlist.length + ' lagu';
+    if (playlist.length === 0) {
+      playlistEl.innerHTML = `
+        <div class="empty-playlist">
+          <div class="icon">🎶</div>
+          <p>Playlist kosong. Upload lagu untuk memulai.</p>
+        </div>`;
+      return;
+    }
+
+    playlistEl.innerHTML = playlist.map((track, i) => `
+      <div class="track-item ${i === currentTrack ? 'active' : ''}" onclick="loadTrack(${i})">
+        <span class="num ${i === currentTrack && isPlaying ? 'playing' : ''}">${i === currentTrack && isPlaying ? '▶' : i + 1}</span>
+        <span class="name">${track.name}</span>
+        <span class="dur">${track.duration}</span>
+        <button class="remove" onclick="event.stopPropagation(); removeTrack(${i})">✕</button>
+      </div>
+    `).join('');
+  }
+
+  function loadTrack(index) {
+    if (index < 0 || index >= playlist.length) return;
+    currentTrack = index;
+    audio.src = playlist[index].url;
+    trackNameEl.textContent = playlist[index].name;
+    trackArtistEl.textContent = 'File lokal';
+    overlay.classList.add('hidden');
+    initAudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    play();
+    updatePlaylist();
+  }
+
+  function removeTrack(index) {
+    URL.revokeObjectURL(playlist[index].url);
+    playlist.splice(index, 1);
+    if (currentTrack === index) {
+      audio.pause();
+      isPlaying = false;
+      playBtn.textContent = '▶️';
+      if (playlist.length > 0) loadTrack(Math.min(index, playlist.length - 1));
+      else {
+        currentTrack = -1;
+        trackNameEl.textContent = 'Belum ada lagu';
+        trackArtistEl.textContent = 'Upload file audio untuk mulai';
+        overlay.classList.remove('hidden');
+      }
+    } else if (currentTrack > index) {
+      currentTrack--;
+    }
+    updatePlaylist();
+  }
+
+  function togglePlay() {
+    if (playlist.length === 0) return;
+    if (!audio.src) loadTrack(0);
+    initAudioContext();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    if (isPlaying) {
+      audio.pause();
+      isPlaying = false;
+      playBtn.textContent = '▶️';
+      cancelAnimationFrame(animationId);
+    } else {
+      play();
+    }
+    updatePlaylist();
+  }
+
+  function play() {
+    audio.play();
+    isPlaying = true;
+    playBtn.textContent = '⏸️';
+    drawVisualizer();
+  }
+
+  function prevTrack() {
+    if (playlist.length === 0) return;
+    loadTrack((currentTrack - 1 + playlist.length) % playlist.length);
+  }
+
+  function nextTrack() {
+    if (playlist.length === 0) return;
+    loadTrack((currentTrack + 1) % playlist.length);
+  }
+
+  function seek(event) {
+    if (!audio.duration) return;
+    const rect = progressBar.getBoundingClientRect();
+    const percent = (event.clientX - rect.left) / rect.width;
+    audio.currentTime = percent * audio.duration;
+  }
+
+  function setVolume(value) {
+    audio.volume = value / 100;
+  }
+
+  function setTheme(newTheme) {
+    theme = newTheme;
+    document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function formatTime(seconds) {
+    if (isNaN(seconds)) return '0:00';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  audio.addEventListener('timeupdate', () => {
+    const percent = (audio.currentTime / audio.duration) * 100 || 0;
+    progressFill.style.width = percent + '%';
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+    durationEl.textContent = formatTime(audio.duration);
+  });
+
+  audio.addEventListener('ended', () => {
+    nextTrack();
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    if (currentTrack >= 0) {
+      playlist[currentTrack].duration = formatTime(audio.duration);
+      updatePlaylist();
+    }
+  });
+
+  // Drag & drop
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+  });
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+  });
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
+    if (e.code === 'ArrowLeft') prevTrack();
+    if (e.code === 'ArrowRight') nextTrack();
+  });
+
+  console.log('%c SATRIA MUSIC ', 'background: linear-gradient(135deg, #a855f7, #e879f9); color: #fff; font-size: 20px; font-weight: bold; padding: 10px 20px; border-radius: 10px;');
+  console.log('%c Upload lagu & enjoy the visualizer! ', 'color: #e879f9; font-size: 14px;');
+</script>
+
+</body>
+</html>
