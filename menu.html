@@ -163,6 +163,7 @@
   }
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -187,19 +188,20 @@
       <span class="icon">🖥️</span>
       <span class="label">TOKO PC GAMING<small>PREMIUM BUILDS</small></span>
     </a>
+    <a class="btn" href="qr.html">
+      <span class="icon">📱</span>
+      <span class="label">QR CODE STUDIO<small>GENERATE & SCAN</small></span>
+    </a>
   </div>
 </div>
 
 <footer>SATRIA SYSTEM // ONLINE</footer>
 
 <script>
-  // ── MUSIK BACKGROUND ─────────────────────────────────
   var bgm = document.getElementById('bgm');
   bgm.volume = 0.5;
 
-  // Coba autoplay langsung (biasanya diblokir browser sampai ada interaksi)
   bgm.play().catch(function () {
-    // Kalau diblokir, mainkan begitu ada klik/sentuhan pertama di halaman
     function unlockAudio() {
       bgm.play();
       document.removeEventListener('click', unlockAudio);
@@ -209,7 +211,6 @@
     document.addEventListener('touchstart', unlockAudio);
   });
 
-  // Hentikan musik begitu pengguna pindah ke halaman lain (toko/AI)
   var navButtons = document.querySelectorAll('.btn');
   navButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
