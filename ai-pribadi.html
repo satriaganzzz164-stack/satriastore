@@ -599,23 +599,8 @@
     var AI_PERSONA = 'Kamu adalah SatzAI, asisten AI pribadi yang ramah, pintar, lucu, dan selalu siap membantu. Kamu berbicara dalam Bahasa Indonesia dengan santai dan bersahabat seperti teman dekat. Kamu dibuat oleh Satria untuk orang-orang tersayangnya.';
 
     // ── INIT — ambil API Key dari backend ────────────────────────
-    var GROQ_KEY = '';
-
     function init() {
-      // Coba ambil dari endpoint proxy
-      fetch('/api/key')
-        .then(function (r) { return r.json(); })
-        .then(function (d) {
-          if (d && d.key) {
-            GROQ_KEY = d.key;
-          }
-          hideLoading();
-        })
-        .catch(function () {
-          // Kalau tidak ada endpoint, minta user input manual
-          hideLoading();
-          promptManual();
-        });
+      hideLoading();
     }
 
     function hideLoading() {
@@ -668,17 +653,9 @@
         temperature: 0.8
       };
 
-      if (!GROQ_KEY) {
-        removeTyping(tid);
-        addMsg('ai', '❌ API Key belum tersedia. Hubungi Satria untuk mendapatkan akses! 😊');
-        isLoading = false;
-        document.getElementById('send-btn').disabled = false;
-        return;
-      }
-
-      fetch('https://api.groq.com/openai/v1/chat/completions', {
+      fetch('https://groq-proxy.satriaganzzz164.workers.dev', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + GROQ_KEY },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
         .then(function (r) { return r.json(); })
@@ -687,6 +664,7 @@
           if (data.error) {
             addMsg('ai', '❌ Error: ' + data.error.message);
           } else {
+
             var reply = data.choices[0].message.content;
             messages.push({ role: 'assistant', content: reply });
             addMsg('ai', reply);
