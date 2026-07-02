@@ -1,1211 +1,885 @@
-
-import math
-
-html_content = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atelier — Custom Sneaker Configurator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <style>
-        :root {
-            --bg: #F5F3EF;
-            --bg-dark: #E8E5DF;
-            --text: #1A1A1A;
-            --text-light: #6B6560;
-            --text-muted: #9A9590;
-            --accent: #2C3E50;
-            --accent-warm: #8B7355;
-            --white: #FFFFFF;
-            --border: #D5D0C8;
-            --shadow: rgba(0, 0, 0, 0.06);
-            --shadow-hover: rgba(0, 0, 0, 0.12);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 48px;
-            background: rgba(245, 243, 239, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 26px;
-            font-weight: 600;
-            color: var(--text);
-            letter-spacing: -0.5px;
-        }
-
-        .logo span { color: var(--accent-warm); }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-light);
-            font-size: 13px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover { color: var(--text); }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .price-tag {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .btn-cart {
-            padding: 10px 28px;
-            background: var(--text);
-            color: var(--white);
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0.3px;
-        }
-
-        .btn-cart:hover {
-            background: var(--accent);
-            transform: translateY(-1px);
-        }
-
-        .main-container {
-            display: flex;
-            height: 100vh;
-            padding-top: 72px;
-        }
-
-        .viewer-area {
-            flex: 1;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(180deg, var(--bg) 0%, var(--bg-dark) 100%);
-        }
-
-        #canvas-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .viewer-overlay {
-            position: absolute;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
-        }
-
-        .view-btn {
-            padding: 8px 20px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-light);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .view-btn:hover, .view-btn.active {
-            background: var(--text);
-            color: var(--white);
-            border-color: var(--text);
-        }
-
-        .viewer-hint {
-            position: absolute;
-            top: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 11px;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            opacity: 0.7;
-        }
-
-        .sidebar {
-            width: 380px;
-            background: var(--white);
-            border-left: 1px solid var(--border);
-            padding: 40px 36px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-header { margin-bottom: 36px; }
-
-        .product-tag {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--accent-warm);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .product-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px;
-            font-weight: 600;
-            color: var(--text);
-            line-height: 1.2;
-            margin-bottom: 12px;
-        }
-
-        .product-desc {
-            font-size: 14px;
-            color: var(--text-light);
-            line-height: 1.7;
-        }
-
-        .section {
-            margin-bottom: 32px;
-            padding-bottom: 32px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .section:last-of-type { border-bottom: none; }
-
-        .section-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .color-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-        }
-
-        .color-option {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .color-option:hover { transform: scale(1.1); }
-
-        .color-option.active {
-            border-color: var(--text);
-            box-shadow: 0 0 0 3px var(--white), 0 0 0 5px var(--text);
-        }
-
-        .color-option .color-label {
-            position: absolute;
-            bottom: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 10px;
-            color: var(--text-muted);
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .color-option:hover .color-label, .color-option.active .color-label { opacity: 1; }
-
-        .material-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-        }
-
-        .material-option {
-            padding: 16px 12px;
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: var(--white);
-        }
-
-        .material-option:hover {
-            border-color: var(--text-muted);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px var(--shadow);
-        }
-
-        .material-option.active {
-            border-color: var(--text);
-            background: var(--bg);
-        }
-
-        .material-icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .material-name { font-size: 12px; font-weight: 500; color: var(--text); }
-        .material-desc { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
-
-        .size-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-        }
-
-        .size-option {
-            padding: 14px 0;
-            border: 1.5px solid var(--border);
-            border-radius: 8px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: var(--white);
-        }
-
-        .size-option:hover { border-color: var(--text-muted); }
-        .size-option.active { background: var(--text); color: var(--white); border-color: var(--text); }
-        .size-option.disabled { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
-
-        .sole-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .sole-option {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
-            border: 1.5px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .sole-option:hover { border-color: var(--text-muted); }
-        .sole-option.active { border-color: var(--text); background: var(--bg); }
-
-        .sole-preview {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            flex-shrink: 0;
-            border: 1px solid var(--border);
-        }
-
-        .sole-info h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-        .sole-info p { font-size: 12px; color: var(--text-muted); }
-
-        .lace-grid {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .lace-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border: 1.5px solid var(--border);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .lace-option:hover { border-color: var(--text-muted); }
-        .lace-option.active { border-color: var(--text); background: var(--text); color: var(--white); }
-
-        .lace-color-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .summary-bar {
-            margin-top: auto;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-        }
-
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .summary-row span:first-child { color: var(--text-light); }
-        .summary-row span:last-child { color: var(--text); font-weight: 500; }
-
-        .summary-total {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        .summary-total span:first-child { font-size: 14px; font-weight: 600; color: var(--text); }
-        .summary-total span:last-child { font-size: 22px; font-weight: 700; color: var(--text); font-family: 'Playfair Display', serif; }
-
-        .btn-add-cart {
-            width: 100%;
-            margin-top: 20px;
-            padding: 16px;
-            background: var(--text);
-            color: var(--white);
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-add-cart:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--shadow-hover);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .sidebar > * { animation: fadeInUp 0.6s ease forwards; }
-        .sidebar > *:nth-child(1) { animation-delay: 0.1s; }
-        .sidebar > *:nth-child(2) { animation-delay: 0.2s; }
-        .sidebar > *:nth-child(3) { animation-delay: 0.3s; }
-        .sidebar > *:nth-child(4) { animation-delay: 0.4s; }
-
-        @media (max-width: 1024px) {
-            .main-container { flex-direction: column; }
-            .sidebar { width: 100%; border-left: none; border-top: 1px solid var(--border); }
-            .viewer-area { height: 50vh; }
-        }
-
-        @media (max-width: 768px) {
-            .navbar { padding: 16px 20px; }
-            .nav-links { display: none; }
-            .sidebar { padding: 28px 20px; }
-        }
-
-        .loading-screen {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
-        }
-
-        .loading-screen.hidden { opacity: 0; visibility: hidden; }
-
-        .loading-logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 24px;
-        }
-
-        .loading-bar {
-            width: 200px;
-            height: 2px;
-            background: var(--border);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .loading-bar-fill {
-            width: 0%;
-            height: 100%;
-            background: var(--text);
-            animation: loadingFill 2s ease forwards;
-        }
-
-        @keyframes loadingFill {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
-        .loading-text {
-            margin-top: 16px;
-            font-size: 12px;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier — Konfigurator Sepatu 3D</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<style>
+:root {
+  --bg: #F5F3EF;
+  --bg2: #EDEAE3;
+  --text: #1A1A1A;
+  --light: #6B6560;
+  --muted: #9A9590;
+  --accent: #2C3E50;
+  --warm: #8B7355;
+  --white: #FFFFFF;
+  --border: #D5D0C8;
+  --shadow: rgba(0,0,0,0.06);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}
+
+/* LOADING */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .8s,visibility .8s}
+#loading.gone{opacity:0;visibility:hidden;pointer-events:none}
+.load-logo{font-family:'Playfair Display',serif;font-size:42px;font-weight:600;margin-bottom:8px}
+.load-sub{font-size:12px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px}
+.load-bar{width:220px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.load-fill{height:100%;background:var(--text);animation:loadfill 2.2s ease forwards}
+@keyframes loadfill{from{width:0}to{width:100%}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:18px 48px;background:rgba(245,243,239,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:600}
+.logo span{color:var(--warm)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--light);font-size:13px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--text)}
+.nav-price{font-size:18px;font-weight:700;color:var(--text)}
+
+/* LAYOUT */
+.wrap{display:flex;height:100vh;padding-top:66px}
+
+/* CANVAS AREA */
+.viewer{flex:1;position:relative;background:linear-gradient(160deg,#f8f6f2 0%,#edeae3 100%)}
+#cv{width:100%;height:100%;display:block}
+.hint{position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;pointer-events:none}
+.view-btns{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.vbtn{padding:7px 18px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;color:var(--light);cursor:pointer;transition:all .25s}
+.vbtn:hover,.vbtn.on{background:var(--text);color:#fff;border-color:var(--text)}
+
+/* SHOE TYPE SELECTOR */
+.shoe-types{position:absolute;top:18px;left:18px;display:flex;flex-direction:column;gap:8px}
+.stype{width:64px;height:64px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border:2px solid var(--border);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;font-size:10px;font-weight:600;color:var(--light);letter-spacing:.5px;text-transform:uppercase;gap:4px}
+.stype span{font-size:20px}
+.stype:hover{border-color:var(--warm);color:var(--text)}
+.stype.on{border-color:var(--text);background:var(--text);color:#fff}
+
+/* SIDEBAR */
+.sidebar{width:390px;background:var(--white);border-left:1px solid var(--border);overflow-y:auto;padding:32px 32px 24px;display:flex;flex-direction:column;gap:0}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+
+.prod-tag{font-size:11px;font-weight:700;color:var(--warm);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.prod-name{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;line-height:1.15;margin-bottom:10px}
+.prod-name .type-label{color:var(--warm)}
+.prod-desc{font-size:13px;color:var(--light);line-height:1.7;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+
+.sec{margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.sec:last-of-type{border-bottom:none}
+.sec-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+
+/* COLOR GRID */
+.color-grid{display:flex;flex-wrap:wrap;gap:10px}
+.col-opt{width:42px;height:42px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .25s;position:relative;flex-shrink:0}
+.col-opt:hover{transform:scale(1.12)}
+.col-opt.on{border-color:var(--text);box-shadow:0 0 0 2px var(--white),0 0 0 4px var(--text)}
+.col-name{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:9px;color:var(--muted);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
+.col-opt:hover .col-name,.col-opt.on .col-name{opacity:1}
+
+/* MATERIAL */
+.mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mat-opt{padding:14px 10px;border:1.5px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;transition:all .25s}
+.mat-opt:hover{border-color:var(--muted);transform:translateY(-2px);box-shadow:0 4px 12px var(--shadow)}
+.mat-opt.on{border-color:var(--text);background:var(--bg)}
+.mat-icon{font-size:22px;margin-bottom:6px;display:block}
+.mat-name{font-size:12px;font-weight:600;color:var(--text)}
+.mat-sub{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* SIZE */
+.size-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.size-opt{padding:13px 0;border:1.5px solid var(--border);border-radius:8px;text-align:center;font-size:13px;font-weight:500;cursor:pointer;transition:all .25s}
+.size-opt:hover{border-color:var(--muted)}
+.size-opt.on{background:var(--text);color:#fff;border-color:var(--text)}
+.size-opt.off{opacity:.35;cursor:not-allowed;text-decoration:line-through}
+
+/* SOLE */
+.sole-list{display:flex;flex-direction:column;gap:10px}
+.sole-opt{display:flex;align-items:center;gap:14px;padding:14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .25s}
+.sole-opt:hover{border-color:var(--muted)}
+.sole-opt.on{border-color:var(--text);background:var(--bg)}
+.sole-dot{width:44px;height:44px;border-radius:8px;flex-shrink:0;border:1px solid var(--border)}
+.sole-info h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.sole-info p{font-size:11px;color:var(--muted)}
+
+/* LACE */
+.lace-list{display:flex;flex-wrap:wrap;gap:8px}
+.lace-opt{display:flex;align-items:center;gap:7px;padding:8px 16px;border:1.5px solid var(--border);border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;transition:all .25s}
+.lace-opt:hover{border-color:var(--muted)}
+.lace-opt.on{border-color:var(--text);background:var(--text);color:#fff}
+.lace-dot{width:13px;height:13px;border-radius:50%;border:1px solid rgba(0,0,0,.12);flex-shrink:0}
+
+/* SUMMARY */
+.summary{margin-top:auto;padding-top:20px;border-top:1px solid var(--border)}
+.sum-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;color:var(--light)}
+.sum-row b{color:var(--text);font-weight:500}
+.sum-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.sum-total span:first-child{font-size:14px;font-weight:600}
+.sum-total span:last-child{font-family:'Playfair Display',serif;font-size:26px;font-weight:700}
+.btn-buy{width:100%;margin-top:18px;padding:15px;background:var(--text);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.4px;transition:all .3s}
+.btn-buy:hover{background:var(--accent);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.btn-buy.ok{background:#27AE60}
+
+@media(max-width:900px){.wrap{flex-direction:column}.sidebar{width:100%;border-left:none;border-top:1px solid var(--border)}.viewer{height:50vh}}
+@media(max-width:600px){nav{padding:14px 18px}.nav-links{display:none}.sidebar{padding:22px 18px}}
+</style>
 </head>
 <body>
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo">Atelier</div>
-        <div class="loading-bar"><div class="loading-bar-fill"></div></div>
-        <div class="loading-text">Memuat konfigurator...</div>
+
+<div id="loading">
+  <div class="load-logo">Atelier<span style="color:#8B7355">.</span></div>
+  <div class="load-sub">Memuat konfigurator 3D</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+</div>
+
+<nav>
+  <div class="logo">Atelier<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Koleksi</a></li>
+    <li><a href="#">Custom</a></li>
+    <li><a href="#">Tentang</a></li>
+  </ul>
+  <span class="nav-price" id="nav-price">Rp 1.299.000</span>
+</nav>
+
+<div class="wrap">
+  <div class="viewer">
+    <div class="hint">Drag putar · Scroll zoom · Klik tahan geser</div>
+    <canvas id="cv"></canvas>
+
+    <!-- SHOE TYPE -->
+    <div class="shoe-types">
+      <div class="stype on" data-type="sneaker"><span>👟</span>Sneaker</div>
+      <div class="stype" data-type="boots"><span>🥾</span>Boots</div>
+      <div class="stype" data-type="loafer"><span>👞</span>Loafer</div>
+      <div class="stype" data-type="sandal"><span>🩴</span>Sandal</div>
+      <div class="stype" data-type="heels"><span>👠</span>Heels</div>
     </div>
 
-    <nav class="navbar">
-        <div class="logo">Atelier<span>.</span></div>
-        <ul class="nav-links">
-            <li><a href="#">Koleksi</a></li>
-            <li><a href="#">Custom</a></li>
-            <li><a href="#">Tentang</a></li>
-            <li><a href="#">Kontak</a></li>
-        </ul>
-        <div class="nav-right">
-            <span class="price-tag" id="navPrice">Rp 1.299.000</span>
-            <button class="btn-cart">Keranjang (0)</button>
-        </div>
-    </nav>
+    <div class="view-btns">
+      <button class="vbtn on" data-v="default">Default</button>
+      <button class="vbtn" data-v="side">Samping</button>
+      <button class="vbtn" data-v="front">Depan</button>
+      <button class="vbtn" data-v="top">Atas</button>
+    </div>
+  </div>
 
-    <div class="main-container">
-        <div class="viewer-area">
-            <div class="viewer-hint">Drag untuk memutar • Scroll untuk zoom</div>
-            <div id="canvas-container"></div>
-            <div class="viewer-overlay">
-                <button class="view-btn active" data-view="default">Default</button>
-                <button class="view-btn" data-view="side">Samping</button>
-                <button class="view-btn" data-view="top">Atas</button>
-                <button class="view-btn" data-view="bottom">Bawah</button>
-            </div>
-        </div>
+  <div class="sidebar">
+    <div class="prod-tag">Edisi Terbatas</div>
+    <h1 class="prod-name">Custom <span class="type-label" id="type-name">Sneaker</span><br>Atelier One</h1>
+    <p class="prod-desc">Desain sepatu premium yang sepenuhnya dapat dikustomisasi. Pilih model, warna, material, dan detail unik sesuai gayamu.</p>
 
-        <div class="sidebar">
-            <div class="product-header">
-                <div class="product-tag">Edisi Terbatas</div>
-                <h1 class="product-name">Sneaker Custom<br>Atelier One</h1>
-                <p class="product-desc">Desain sneaker premium yang sepenuhnya dapat dikustomisasi. Pilih warna, material, dan detail sesuai gayamu.</p>
-            </div>
-
-            <div class="section">
-                <h3 class="section-title">Warna Upper</h3>
-                <div class="color-grid" id="upperColors">
-                    <div class="color-option active" style="background: #FFFFFF;" data-color="#FFFFFF" data-name="Putih"><span class="color-label">Putih</span></div>
-                    <div class="color-option" style="background: #1A1A1A;" data-color="#1A1A1A" data-name="Hitam"><span class="color-label">Hitam</span></div>
-                    <div class="color-option" style="background: #8B4513;" data-color="#8B4513" data-name="Coklat"><span class="color-label">Coklat</span></div>
-                    <div class="color-option" style="background: #2C3E50;" data-color="#2C3E50" data-name="Navy"><span class="color-label">Navy</span></div>
-                    <div class="color-option" style="background: #8B7355;" data-color="#8B7355" data-name="Tan"><span class="color-label">Tan</span></div>
-                    <div class="color-option" style="background: #C0392B;" data-color="#C0392B" data-name="Merah"><span class="color-label">Merah</span></div>
-                    <div class="color-option" style="background: #27AE60;" data-color="#27AE60" data-name="Hijau"><span class="color-label">Hijau</span></div>
-                    <div class="color-option" style="background: #D4A574;" data-color="#D4A574" data-name="Krem"><span class="color-label">Krem</span></div>
-                    <div class="color-option" style="background: #7F8C8D;" data-color="#7F8C8D" data-name="Abu"><span class="color-label">Abu</span></div>
-                    <div class="color-option" style="background: #E8DCC8;" data-color="#E8DCC8" data-name="Beige"><span class="color-label">Beige</span></div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h3 class="section-title">Material Upper</h3>
-                <div class="material-grid" id="materials">
-                    <div class="material-option active" data-material="canvas" data-price="0">
-                        <span class="material-icon">🧵</span>
-                        <div class="material-name">Canvas</div>
-                        <div class="material-desc">Klasik & nyaman</div>
-                    </div>
-                    <div class="material-option" data-material="leather" data-price="150000">
-                        <span class="material-icon">🐄</span>
-                        <div class="material-name">Kulit</div>
-                        <div class="material-desc">Premium & tahan lama</div>
-                    </div>
-                    <div class="material-option" data-material="suede" data-price="100000">
-                        <span class="material-icon">🦌</span>
-                        <div class="material-name">Suede</div>
-                        <div class="material-desc">Lembut & elegan</div>
-                    </div>
-                    <div class="material-option" data-material="mesh" data-price="50000">
-                        <span class="material-icon">🕸️</span>
-                        <div class="material-name">Mesh</div>
-                        <div class="material-desc">Ringan & breathable</div>
-                    </div>
-                    <div class="material-option" data-material="nubuck" data-price="120000">
-                        <span class="material-icon">✨</span>
-                        <div class="material-name">Nubuck</div>
-                        <div class="material-desc">Mewah & halus</div>
-                    </div>
-                    <div class="material-option" data-material="cordura" data-price="80000">
-                        <span class="material-icon">🛡️</span>
-                        <div class="material-name">Cordura</div>
-                        <div class="material-desc">Tahan banting</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h3 class="section-title">Jenis Sol</h3>
-                <div class="sole-options" id="soles">
-                    <div class="sole-option active" data-sole="rubber" data-price="0">
-                        <div class="sole-preview" style="background: #2C2C2C;"></div>
-                        <div class="sole-info">
-                            <h4>Rubber Classic</h4>
-                            <p>Sol karet klasik, grip optimal untuk harian</p>
-                        </div>
-                    </div>
-                    <div class="sole-option" data-sole="foam" data-price="100000">
-                        <div class="sole-preview" style="background: #E8E5DF;"></div>
-                        <div class="sole-info">
-                            <h4>Foam Cushion</h4>
-                            <p>Sol foam ringan dengan cushioning ekstra</p>
-                        </div>
-                    </div>
-                    <div class="sole-option" data-sole="gum" data-price="50000">
-                        <div class="sole-preview" style="background: #C4956A;"></div>
-                        <div class="sole-info">
-                            <h4>Gum Sole</h4>
-                            <p>Estetika vintage dengan daya tahan tinggi</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h3 class="section-title">Warna Tali</h3>
-                <div class="lace-grid" id="laces">
-                    <div class="lace-option active" data-lace="#FFFFFF" data-price="0">
-                        <div class="lace-color-dot" style="background: #FFFFFF;"></div>Putih
-                    </div>
-                    <div class="lace-option" data-lace="#1A1A1A" data-price="0">
-                        <div class="lace-color-dot" style="background: #1A1A1A;"></div>Hitam
-                    </div>
-                    <div class="lace-option" data-lace="#8B4513" data-price="15000">
-                        <div class="lace-color-dot" style="background: #8B4513;"></div>Coklat
-                    </div>
-                    <div class="lace-option" data-lace="#C0392B" data-price="15000">
-                        <div class="lace-color-dot" style="background: #C0392B;"></div>Merah
-                    </div>
-                    <div class="lace-option" data-lace="#2C3E50" data-price="15000">
-                        <div class="lace-color-dot" style="background: #2C3E50;"></div>Navy
-                    </div>
-                    <div class="lace-option" data-lace="#D4A574" data-price="20000">
-                        <div class="lace-color-dot" style="background: #D4A574;"></div>Krem
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h3 class="section-title">Ukuran</h3>
-                <div class="size-grid" id="sizes">
-                    <div class="size-option" data-size="38">38</div>
-                    <div class="size-option" data-size="39">39</div>
-                    <div class="size-option active" data-size="40">40</div>
-                    <div class="size-option" data-size="41">41</div>
-                    <div class="size-option" data-size="42">42</div>
-                    <div class="size-option" data-size="43">43</div>
-                    <div class="size-option" data-size="44">44</div>
-                    <div class="size-option disabled" data-size="45">45</div>
-                    <div class="size-option" data-size="46">46</div>
-                    <div class="size-option" data-size="47">47</div>
-                </div>
-            </div>
-
-            <div class="summary-bar">
-                <div class="summary-row"><span>Base Price</span><span id="basePrice">Rp 1.299.000</span></div>
-                <div class="summary-row"><span>Material</span><span id="materialPrice">+ Rp 0</span></div>
-                <div class="summary-row"><span>Sol</span><span id="solePrice">+ Rp 0</span></div>
-                <div class="summary-row"><span>Tali</span><span id="lacePrice">+ Rp 0</span></div>
-                <div class="summary-total"><span>Total</span><span id="totalPrice">Rp 1.299.000</span></div>
-                <button class="btn-add-cart" id="addToCart">Tambah ke Keranjang</button>
-            </div>
-        </div>
+    <div class="sec">
+      <div class="sec-label">Warna Upper</div>
+      <div class="color-grid" id="upper-colors">
+        <div class="col-opt on" style="background:#FFFFFF" data-c="#FFFFFF"><span class="col-name">Putih</span></div>
+        <div class="col-opt" style="background:#1A1A1A" data-c="#1A1A1A"><span class="col-name">Hitam</span></div>
+        <div class="col-opt" style="background:#8B4513" data-c="#8B4513"><span class="col-name">Coklat</span></div>
+        <div class="col-opt" style="background:#2C3E50" data-c="#2C3E50"><span class="col-name">Navy</span></div>
+        <div class="col-opt" style="background:#8B7355" data-c="#8B7355"><span class="col-name">Tan</span></div>
+        <div class="col-opt" style="background:#C0392B" data-c="#C0392B"><span class="col-name">Merah</span></div>
+        <div class="col-opt" style="background:#27AE60" data-c="#27AE60"><span class="col-name">Hijau</span></div>
+        <div class="col-opt" style="background:#D4A574" data-c="#D4A574"><span class="col-name">Krem</span></div>
+        <div class="col-opt" style="background:#7F8C8D" data-c="#7F8C8D"><span class="col-name">Abu</span></div>
+        <div class="col-opt" style="background:#9B59B6" data-c="#9B59B6"><span class="col-name">Ungu</span></div>
+        <div class="col-opt" style="background:#E74C3C" data-c="#E74C3C"><span class="col-name">Rose</span></div>
+        <div class="col-opt" style="background:#F39C12" data-c="#F39C12"><span class="col-name">Oranye</span></div>
+      </div>
     </div>
 
-    <script>
-        let scene, camera, renderer, controls;
-        let sneakerGroup;
-        let upperMeshes = [], soleMeshes = [], laceMeshes = [], tongueMesh, heelMesh, toeMesh;
-        let currentUpperColor = 0xFFFFFF;
-        let currentSoleColor = 0x2C2C2C;
-        let currentLaceColor = 0xFFFFFF;
+    <div class="sec">
+      <div class="sec-label">Material</div>
+      <div class="mat-grid" id="materials">
+        <div class="mat-opt on" data-m="canvas" data-p="0"><span class="mat-icon">🧵</span><div class="mat-name">Canvas</div><div class="mat-sub">Klasik</div></div>
+        <div class="mat-opt" data-m="leather" data-p="150000"><span class="mat-icon">🐄</span><div class="mat-name">Kulit</div><div class="mat-sub">+150K</div></div>
+        <div class="mat-opt" data-m="suede" data-p="100000"><span class="mat-icon">🦌</span><div class="mat-name">Suede</div><div class="mat-sub">+100K</div></div>
+        <div class="mat-opt" data-m="mesh" data-p="50000"><span class="mat-icon">🕸️</span><div class="mat-name">Mesh</div><div class="mat-sub">+50K</div></div>
+        <div class="mat-opt" data-m="patent" data-p="200000"><span class="mat-icon">✨</span><div class="mat-name">Patent</div><div class="mat-sub">+200K</div></div>
+        <div class="mat-opt" data-m="knit" data-p="80000"><span class="mat-icon">🧶</span><div class="mat-name">Knit</div><div class="mat-sub">+80K</div></div>
+      </div>
+    </div>
 
-        let prices = { base: 1299000, material: 0, sole: 0, lace: 0 };
+    <div class="sec">
+      <div class="sec-label">Jenis Sol</div>
+      <div class="sole-list" id="soles">
+        <div class="sole-opt on" data-s="rubber" data-p="0"><div class="sole-dot" style="background:#2C2C2C"></div><div class="sole-info"><h4>Rubber Classic</h4><p>Grip optimal, tahan lama</p></div></div>
+        <div class="sole-opt" data-s="foam" data-p="100000"><div class="sole-dot" style="background:#E8E5DF;border:1px solid #ccc"></div><div class="sole-info"><h4>Foam Cushion</h4><p>Ringan, cushioning ekstra +100K</p></div></div>
+        <div class="sole-opt" data-s="gum" data-p="50000"><div class="sole-dot" style="background:#C4956A"></div><div class="sole-info"><h4>Gum Sole</h4><p>Estetika vintage +50K</p></div></div>
+        <div class="sole-opt" data-s="platform" data-p="120000"><div class="sole-dot" style="background:#555"></div><div class="sole-info"><h4>Platform</h4><p>Tebal, modis, tinggi +3cm +120K</p></div></div>
+      </div>
+    </div>
 
-        function formatPrice(price) { return 'Rp ' + price.toLocaleString('id-ID'); }
+    <div class="sec">
+      <div class="sec-label">Warna Tali</div>
+      <div class="lace-list" id="laces">
+        <div class="lace-opt on" data-l="#FFFFFF" data-p="0"><div class="lace-dot" style="background:#FFFFFF"></div>Putih</div>
+        <div class="lace-opt" data-l="#1A1A1A" data-p="0"><div class="lace-dot" style="background:#1A1A1A"></div>Hitam</div>
+        <div class="lace-opt" data-l="#C0392B" data-p="15000"><div class="lace-dot" style="background:#C0392B"></div>Merah</div>
+        <div class="lace-opt" data-l="#D4A574" data-p="15000"><div class="lace-dot" style="background:#D4A574"></div>Krem</div>
+        <div class="lace-opt" data-l="#2C3E50" data-p="15000"><div class="lace-dot" style="background:#2C3E50"></div>Navy</div>
+        <div class="lace-opt" data-l="#9B59B6" data-p="20000"><div class="lace-dot" style="background:#9B59B6"></div>Ungu</div>
+      </div>
+    </div>
 
-        function updateTotal() {
-            const total = prices.base + prices.material + prices.sole + prices.lace;
-            document.getElementById('totalPrice').textContent = formatPrice(total);
-            document.getElementById('navPrice').textContent = formatPrice(total);
-        }
+    <div class="sec">
+      <div class="sec-label">Ukuran</div>
+      <div class="size-grid">
+        <div class="size-opt" data-z="36">36</div>
+        <div class="size-opt" data-z="37">37</div>
+        <div class="size-opt" data-z="38">38</div>
+        <div class="size-opt" data-z="39">39</div>
+        <div class="size-opt on" data-z="40">40</div>
+        <div class="size-opt" data-z="41">41</div>
+        <div class="size-opt" data-z="42">42</div>
+        <div class="size-opt" data-z="43">43</div>
+        <div class="size-opt off" data-z="44">44</div>
+        <div class="size-opt" data-z="45">45</div>
+      </div>
+    </div>
 
-        // ===== CREATE REALISTIC SNEAKER GEOMETRY =====
-        function createSneakerShape() {
-            const shape = new THREE.Shape();
-            
-            // Draw sneaker profile (side view outline)
-            // Start from bottom front (toe tip)
-            shape.moveTo(1.4, 0.15);
-            
-            // Toe top curve
-            shape.bezierCurveTo(1.3, 0.35, 1.1, 0.5, 0.8, 0.52);
-            
-            // Top of foot (vamp)
-            shape.bezierCurveTo(0.4, 0.55, 0.0, 0.58, -0.3, 0.6);
-            
-            // Tongue area
-            shape.bezierCurveTo(-0.5, 0.7, -0.6, 0.9, -0.65, 1.1);
-            
-            // Ankle collar top
-            shape.bezierCurveTo(-0.7, 1.25, -0.9, 1.3, -1.1, 1.25);
-            
-            // Heel back
-            shape.bezierCurveTo(-1.3, 1.2, -1.4, 1.0, -1.4, 0.7);
-            
-            // Heel bottom
-            shape.bezierCurveTo(-1.4, 0.4, -1.35, 0.25, -1.3, 0.15);
-            
-            // Bottom sole back
-            shape.lineTo(1.4, 0.15);
-            
-            return shape;
-        }
+    <div class="summary">
+      <div class="sum-row"><span>Base</span><b id="s-base">Rp 1.299.000</b></div>
+      <div class="sum-row"><span>Material</span><b id="s-mat">+ Rp 0</b></div>
+      <div class="sum-row"><span>Sol</span><b id="s-sole">+ Rp 0</b></div>
+      <div class="sum-row"><span>Tali</span><b id="s-lace">+ Rp 0</b></div>
+      <div class="sum-total"><span>Total</span><span id="s-total">Rp 1.299.000</span></div>
+      <button class="btn-buy" id="btn-buy">Masukkan Keranjang</button>
+    </div>
+  </div>
+</div>
 
-        function buildSneaker() {
-            sneakerGroup = new THREE.Group();
+<script>
+// ─── THREE.JS SETUP ───────────────────────────────────────────
+var scene, camera, renderer, controls, shoeGroup;
+var upperMats = [], soleMats = [], laceMats = [];
+var uColor = 0xFFFFFF, sColor = 0x2C2C2C, lColor = 0xFFFFFF;
+var currentType = 'sneaker';
 
-            const upperMat = new THREE.MeshStandardMaterial({
-                color: currentUpperColor, roughness: 0.7, metalness: 0.05
-            });
-            const soleMat = new THREE.MeshStandardMaterial({
-                color: currentSoleColor, roughness: 0.4, metalness: 0.1
-            });
-            const laceMat = new THREE.MeshStandardMaterial({
-                color: currentLaceColor, roughness: 0.8, metalness: 0.0
-            });
-            const tongueMat = new THREE.MeshStandardMaterial({
-                color: currentUpperColor, roughness: 0.75, metalness: 0.05
-            });
-            const heelMat = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(currentUpperColor).multiplyScalar(0.85),
-                roughness: 0.6, metalness: 0.1
-            });
-            const toeMat = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(currentUpperColor).multiplyScalar(0.92),
-                roughness: 0.5, metalness: 0.1
-            });
+var prices = {base:1299000, mat:0, sole:0, lace:0};
+function fmt(n){return 'Rp ' + n.toLocaleString('id-ID');}
+function updateTotal(){
+  var t = prices.base+prices.mat+prices.sole+prices.lace;
+  document.getElementById('s-total').textContent = fmt(t);
+  document.getElementById('nav-price').textContent = fmt(t);
+}
 
-            // ===== 1. MAIN UPPER BODY - Using ExtrudeGeometry with custom shape =====
-            const sneakerShape = new THREE.Shape();
-            
-            // More realistic sneaker silhouette
-            // Bottom curve (sole line)
-            sneakerShape.moveTo(1.35, 0.32);
-            sneakerShape.bezierCurveTo(1.2, 0.32, 0.8, 0.32, 0.3, 0.32);
-            sneakerShape.bezierCurveTo(-0.2, 0.32, -0.8, 0.32, -1.25, 0.32);
-            
-            // Heel back
-            sneakerShape.bezierCurveTo(-1.35, 0.4, -1.38, 0.6, -1.38, 0.8);
-            sneakerShape.bezierCurveTo(-1.38, 1.0, -1.35, 1.15, -1.25, 1.25);
-            
-            // Heel top / ankle
-            sneakerShape.bezierCurveTo(-1.1, 1.3, -0.9, 1.28, -0.75, 1.2);
-            
-            // Tongue back
-            sneakerShape.bezierCurveTo(-0.6, 1.1, -0.5, 0.95, -0.45, 0.8);
-            
-            // Top of vamp
-            sneakerShape.bezierCurveTo(-0.2, 0.75, 0.1, 0.72, 0.4, 0.68);
-            
-            // Toe top
-            sneakerShape.bezierCurveTo(0.8, 0.62, 1.1, 0.55, 1.25, 0.48);
-            
-            // Toe front
-            sneakerShape.bezierCurveTo(1.38, 0.42, 1.4, 0.38, 1.35, 0.32);
+// ─── MATERIAL HELPERS ─────────────────────────────────────────
+function makeMat(color, rough, metal){
+  return new THREE.MeshStandardMaterial({color:new THREE.Color(color), roughness:rough, metalness:metal});
+}
 
-            const extrudeSettings = {
-                steps: 2,
-                depth: 1.0,
-                bevelEnabled: true,
-                bevelThickness: 0.08,
-                bevelSize: 0.08,
-                bevelSegments: 4
-            };
+// ─── SNEAKER ─────────────────────────────────────────────────
+function buildSneaker(){
+  var g = new THREE.Group();
+  var uM = makeMat(uColor, 0.75, 0.05);
+  var sM = makeMat(sColor, 0.4, 0.1);
+  var lM = makeMat(lColor, 0.8, 0.0);
+  var silverM = makeMat(0xB0B0B0, 0.2, 0.8);
+  upperMats = [uM]; soleMats = [sM]; laceMats = [lM];
 
-            const upperGeo = new THREE.ExtrudeGeometry(sneakerShape, extrudeSettings);
-            upperGeo.center();
-            
-            // Scale to make it look like a shoe width
-            upperGeo.scale(1, 1, 0.65);
-            
-            const upper = new THREE.Mesh(upperGeo, upperMat);
-            upper.position.set(0, 0.55, 0);
-            upper.castShadow = true;
-            upper.receiveShadow = true;
-            sneakerGroup.add(upper);
-            upperMeshes.push(upper);
+  // ── OUTSOLE (thick rubber) ──
+  var outGeo = new THREE.BoxGeometry(2.7, 0.12, 1.0);
+  var out = new THREE.Mesh(outGeo, makeMat(sColor, 0.9, 0.05));
+  out.position.set(-0.05, -0.56, 0);
+  // round toe
+  out.geometry.attributes.position.array;
+  g.add(out); soleMats.push(out.material);
 
-            // ===== 2. SOLE - Two layers =====
-            // Bottom sole
-            const soleShape = new THREE.Shape();
-            soleShape.moveTo(1.4, 0.0);
-            soleShape.bezierCurveTo(1.3, 0.05, 0.8, 0.08, 0.3, 0.08);
-            soleShape.bezierCurveTo(-0.2, 0.08, -0.8, 0.08, -1.3, 0.05);
-            soleShape.bezierCurveTo(-1.38, 0.03, -1.4, 0.0, -1.35, -0.02);
-            soleShape.lineTo(1.4, -0.02);
-            soleShape.lineTo(1.4, 0.0);
+  // ── MIDSOLE (white stripe) ──
+  var midGeo = new THREE.BoxGeometry(2.72, 0.1, 1.02);
+  var mid = new THREE.Mesh(midGeo, makeMat(0xF0EEE8, 0.3, 0.05));
+  mid.position.set(-0.05, -0.44, 0);
+  g.add(mid);
 
-            const soleExtrude = {
-                steps: 1, depth: 1.05, bevelEnabled: true,
-                bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 3
-            };
+  // ── MAIN UPPER BODY (extruded profile) ──
+  // We build upper from layered boxes & cylinders for shoe silhouette
+  // Back heel block
+  var heelBodyGeo = new THREE.BoxGeometry(0.62, 0.88, 0.96);
+  var heelBody = new THREE.Mesh(heelBodyGeo, uM);
+  heelBody.position.set(-0.98, 0.04, 0);
+  g.add(heelBody);
 
-            const soleGeo = new THREE.ExtrudeGeometry(soleShape, soleExtrude);
-            soleGeo.center();
-            soleGeo.scale(1, 1, 0.68);
-            
-            const sole = new THREE.Mesh(soleGeo, soleMat);
-            sole.position.set(0, 0.12, 0);
-            sole.castShadow = true;
-            sole.receiveShadow = true;
-            sneakerGroup.add(sole);
-            soleMeshes.push(sole);
+  // Mid upper body
+  var midBodyGeo = new THREE.BoxGeometry(1.2, 0.7, 0.98);
+  var midBody = new THREE.Mesh(midBodyGeo, uM);
+  midBody.position.set(-0.1, -0.05, 0);
+  g.add(midBody);
 
-            // Midsole stripe
-            const midsoleGeo = new THREE.BoxGeometry(2.6, 0.06, 1.0);
-            const midsoleMat = new THREE.MeshStandardMaterial({
-                color: 0xFFFFFF, roughness: 0.3, metalness: 0.05
-            });
-            const midsole = new THREE.Mesh(midsoleGeo, midsoleMat);
-            midsole.position.set(0, 0.28, 0);
-            sneakerGroup.add(midsole);
+  // Front toe upper
+  var toeGeo = new THREE.CylinderGeometry(0.32, 0.34, 0.96, 24, 1, false, 0, Math.PI);
+  var toeMesh = new THREE.Mesh(toeGeo, uM);
+  toeMesh.rotation.z = -Math.PI/2;
+  toeMesh.position.set(0.82, -0.06, 0);
+  g.add(toeMesh);
 
-            // ===== 3. TONGUE =====
-            const tongueShape = new THREE.Shape();
-            tongueShape.moveTo(-0.3, 0.0);
-            tongueShape.bezierCurveTo(-0.2, 0.4, -0.15, 0.7, -0.1, 0.9);
-            tongueShape.bezierCurveTo(-0.05, 1.0, 0.05, 1.0, 0.1, 0.9);
-            tongueShape.bezierCurveTo(0.15, 0.7, 0.2, 0.4, 0.3, 0.0);
-            tongueShape.lineTo(-0.3, 0.0);
+  // Toe tip cap (sphere half)
+  var tipGeo = new THREE.SphereGeometry(0.35, 20, 12, 0, Math.PI*2, 0, Math.PI/2);
+  var tip = new THREE.Mesh(tipGeo, makeMat(uColor, 0.5, 0.08));
+  tip.rotation.z = -Math.PI/2;
+  tip.position.set(1.13, -0.06, 0);
+  g.add(tip); upperMats.push(tip.material);
 
-            const tongueExtrude = {
-                steps: 1, depth: 0.7, bevelEnabled: true,
-                bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 2
-            };
+  // Ankle collar (torus half)
+  var collarGeo = new THREE.TorusGeometry(0.34, 0.1, 14, 28, Math.PI);
+  var collar = new THREE.Mesh(collarGeo, makeMat(uColor, 0.9, 0.0));
+  collar.rotation.y = Math.PI/2;
+  collar.position.set(-1.1, 0.44, 0);
+  g.add(collar); upperMats.push(collar.material);
 
-            const tongueGeo = new THREE.ExtrudeGeometry(tongueShape, tongueExtrude);
-            tongueGeo.center();
-            tongueMesh = new THREE.Mesh(tongueGeo, tongueMat);
-            tongueMesh.position.set(-0.4, 1.0, 0);
-            tongueMesh.rotation.z = 0.2;
-            tongueMesh.castShadow = true;
-            sneakerGroup.add(tongueMesh);
+  // Heel counter (stiff back)
+  var hcGeo = new THREE.BoxGeometry(0.18, 0.7, 0.9);
+  var hc = new THREE.Mesh(hcGeo, makeMat(new THREE.Color(uColor).multiplyScalar(0.82).getHex(), 0.5, 0.1));
+  hc.position.set(-1.27, 0.05, 0);
+  g.add(hc); upperMats.push(hc.material);
 
-            // ===== 4. HEEL COUNTER =====
-            const heelGeo = new THREE.BoxGeometry(0.5, 0.8, 0.85);
-            const heelPos = heelGeo.attributes.position;
-            for (let i = 0; i < heelPos.count; i++) {
-                const x = heelPos.getX(i);
-                const y = heelPos.getY(i);
-                const z = heelPos.getZ(i);
-                // Round the top
-                if (y > 0.3) {
-                    heelPos.setX(i, x * (1 - (y - 0.3) * 0.3));
-                }
-                // Curve the sides
-                heelPos.setZ(i, z * (0.95 + Math.abs(x) * 0.05));
-            }
-            heelGeo.computeVertexNormals();
-            heelMesh = new THREE.Mesh(heelGeo, heelMat);
-            heelMesh.position.set(-1.05, 0.75, 0);
-            heelMesh.castShadow = true;
-            sneakerGroup.add(heelMesh);
+  // Tongue
+  var tongGeo = new THREE.BoxGeometry(0.38, 0.72, 0.58);
+  var tong = new THREE.Mesh(tongGeo, makeMat(uColor, 0.8, 0.03));
+  tong.position.set(-0.32, 0.3, 0);
+  g.add(tong); upperMats.push(tong.material);
 
-            // ===== 5. TOE CAP =====
-            const toeGeo = new THREE.SphereGeometry(0.45, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.6);
-            toeMesh = new THREE.Mesh(toeGeo, toeMat);
-            toeMesh.position.set(1.0, 0.45, 0);
-            toeMesh.scale.set(1.1, 0.7, 1.0);
-            toeMesh.rotation.z = -0.3;
-            toeMesh.castShadow = true;
-            sneakerGroup.add(toeMesh);
+  // Tongue top (round)
+  var tongTopGeo = new THREE.CylinderGeometry(0.19, 0.19, 0.58, 16, 1, false, 0, Math.PI);
+  var tongTop = new THREE.Mesh(tongTopGeo, makeMat(uColor, 0.8, 0.03));
+  tongTop.rotation.x = Math.PI/2;
+  tongTop.position.set(-0.32, 0.66, 0);
+  g.add(tongTop); upperMats.push(tongTop.material);
 
-            // ===== 6. LACES =====
-            const laceGroup = new THREE.Group();
-            for (let i = 0; i < 5; i++) {
-                // Create zigzag lace pattern
-                const laceGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.75, 8);
-                const lace = new THREE.Mesh(laceGeo, laceMat);
-                lace.rotation.z = Math.PI / 2;
-                lace.position.set(-0.15 + i * 0.18, 0.82 + i * 0.08, 0);
-                laceGroup.add(lace);
-                laceMeshes.push(lace);
+  // ── LACES ──
+  for(var i=0; i<6; i++){
+    var lGeo = new THREE.CylinderGeometry(0.018,0.018,0.72,8);
+    var lMesh = new THREE.Mesh(lGeo, lM);
+    lMesh.rotation.z = Math.PI/2;
+    lMesh.position.set(-0.55+i*0.2, 0.28+i*0.06, 0);
+    g.add(lMesh); laceMats.push(lMesh.material);
+  }
 
-                // Cross lace
-                if (i < 4) {
-                    const crossGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.2, 6);
-                    const cross1 = new THREE.Mesh(crossGeo, laceMat);
-                    cross1.position.set(-0.06 + i * 0.18, 0.86 + i * 0.08, 0.15);
-                    cross1.rotation.x = Math.PI / 4;
-                    laceGroup.add(cross1);
-                    laceMeshes.push(cross1);
+  // Aglet ends
+  var agletGeo = new THREE.CylinderGeometry(0.022,0.022,0.1,8);
+  var aglet1 = new THREE.Mesh(agletGeo, silverM);
+  aglet1.rotation.z = Math.PI/2;
+  aglet1.position.set(-0.6, 0.68, 0.38);
+  g.add(aglet1);
+  var aglet2 = aglet1.clone();
+  aglet2.position.set(-0.6, 0.68, -0.38);
+  g.add(aglet2);
 
-                    const cross2 = new THREE.Mesh(crossGeo, laceMat);
-                    cross2.position.set(-0.06 + i * 0.18, 0.86 + i * 0.08, -0.15);
-                    cross2.rotation.x = -Math.PI / 4;
-                    laceGroup.add(cross2);
-                    laceMeshes.push(cross2);
-                }
-            }
-            sneakerGroup.add(laceGroup);
+  // ── EYELETS ──
+  for(var i=0; i<6; i++){
+    var eGeo = new THREE.TorusGeometry(0.03,0.01,8,14);
+    var eM2 = silverM.clone();
+    var eL = new THREE.Mesh(eGeo, eM2);
+    eL.rotation.y = Math.PI/2;
+    eL.position.set(-0.55+i*0.2, 0.28+i*0.06, 0.35);
+    g.add(eL);
+    var eR = eL.clone();
+    eR.position.z = -0.35;
+    g.add(eR);
+  }
 
-            // ===== 7. ANKLE COLLAR =====
-            const collarGeo = new THREE.TorusGeometry(0.38, 0.07, 12, 24, Math.PI);
-            const collarMat = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(currentUpperColor).multiplyScalar(0.8),
-                roughness: 0.9, metalness: 0.0
-            });
-            const collar = new THREE.Mesh(collarGeo, collarMat);
-            collar.position.set(-1.15, 1.15, 0);
-            collar.rotation.y = Math.PI / 2;
-            collar.rotation.z = Math.PI / 2;
-            sneakerGroup.add(collar);
+  // ── LOGO PATCH ──
+  var logoGeo = new THREE.CircleGeometry(0.1, 24);
+  var logo = new THREE.Mesh(logoGeo, makeMat(0x8B7355, 0.3, 0.4));
+  logo.rotation.y = Math.PI/2;
+  logo.position.set(-1.3, 0.1, 0.48);
+  g.add(logo);
 
-            // ===== 8. LOGO PATCH =====
-            const logoGeo = new THREE.CircleGeometry(0.12, 32);
-            const logoMat = new THREE.MeshStandardMaterial({
-                color: 0x8B7355, roughness: 0.3, metalness: 0.3
-            });
-            const logo = new THREE.Mesh(logoGeo, logoMat);
-            logo.position.set(-1.36, 0.95, 0);
-            logo.rotation.y = -Math.PI / 2;
-            sneakerGroup.add(logo);
+  // ── SOLE TREAD ──
+  for(var i=-4; i<=4; i++){
+    var tGeo = new THREE.BoxGeometry(0.06,0.07,0.78);
+    var tMesh = new THREE.Mesh(tGeo, makeMat(new THREE.Color(sColor).multiplyScalar(0.7).getHex(),0.95,0));
+    tMesh.position.set(i*0.28, -0.63, 0);
+    g.add(tMesh);
+  }
 
-            // ===== 9. EYELETS =====
-            for (let i = 0; i < 5; i++) {
-                const eyeletGeo = new THREE.TorusGeometry(0.035, 0.012, 8, 16);
-                const eyeletMat = new THREE.MeshStandardMaterial({
-                    color: 0xB8B8B8, roughness: 0.2, metalness: 0.85
-                });
-                const eyeletL = new THREE.Mesh(eyeletGeo, eyeletMat);
-                eyeletL.position.set(-0.15 + i * 0.18, 0.78 + i * 0.08, 0.33);
-                eyeletL.rotation.y = Math.PI / 2;
-                sneakerGroup.add(eyeletL);
+  g.rotation.y = Math.PI * 0.1;
+  return g;
+}
 
-                const eyeletR = new THREE.Mesh(eyeletGeo, eyeletMat);
-                eyeletR.position.set(-0.15 + i * 0.18, 0.78 + i * 0.08, -0.33);
-                eyeletR.rotation.y = Math.PI / 2;
-                sneakerGroup.add(eyeletR);
-            }
+// ─── BOOTS ────────────────────────────────────────────────────
+function buildBoots(){
+  var g = new THREE.Group();
+  var uM = makeMat(uColor, 0.6, 0.08);
+  var sM = makeMat(sColor, 0.85, 0.05);
+  upperMats = [uM]; soleMats = [sM]; laceMats = [];
 
-            // ===== 10. STITCHING LINES =====
-            const stitchMat = new THREE.MeshStandardMaterial({
-                color: 0x888888, roughness: 0.8
-            });
-            
-            // Side stitching
-            const stitchGeo1 = new THREE.BoxGeometry(2.4, 0.008, 0.008);
-            const stitch1 = new THREE.Mesh(stitchGeo1, stitchMat);
-            stitch1.position.set(0, 0.58, 0.34);
-            sneakerGroup.add(stitch1);
+  // Thick sole
+  var sGeo = new THREE.BoxGeometry(2.5, 0.2, 1.0);
+  var sole = new THREE.Mesh(sGeo, sM);
+  sole.position.set(-0.05, -0.9, 0);
+  g.add(sole);
 
-            const stitch2 = stitch1.clone();
-            stitch2.position.set(0, 0.58, -0.34);
-            sneakerGroup.add(stitch2);
+  // Mid platform
+  var platGeo = new THREE.BoxGeometry(2.52, 0.12, 1.02);
+  var plat = new THREE.Mesh(platGeo, makeMat(0x3a3a3a, 0.5, 0.1));
+  plat.position.set(-0.05, -0.77, 0);
+  g.add(plat);
 
-            // Heel stitching
-            const stitchGeo3 = new THREE.BoxGeometry(0.008, 0.6, 0.008);
-            const stitch3 = new THREE.Mesh(stitchGeo3, stitchMat);
-            stitch3.position.set(-1.25, 0.7, 0.34);
-            sneakerGroup.add(stitch3);
+  // Lower boot body
+  var lbGeo = new THREE.BoxGeometry(2.4, 0.72, 0.96);
+  var lb = new THREE.Mesh(lbGeo, uM);
+  lb.position.set(-0.05, -0.25, 0);
+  g.add(lb);
 
-            const stitch4 = stitch3.clone();
-            stitch4.position.set(-1.25, 0.7, -0.34);
-            sneakerGroup.add(stitch4);
+  // Shaft (tall ankle)
+  var shaftGeo = new THREE.BoxGeometry(1.3, 1.2, 0.94);
+  var shaft = new THREE.Mesh(shaftGeo, uM);
+  shaft.position.set(-0.75, 0.62, 0);
+  g.add(shaft);
 
-            // ===== 11. SOLE TREAD PATTERN =====
-            for (let i = -3; i <= 3; i++) {
-                const treadGeo = new THREE.BoxGeometry(0.08, 0.04, 0.7);
-                const treadMat = new THREE.MeshStandardMaterial({
-                    color: 0x1A1A1A, roughness: 0.9
-                });
-                const tread = new THREE.Mesh(treadGeo, treadMat);
-                tread.position.set(i * 0.35, -0.05, 0);
-                sneakerGroup.add(tread);
-            }
+  // Shaft top fold
+  var foldGeo = new THREE.BoxGeometry(1.32, 0.14, 0.96);
+  var fold = new THREE.Mesh(foldGeo, makeMat(new THREE.Color(uColor).multiplyScalar(0.88).getHex(),0.7,0.05));
+  fold.position.set(-0.75, 1.26, 0);
+  g.add(fold); upperMats.push(fold.material);
 
-            scene.add(sneakerGroup);
-        }
+  // Toe cap
+  var tcGeo = new THREE.SphereGeometry(0.4, 20, 12, 0, Math.PI*2, 0, Math.PI/2);
+  var tc = new THREE.Mesh(tcGeo, makeMat(new THREE.Color(uColor).multiplyScalar(0.9).getHex(), 0.45, 0.1));
+  tc.rotation.z = -Math.PI/2;
+  tc.position.set(1.08, -0.18, 0);
+  g.add(tc); upperMats.push(tc.material);
 
-        function initThree() {
-            const container = document.getElementById('canvas-container');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
+  // Heel block
+  var hbGeo = new THREE.BoxGeometry(0.56, 1.56, 0.94);
+  var hb = new THREE.Mesh(hbGeo, uM);
+  hb.position.set(-1.12, 0.1, 0);
+  g.add(hb);
 
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0xF5F3EF);
-            scene.fog = new THREE.Fog(0xF5F3EF, 8, 20);
+  // Lace panel
+  var lGeo = new THREE.BoxGeometry(0.06,0.1,6); // thin laces
+  for(var i=0; i<7; i++){
+    var lac = new THREE.Mesh(new THREE.CylinderGeometry(0.018,0.018,0.76,8), makeMat(lColor,0.8,0));
+    lac.rotation.z = Math.PI/2;
+    lac.position.set(-0.1+i*0.0, -0.55+i*0.24, 0);
+    g.add(lac); laceMats.push(lac.material);
+  }
 
-            camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-            camera.position.set(3.5, 2.5, 4.5);
+  // D-rings
+  var silverM = makeMat(0xB0B0B0,0.2,0.8);
+  for(var i=0; i<7; i++){
+    var rGeo = new THREE.TorusGeometry(0.028,0.01,8,14);
+    var rL = new THREE.Mesh(rGeo,silverM);
+    rL.rotation.y = Math.PI/2;
+    rL.position.set(-0.1, -0.55+i*0.24, 0.37);
+    g.add(rL);
+    var rR = rL.clone(); rR.position.z=-0.37; g.add(rR);
+  }
 
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(width, height);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            renderer.toneMapping = THREE.ACESFilmicToneMapping;
-            renderer.toneMappingExposure = 1.2;
-            container.appendChild(renderer.domElement);
+  g.rotation.y = Math.PI*0.1;
+  return g;
+}
 
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.minDistance = 2.5;
-            controls.maxDistance = 10;
-            controls.maxPolarAngle = Math.PI / 2 - 0.05;
-            controls.autoRotate = true;
-            controls.autoRotateSpeed = 1.0;
-            controls.enablePan = false;
+// ─── LOAFER ──────────────────────────────────────────────────
+function buildLoafer(){
+  var g = new THREE.Group();
+  var uM = makeMat(uColor, 0.35, 0.12);
+  var sM = makeMat(sColor, 0.85, 0.05);
+  upperMats = [uM]; soleMats = [sM]; laceMats = [];
 
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
-            scene.add(ambientLight);
+  // Outsole (thin, elegant)
+  var sGeo = new THREE.BoxGeometry(2.6, 0.1, 0.95);
+  var sole = new THREE.Mesh(sGeo, sM);
+  sole.position.set(-0.05, -0.52, 0);
+  g.add(sole); soleMats.push(sole.material);
 
-            const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
-            keyLight.position.set(4, 8, 5);
-            keyLight.castShadow = true;
-            keyLight.shadow.mapSize.width = 2048;
-            keyLight.shadow.mapSize.height = 2048;
-            keyLight.shadow.camera.near = 0.1;
-            keyLight.shadow.camera.far = 25;
-            keyLight.shadow.bias = -0.0005;
-            scene.add(keyLight);
+  // Low heel
+  var heelSoleGeo = new THREE.BoxGeometry(0.7, 0.22, 0.9);
+  var heelSole = new THREE.Mesh(heelSoleGeo, sM);
+  heelSole.position.set(-1.0, -0.38, 0);
+  g.add(heelSole);
 
-            const fillLight = new THREE.DirectionalLight(0xFFE4C4, 0.35);
-            fillLight.position.set(-5, 3, -3);
-            scene.add(fillLight);
+  // Main upper (smooth leather look)
+  var upGeo = new THREE.BoxGeometry(2.2, 0.5, 0.92);
+  var up = new THREE.Mesh(upGeo, uM);
+  up.position.set(-0.1, -0.15, 0);
+  g.add(up);
 
-            const rimLight = new THREE.DirectionalLight(0xffffff, 0.25);
-            rimLight.position.set(0, 2, -6);
-            scene.add(rimLight);
+  // Vamp (front instep)
+  var vampGeo = new THREE.BoxGeometry(1.2, 0.3, 0.9);
+  var vamp = new THREE.Mesh(vampGeo, uM);
+  vamp.position.set(0.5, 0.1, 0);
+  g.add(vamp);
 
-            // Floor
-            const floorGeo = new THREE.PlaneGeometry(25, 25);
-            const floorMat = new THREE.ShadowMaterial({ opacity: 0.08 });
-            const floor = new THREE.Mesh(floorGeo, floorMat);
-            floor.rotation.x = -Math.PI / 2;
-            floor.position.y = -0.5;
-            floor.receiveShadow = true;
-            scene.add(floor);
+  // Rounded toe
+  var toeGeo = new THREE.SphereGeometry(0.38, 22, 12, 0, Math.PI*2, 0, Math.PI/2);
+  var toe = new THREE.Mesh(toeGeo, makeMat(new THREE.Color(uColor).multiplyScalar(0.93).getHex(),0.3,0.12));
+  toe.rotation.z = -Math.PI/2;
+  toe.position.set(1.08, -0.1, 0);
+  g.add(toe); upperMats.push(toe.material);
 
-            buildSneaker();
+  // Heel counter
+  var hcGeo = new THREE.BoxGeometry(0.18, 0.56, 0.9);
+  var hc = new THREE.Mesh(hcGeo, makeMat(new THREE.Color(uColor).multiplyScalar(0.78).getHex(),0.3,0.15));
+  hc.position.set(-1.25, -0.1, 0);
+  g.add(hc); upperMats.push(hc.material);
 
-            window.addEventListener('resize', onWindowResize);
-            controls.addEventListener('start', () => { controls.autoRotate = false; });
+  // Low ankle
+  var anklGeo = new THREE.BoxGeometry(0.8, 0.22, 0.88);
+  var ankl = new THREE.Mesh(anklGeo, uM);
+  ankl.position.set(-0.95, 0.26, 0);
+  g.add(ankl);
 
-            animate();
-        }
+  // Penny strap (loafer detail)
+  var strapGeo = new THREE.BoxGeometry(0.6, 0.12, 0.94);
+  var strap = new THREE.Mesh(strapGeo, makeMat(new THREE.Color(uColor).multiplyScalar(0.85).getHex(),0.3,0.15));
+  strap.position.set(0.35, 0.22, 0);
+  g.add(strap); upperMats.push(strap.material);
 
-        function updateUpperColor(color) {
-            currentUpperColor = new THREE.Color(color);
-            upperMeshes.forEach(m => m.material.color.set(currentUpperColor));
-            if (tongueMesh) tongueMesh.material.color.set(currentUpperColor);
-            if (heelMesh) heelMesh.material.color.set(currentUpperColor.clone().multiplyScalar(0.85));
-            if (toeMesh) toeMesh.material.color.set(currentUpperColor.clone().multiplyScalar(0.92));
-        }
+  // Penny slot
+  var slotGeo = new THREE.BoxGeometry(0.22, 0.05, 0.12);
+  var slot = new THREE.Mesh(slotGeo, makeMat(0x333333, 0.5, 0.1));
+  slot.position.set(0.35, 0.28, 0);
+  g.add(slot);
 
-        function updateSoleColor(color) {
-            currentSoleColor = new THREE.Color(color);
-            soleMeshes.forEach(m => m.material.color.set(currentSoleColor));
-        }
+  // Logo
+  var logoGeo = new THREE.CircleGeometry(0.08, 24);
+  var logo = new THREE.Mesh(logoGeo, makeMat(0x8B7355,0.3,0.5));
+  logo.rotation.y = Math.PI/2;
+  logo.position.set(-1.32, -0.05, 0.47);
+  g.add(logo);
 
-        function updateLaceColor(color) {
-            currentLaceColor = new THREE.Color(color);
-            laceMeshes.forEach(m => m.material.color.set(currentLaceColor));
-        }
+  g.rotation.y = Math.PI*0.1;
+  return g;
+}
 
-        function updateMaterial(type) {
-            let roughness, metalness;
-            switch(type) {
-                case 'canvas': roughness = 0.85; metalness = 0.0; break;
-                case 'leather': roughness = 0.35; metalness = 0.15; break;
-                case 'suede': roughness = 0.95; metalness = 0.0; break;
-                case 'mesh': roughness = 0.7; metalness = 0.05; break;
-                case 'nubuck': roughness = 0.9; metalness = 0.05; break;
-                case 'cordura': roughness = 0.8; metalness = 0.02; break;
-                default: roughness = 0.7; metalness = 0.05;
-            }
-            upperMeshes.forEach(m => { m.material.roughness = roughness; m.material.metalness = metalness; });
-            if (tongueMesh) { tongueMesh.material.roughness = roughness; tongueMesh.material.metalness = metalness; }
-        }
+// ─── SANDAL ──────────────────────────────────────────────────
+function buildSandal(){
+  var g = new THREE.Group();
+  var uM = makeMat(uColor, 0.55, 0.1);
+  var sM = makeMat(sColor, 0.85, 0.05);
+  upperMats = [uM]; soleMats = [sM]; laceMats = [];
 
-        function setCameraView(view) {
-            const duration = 800;
-            const startPos = camera.position.clone();
-            let endPos;
-            switch(view) {
-                case 'side': endPos = new THREE.Vector3(0, 1.5, 6); break;
-                case 'top': endPos = new THREE.Vector3(0, 7, 0.5); break;
-                case 'bottom': endPos = new THREE.Vector3(0, -5, 2); break;
-                default: endPos = new THREE.Vector3(3.5, 2.5, 4.5);
-            }
-            const startTime = Date.now();
-            function animateCamera() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                camera.position.lerpVectors(startPos, endPos, eased);
-                camera.lookAt(0, 0.5, 0);
-                if (progress < 1) requestAnimationFrame(animateCamera);
-            }
-            animateCamera();
-        }
+  // Thick footbed
+  var fbGeo = new THREE.BoxGeometry(2.5, 0.22, 1.0);
+  var fb = new THREE.Mesh(fbGeo, makeMat(0xD4A574, 0.7, 0.05));
+  fb.position.set(-0.05, -0.1, 0);
+  g.add(fb);
 
-        function onWindowResize() {
-            const container = document.getElementById('canvas-container');
-            camera.aspect = container.clientWidth / container.clientHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(container.clientWidth, container.clientHeight);
-        }
+  // Outsole
+  var osGeo = new THREE.BoxGeometry(2.52, 0.14, 1.02);
+  var os = new THREE.Mesh(osGeo, sM);
+  os.position.set(-0.05, -0.25, 0);
+  g.add(os);
 
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
-        }
+  // Toe strap
+  var ts1Geo = new THREE.BoxGeometry(0.7, 0.12, 1.04);
+  var ts1 = new THREE.Mesh(ts1Geo, uM);
+  ts1.position.set(0.8, 0.12, 0);
+  g.add(ts1);
 
-        // ===== EVENT LISTENERS =====
-        document.addEventListener('DOMContentLoaded', () => {
-            initThree();
-            setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 2200);
+  // Mid strap
+  var ts2Geo = new THREE.BoxGeometry(0.6, 0.12, 1.04);
+  var ts2 = new THREE.Mesh(ts2Geo, uM);
+  ts2.position.set(0.1, 0.12, 0);
+  g.add(ts2);
 
-            document.querySelectorAll('#upperColors .color-option').forEach(opt => {
-                opt.addEventListener('click', function() {
-                    document.querySelectorAll('#upperColors .color-option').forEach(o => o.classList.remove('active'));
-                    this.classList.add('active');
-                    updateUpperColor(this.dataset.color);
-                });
-            });
+  // Ankle strap
+  var ts3Geo = new THREE.BoxGeometry(0.12, 0.12, 1.0);
+  var ts3 = new THREE.Mesh(ts3Geo, uM);
+  ts3.position.set(-0.7, 0.12, 0);
+  g.add(ts3);
 
-            document.querySelectorAll('#materials .material-option').forEach(opt => {
-                opt.addEventListener('click', function() {
-                    document.querySelectorAll('#materials .material-option').forEach(o => o.classList.remove('active'));
-                    this.classList.add('active');
-                    updateMaterial(this.dataset.material);
-                    prices.material = parseInt(this.dataset.price);
-                    document.getElementById('materialPrice').textContent = prices.material > 0 ? '+ ' + formatPrice(prices.material) : '+ Rp 0';
-                    updateTotal();
-                });
-            });
+  // Ankle H-strap
+  var ts4Geo = new THREE.BoxGeometry(0.9, 0.12, 0.12);
+  var ts4L = new THREE.Mesh(ts4Geo, uM);
+  ts4L.position.set(-0.7, 0.12, 0.46);
+  g.add(ts4L);
+  var ts4R = ts4L.clone();
+  ts4R.position.z = -0.46;
+  g.add(ts4R);
 
-            document.querySelectorAll('#soles .sole-option').forEach(opt => {
-                opt.addEventListener('click', function() {
-                    document.querySelectorAll('#soles .sole-option').forEach(o => o.classList.remove('active'));
-                    this.classList.add('active');
-                    let soleColor;
-                    switch(this.dataset.sole) {
-                        case 'rubber': soleColor = 0x2C2C2C; break;
-                        case 'foam': soleColor = 0xE8E5DF; break;
-                        case 'gum': soleColor = 0xC4956A; break;
-                    }
-                    updateSoleColor(soleColor);
-                    prices.sole = parseInt(this.dataset.price);
-                    document.getElementById('solePrice').textContent = prices.sole > 0 ? '+ ' + formatPrice(prices.sole) : '+ Rp 0';
-                    updateTotal();
-                });
-            });
+  // Buckle
+  var buckGeo = new THREE.TorusGeometry(0.06, 0.02, 8, 16);
+  var buck = new THREE.Mesh(buckGeo, makeMat(0xC0C0C0, 0.2, 0.85));
+  buck.rotation.y = Math.PI/2;
+  buck.position.set(-0.7, 0.16, 0.52);
+  g.add(buck);
 
-            document.querySelectorAll('#laces .lace-option').forEach(opt => {
-                opt.addEventListener('click', function() {
-                    document.querySelectorAll('#laces .lace-option').forEach(o => o.classList.remove('active'));
-                    this.classList.add('active');
-                    updateLaceColor(this.dataset.lace);
-                    prices.lace = parseInt(this.dataset.price);
-                    document.getElementById('lacePrice').textContent = prices.lace > 0 ? '+ ' + formatPrice(prices.lace) : '+ Rp 0';
-                    updateTotal();
-                });
-            });
+  g.rotation.y = Math.PI*0.1;
+  return g;
+}
 
-            document.querySelectorAll('#sizes .size-option').forEach(opt => {
-                if (!opt.classList.contains('disabled')) {
-                    opt.addEventListener('click', function() {
-                        document.querySelectorAll('#sizes .size-option').forEach(o => o.classList.remove('active'));
-                        this.classList.add('active');
-                    });
-                }
-            });
+// ─── HEELS ───────────────────────────────────────────────────
+function buildHeels(){
+  var g = new THREE.Group();
+  var uM = makeMat(uColor, 0.25, 0.18);
+  var sM = makeMat(sColor, 0.85, 0.05);
+  upperMats = [uM]; soleMats = [sM]; laceMats = [];
 
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    setCameraView(this.dataset.view);
-                });
-            });
+  // Thin outsole (front)
+  var fsGeo = new THREE.BoxGeometry(1.9, 0.08, 0.88);
+  var fs = new THREE.Mesh(fsGeo, sM);
+  fs.position.set(0.2, -0.55, 0);
+  g.add(fs);
 
-            document.getElementById('addToCart').addEventListener('click', function() {
-                const btn = this;
-                const originalText = btn.textContent;
-                btn.textContent = '✓ Ditambahkan!';
-                btn.style.background = '#27AE60';
-                setTimeout(() => { btn.textContent = originalText; btn.style.background = ''; }, 2000);
-            });
-        });
-    </script>
+  // Stiletto heel
+  var hGeo = new THREE.CylinderGeometry(0.06,0.08,0.56,12);
+  var heel = new THREE.Mesh(hGeo, sM);
+  heel.position.set(-0.98, -0.27, 0);
+  g.add(heel); soleMats.push(heel.material);
+
+  // Heel base cap
+  var hcGeo = new THREE.CylinderGeometry(0.1,0.1,0.06,12);
+  var hcap = new THREE.Mesh(hcGeo, makeMat(0x1A1A1A,0.3,0.6));
+  hcap.position.set(-0.98, -0.55, 0);
+  g.add(hcap);
+
+  // Main vamp (front upper)
+  var vampGeo = new THREE.BoxGeometry(1.8, 0.42, 0.86);
+  var vamp = new THREE.Mesh(vampGeo, uM);
+  vamp.position.set(0.2, -0.22, 0);
+  g.add(vamp);
+
+  // Pointed toe
+  var pGeo = new THREE.ConeGeometry(0.25, 0.55, 20);
+  var ptoe = new THREE.Mesh(pGeo, makeMat(new THREE.Color(uColor).multiplyScalar(0.9).getHex(),0.2,0.2));
+  ptoe.rotation.z = -Math.PI/2;
+  ptoe.position.set(1.18, -0.2, 0);
+  g.add(ptoe); upperMats.push(ptoe.material);
+
+  // Heel counter
+  var hcounterGeo = new THREE.BoxGeometry(0.28, 0.52, 0.84);
+  var hcounter = new THREE.Mesh(hcounterGeo, uM);
+  hcounter.position.set(-0.98, -0.15, 0);
+  g.add(hcounter);
+
+  // Ankle strap
+  var aspGeo = new THREE.BoxGeometry(1.6, 0.1, 0.9);
+  var asp = new THREE.Mesh(aspGeo, uM);
+  asp.position.set(0.0, 0.12, 0);
+  g.add(asp);
+
+  // Open toe highlight
+  var notchGeo = new THREE.BoxGeometry(0.5, 0.36, 0.92);
+  var notch = new THREE.Mesh(notchGeo, makeMat(0xF5F3EF, 0.5, 0.0));
+  notch.position.set(0.95, -0.2, 0);
+  g.add(notch);
+
+  // Buckle
+  var buckGeo = new THREE.TorusGeometry(0.055, 0.018, 8, 16);
+  var buck = new THREE.Mesh(buckGeo, makeMat(0xD4AF37, 0.15, 0.9));
+  buck.rotation.y = Math.PI/2;
+  buck.position.set(-0.25, 0.17, 0.46);
+  g.add(buck);
+
+  g.rotation.y = Math.PI*0.1;
+  return g;
+}
+
+// ─── BUILD BY TYPE ────────────────────────────────────────────
+function buildShoe(type){
+  if(shoeGroup) scene.remove(shoeGroup);
+  upperMats = []; soleMats = []; laceMats = [];
+  switch(type){
+    case 'boots':  shoeGroup = buildBoots();  break;
+    case 'loafer': shoeGroup = buildLoafer(); break;
+    case 'sandal': shoeGroup = buildSandal(); break;
+    case 'heels':  shoeGroup = buildHeels();  break;
+    default:       shoeGroup = buildSneaker();
+  }
+  shoeGroup.traverse(function(c){if(c.isMesh){c.castShadow=true;c.receiveShadow=true;}});
+  shoeGroup.position.set(0, 0.2, 0);
+  scene.add(shoeGroup);
+  // Flip lace visibility for sandal/heels
+  var showLaces = (type==='sneaker'||type==='boots');
+  document.getElementById('laces').parentElement.style.opacity = showLaces?'1':'0.35';
+  document.getElementById('laces').parentElement.style.pointerEvents = showLaces?'all':'none';
+}
+
+// ─── COLOR UPDATES ────────────────────────────────────────────
+function setUpperColor(c){
+  uColor = new THREE.Color(c).getHex();
+  upperMats.forEach(function(m){m.color.set(uColor);});
+}
+function setSoleColor(c){
+  sColor = typeof c === 'number' ? c : new THREE.Color(c).getHex();
+  soleMats.forEach(function(m){m.color.set(sColor);});
+}
+function setLaceColor(c){
+  lColor = new THREE.Color(c).getHex();
+  laceMats.forEach(function(m){m.color.set(lColor);});
+}
+function setMaterial(type){
+  var cfg = {canvas:{r:0.85,m:0},leather:{r:0.3,m:0.15},suede:{r:0.95,m:0},mesh:{r:0.7,m:0.05},patent:{r:0.05,m:0.25},knit:{r:0.8,m:0.02}};
+  var c = cfg[type]||{r:0.75,m:0.05};
+  upperMats.forEach(function(m){m.roughness=c.r;m.metalness=c.m;});
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+function init(){
+  var canvas = document.getElementById('cv');
+  var W = canvas.parentElement.clientWidth;
+  var H = canvas.parentElement.clientHeight;
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xF5F3EF);
+  scene.fog = new THREE.FogExp2(0xF5F3EF, 0.04);
+
+  camera = new THREE.PerspectiveCamera(38, W/H, 0.1, 100);
+  camera.position.set(3.8, 2.2, 4.0);
+
+  renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true});
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.25;
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;
+  controls.minDistance = 2;
+  controls.maxDistance = 9;
+  controls.maxPolarAngle = Math.PI/2 - 0.04;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.9;
+  controls.enablePan = false;
+  controls.addEventListener('start', function(){controls.autoRotate=false;});
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  var key = new THREE.DirectionalLight(0xffffff, 1.0);
+  key.position.set(4,8,5); key.castShadow=true;
+  key.shadow.mapSize.width=2048; key.shadow.mapSize.height=2048;
+  key.shadow.bias=-0.0005;
+  scene.add(key);
+  var fill = new THREE.DirectionalLight(0xFFF5E4, 0.4);
+  fill.position.set(-5,3,-3); scene.add(fill);
+  var rim = new THREE.DirectionalLight(0xffffff, 0.25);
+  rim.position.set(0,2,-6); scene.add(rim);
+
+  // Floor
+  var floorG = new THREE.PlaneGeometry(30,30);
+  var floorM = new THREE.ShadowMaterial({opacity:0.07});
+  var floor = new THREE.Mesh(floorG, floorM);
+  floor.rotation.x = -Math.PI/2; floor.position.y=-0.9; floor.receiveShadow=true;
+  scene.add(floor);
+
+  buildShoe('sneaker');
+
+  window.addEventListener('resize', function(){
+    var W2=canvas.parentElement.clientWidth, H2=canvas.parentElement.clientHeight;
+    camera.aspect=W2/H2; camera.updateProjectionMatrix();
+    renderer.setSize(W2,H2);
+  });
+
+  (function loop(){requestAnimationFrame(loop);controls.update();renderer.render(scene,camera);})();
+}
+
+// ─── CAMERA VIEWS ─────────────────────────────────────────────
+function goView(v){
+  var ends = {default:[3.8,2.2,4.0], side:[0,1.5,6.5], front:[6.5,1.5,0], top:[0,7,0.5]};
+  var e = ends[v]||ends.default;
+  var s = camera.position.clone();
+  var start = Date.now();
+  (function anim(){
+    var p = Math.min((Date.now()-start)/700,1);
+    var ease = 1-Math.pow(1-p,3);
+    camera.position.set(
+      s.x+(e[0]-s.x)*ease,
+      s.y+(e[1]-s.y)*ease,
+      s.z+(e[2]-s.z)*ease
+    );
+    camera.lookAt(0,0.2,0);
+    if(p<1) requestAnimationFrame(anim);
+  })();
+}
+
+// ─── EVENTS ───────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function(){
+  init();
+  setTimeout(function(){document.getElementById('loading').classList.add('gone');},2400);
+
+  // Shoe type
+  document.querySelectorAll('.stype').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.stype').forEach(function(x){x.classList.remove('on');});
+      this.classList.add('on');
+      currentType = this.dataset.type;
+      document.getElementById('type-name').textContent = this.textContent.trim().replace(/^./,'').trim();
+      buildShoe(currentType);
+    });
+  });
+
+  // Upper colors
+  document.querySelectorAll('#upper-colors .col-opt').forEach(function(o){
+    o.addEventListener('click',function(){
+      document.querySelectorAll('#upper-colors .col-opt').forEach(function(x){x.classList.remove('on');});
+      this.classList.add('on');
+      setUpperColor(this.dataset.c);
+    });
+  });
+
+  // Materials
+  document.querySelectorAll('#materials .mat-opt').forEach(function(o){
+    o.addEventListener('click',function(){
+      document.querySelectorAll('#materials .mat-opt').forEach(function(x){x.classList.remove('on');});
+      this.classList.add('on');
+      setMaterial(this.dataset.m);
+      prices.mat = parseInt(this.dataset.p)||0;
+      document.getElementById('s-mat').textContent = '+ '+fmt(prices.mat);
+      updateTotal();
+    });
+  });
+
+  // Soles
+  document.querySelectorAll('#soles .sole-opt').forEach(function(o){
+    o.addEventListener('click',function(){
+      document.querySelectorAll('#soles .sole-opt').forEach(function(x){x.classList.remove('on');});
+      this.classList.add('on');
+      var sc = {rubber:0x2C2C2C, foam:0xE8E5DF, gum:0xC4956A, platform:0x555555};
+      setSoleColor(sc[this.dataset.s]||0x2C2C2C);
+      prices.sole = parseInt(this.dataset.p)||0;
+      document.getElementById('s-sole').textContent = '+ '+fmt(prices.sole);
+      updateTotal();
+    });
+  });
+
+  // Laces
+  document.querySelectorAll('#laces .lace-opt').forEach(function(o){
+    o.addEventListener('click',function(){
+      document.querySelectorAll('#laces .lace-opt').forEach(function(x){x.classList.remove('on');});
+      this.classList.add('on');
+      setLaceColor(this.dataset.l);
+      prices.lace = parseInt(this.dataset.p)||0;
+      document.getElementById('s-lace').textContent = '+ '+fmt(prices.lace);
+      updateTotal();
+    });
+  });
+
+  // Sizes
+  document.querySelectorAll('.size-opt').forEach(function(o){
+    if(!o.classList.contains('off')){
+      o.addEventListener('click',function(){
+        document.querySelectorAll('.size-opt').forEach(function(x){x.classList.remove('on');});
+        this.classList.add('on');
+      });
+    }
+  });
+
+  // View buttons
+  document.querySelectorAll('.vbtn').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.vbtn').forEach(function(x){x.classList.remove('on');});
+      this.classList.add('on');
+      goView(this.dataset.v);
+    });
+  });
+
+  // Buy button
+  document.getElementById('btn-buy').addEventListener('click',function(){
+    var btn=this;
+    btn.textContent='✓ Ditambahkan!';
+    btn.classList.add('ok');
+    setTimeout(function(){btn.textContent='Masukkan Keranjang';btn.classList.remove('ok');},2000);
+  });
+});
+</script>
 </body>
-</html>'''
-
-with open('/mnt/agents/output/atelier_sneaker_configurator_v2.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-print(f"File saved! Size: {len(html_content)} chars")
+</html>
