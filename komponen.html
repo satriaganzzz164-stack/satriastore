@@ -1,0 +1,1183 @@
+
+html_content = '''<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechVault — Dokumentasi Komponen PC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D0D0F;
+            --bg-secondary: #141418;
+            --bg-card: #1A1A20;
+            --bg-card-hover: #22222A;
+            --bg-elevated: #252530;
+            --text-primary: #F0F0F5;
+            --text-secondary: #A0A0B0;
+            --text-muted: #6B6B7B;
+            --accent: #C8A45C;
+            --accent-hover: #D4B56A;
+            --accent-glow: rgba(200, 164, 92, 0.15);
+            --accent-glow-strong: rgba(200, 164, 92, 0.3);
+            --border: #2A2A35;
+            --border-hover: #3A3A48;
+            --success: #4ADE80;
+            --warning: #FBBF24;
+            --danger: #F87171;
+            --info: #60A5FA;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            background: rgba(13, 13, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 36px; height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(200, 164, 92, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(200, 164, 92, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(200, 164, 92, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 164, 92, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        .hero-content { position: relative; z-index: 2; max-width: 800px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 560px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin-top: 48px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 80px 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(28px, 4vw, 42px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== COMPONENT CARDS ===== */
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+        }
+
+        .component-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .component-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--accent-glow);
+        }
+
+        .card-visual {
+            height: 200px;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-visual::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, var(--accent-glow) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .component-card:hover .card-visual::before { opacity: 1; }
+
+        .component-icon {
+            font-size: 64px;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 4px 12px rgba(200, 164, 92, 0.2));
+        }
+
+        .card-content { padding: 28px; }
+
+        .card-category {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .card-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .spec-tag {
+            padding: 6px 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .component-card:hover .spec-tag {
+            border-color: var(--border-hover);
+            color: var(--text-secondary);
+        }
+
+        /* ===== DETAIL MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            padding: 32px 40px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-title-group h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .modal-title-group span {
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .modal-close {
+            width: 40px; height: 40px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 24px 40px 40px;
+        }
+
+        .detail-section {
+            margin-bottom: 28px;
+        }
+
+        .detail-section:last-child { margin-bottom: 0; }
+
+        .detail-section h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .detail-section p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .detail-list {
+            list-style: none;
+        }
+
+        .detail-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .detail-list li:last-child { border-bottom: none; }
+
+        .detail-list li span:first-child { color: var(--text-muted); }
+        .detail-list li span:last-child { color: var(--text-primary); font-weight: 500; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .detail-item {
+            padding: 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .detail-item-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .detail-item-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ===== COMPARISON TABLE ===== */
+        .comparison-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-top: 60px;
+        }
+
+        .comparison-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-header h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px 24px;
+            text-align: left;
+            font-size: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-table th {
+            background: var(--bg-card);
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .comparison-table td {
+            color: var(--text-secondary);
+        }
+
+        .comparison-table tr:hover td {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+
+        .comparison-table tr:last-child td { border-bottom: none; }
+
+        .tier-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tier-entry { background: rgba(96, 165, 250, 0.15); color: var(--info); }
+        .tier-mid { background: rgba(251, 191, 36, 0.15); color: var(--warning); }
+        .tier-high { background: rgba(74, 222, 128, 0.15); color: var(--success); }
+        .tier-enthusiast { background: rgba(200, 164, 92, 0.15); color: var(--accent); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 48px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .footer p {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 20px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover { color: var(--accent); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .navbar { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .section { padding: 60px 20px; }
+            .components-grid { grid-template-columns: 1fr; }
+            .hero-stats { flex-direction: column; gap: 24px; }
+            .detail-grid { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 12px; }
+            .comparison-table th, .comparison-table td { padding: 12px 16px; }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">⚡</div>
+            TechVault
+        </div>
+        <ul class="nav-links">
+            <li><a href="#komponen">Komponen</a></li>
+            <li><a href="#perbandingan">Perbandingan</a></li>
+            <li><a href="#spesifikasi">Spesifikasi</a></li>
+            <li><a href="#tentang">Tentang</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <div class="hero-badge">Dokumentasi Lengkap</div>
+            <h1>Panduan Komponen PC</h1>
+            <p>Pelajari setiap komponen komputer dari dasar hingga advanced. Dokumentasi lengkap dengan penjelasan detail, spesifikasi, dan rekomendasi tier.</p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">12+</div>
+                    <div class="stat-label">Komponen</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Spesifikasi</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Tier Level</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components Section -->
+    <section class="section" id="komponen">
+        <div class="section-header">
+            <div class="section-tag">Komponen Utama</div>
+            <h2 class="section-title">Kenali Setiap Bagian PC-mu</h2>
+            <p class="section-desc">Klik kartu untuk melihat detail lengkap tentang fungsi, spesifikasi, dan tips memilih komponen terbaik.</p>
+        </div>
+
+        <div class="components-grid" id="componentsGrid"></div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="section" id="perbandingan">
+        <div class="section-header">
+            <div class="section-tag">Perbandingan Tier</div>
+            <h2 class="section-title">Pilih Tier Sesuai Kebutuhan</h2>
+            <p class="section-desc">Perbandingan komponen berdasarkan tier — dari entry level hingga enthusiast.</p>
+        </div>
+
+        <div class="comparison-section">
+            <div class="comparison-header">
+                <h3>🖥️ Perbandingan Processor (CPU)</h3>
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Contoh Produk</th>
+                        <th>Core/Thread</th>
+                        <th>Clock Speed</th>
+                        <th>TDP</th>
+                        <th>Harga Estimasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tier-badge tier-entry">Entry</span></td>
+                        <td>Intel Core i3-14100 / AMD Ryzen 5 5600</td>
+                        <td>4C/8T — 6C/12T</td>
+                        <td>3.5 — 4.4 GHz</td>
+                        <td>65W</td>
+                        <td>Rp 1.5 — 2.5 juta</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-mid">Mid</span></td>
+                        <td>Intel Core i5-14600K / AMD Ryzen 7 7700</td>
+                        <td>14C/20T — 8C/16T</td>
+                        <td>3.5 — 5.3 GHz</td>
+                        <td>125W — 65W</td>
+                        <td>Rp 3.5 — 5 juta</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-high">High</span></td>
+                        <td>Intel Core i7-14700K / AMD Ryzen 9 7900X</td>
+                        <td>20C/28T — 12C/24T</td>
+                        <td>3.4 — 5.6 GHz</td>
+                        <td>125W — 170W</td>
+                        <td>Rp 5.5 — 8 juta</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-enthusiast">Enthusiast</span></td>
+                        <td>Intel Core i9-14900K / AMD Ryzen 9 7950X3D</td>
+                        <td>24C/32T — 16C/32T</td>
+                        <td>3.2 — 6.0 GHz</td>
+                        <td>125W — 170W</td>
+                        <td>Rp 9 — 15 juta</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="comparison-section" style="margin-top: 24px;">
+            <div class="comparison-header">
+                <h3>🎮 Perbandingan Graphics Card (GPU)</h3>
+            </div>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Contoh Produk</th>
+                        <th>VRAM</th>
+                        <th>Ray Tracing</th>
+                        <th>Power</th>
+                        <th>Harga Estimasi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tier-badge tier-entry">Entry</span></td>
+                        <td>NVIDIA GTX 1650 / AMD RX 6400</td>
+                        <td>4 GB</td>
+                        <td>Tidak</td>
+                        <td>75W</td>
+                        <td>Rp 1.5 — 2.5 juta</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-mid">Mid</span></td>
+                        <td>NVIDIA RTX 4060 / AMD RX 7600</td>
+                        <td>8 GB</td>
+                        <td>Ya (DLSS/FSR)</td>
+                        <td>115W — 165W</td>
+                        <td>Rp 4.5 — 6.5 juta</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-high">High</span></td>
+                        <td>NVIDIA RTX 4070 Ti / AMD RX 7900 XT</td>
+                        <td>12 — 20 GB</td>
+                        <td>Ya (DLSS 3/FSR 3)</td>
+                        <td>285W — 315W</td>
+                        <td>Rp 10 — 15 juta</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tier-badge tier-enthusiast">Enthusiast</span></td>
+                        <td>NVIDIA RTX 4090 / AMD RX 7900 XTX</td>
+                        <td>24 GB</td>
+                        <td>Ya (Full Feature)</td>
+                        <td>450W</td>
+                        <td>Rp 25 — 35 juta</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="tentang">
+        <div class="footer-logo">TechVault</div>
+        <p>Dokumentasi komponen PC lengkap untuk builder pemula hingga enthusiast.</p>
+        <ul class="footer-links">
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Discord</a></li>
+            <li><a href="#">Twitter</a></li>
+            <li><a href="#">Email</a></li>
+        </ul>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <span id="modalCategory">Kategori</span>
+                    <h3 id="modalTitle">Judul Komponen</h3>
+                </div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const components = [
+            {
+                id: 'cpu',
+                category: 'Processing',
+                title: 'Processor (CPU)',
+                icon: '🧠',
+                desc: 'Otak dari komputer yang mengeksekusi instruksi dan perhitungan. Semakin cepat clock speed dan semakin banyak core, semakin baik performa multitasking dan komputasi berat.',
+                specs: ['4-24 Core', '3.5-6.0 GHz', '65W-170W TDP', 'DDR4/DDR5'],
+                detail: {
+                    fungsi: 'Central Processing Unit (CPU) adalah komponen utama yang menjalankan instruksi program komputer. CPU bertanggung jawab untuk eksekusi logika, aritmatika, pengontrolan input/output, dan manajemen memori. Setiap operasi yang dilakukan komputer — mulai dari membuka browser, menjalankan game, hingga rendering video — memerlukan pemrosesan oleh CPU.',
+                    spesifikasi: [
+                        { label: 'Jumlah Core', value: '4 — 24 core (tergantung tier)' },
+                        { label: 'Jumlah Thread', value: '8 — 32 thread' },
+                        { label: 'Base Clock', value: '2.5 — 3.5 GHz' },
+                        { label: 'Boost Clock', value: '4.0 — 6.0 GHz' },
+                        { label: 'Cache L3', value: '12 — 128 MB' },
+                        { label: 'TDP', value: '35W — 170W' },
+                        { label: 'Socket', value: 'LGA 1700 (Intel) / AM5 (AMD)' },
+                        { label: 'Memory Support', value: 'DDR4-3200 / DDR5-5600+' }
+                    ],
+                    tips: 'Pilih CPU berdasarkan kebutuhan utama. Untuk gaming, prioritaskan single-core performance (clock speed tinggi). Untuk content creation (video editing, 3D rendering), prioritaskan multi-core (banyak core/thread). Pastikan CPU kompatibel dengan motherboard (cek socket type).',
+                    contoh: 'Intel Core i5-14600K (gaming + streaming), AMD Ryzen 7 7800X3D (gaming pure), Intel Core i9-14900K (content creation), AMD Ryzen 9 7950X (workstation heavy)'
+                }
+            },
+            {
+                id: 'gpu',
+                category: 'Graphics',
+                title: 'Graphics Card (GPU)',
+                icon: '🎮',
+                desc: 'Mengolah data grafis dan rendering visual. Essential untuk gaming, video editing, 3D modeling, dan AI/ML workloads.',
+                specs: ['4-24 GB VRAM', 'Ray Tracing', 'DLSS/FSR', 'PCIe 4.0/5.0'],
+                detail: {
+                    fungsi: 'Graphics Processing Unit (GPU) adalah processor khusus yang dirancang untuk mempercepat pembuatan dan rendering gambar, video, dan animasi. GPU memiliki ribuan core kecil yang bekerja paralel, sangat efisien untuk tugas-tugas yang dapat diparalelkan seperti rendering grafis, machine learning, dan scientific computing.',
+                    spesifikasi: [
+                        { label: 'VRAM', value: '4 GB — 24 GB GDDR6/X' },
+                        { label: 'CUDA Cores / Stream Processors', value: '1.000 — 16.000+' },
+                        { label: 'Boost Clock', value: '1.8 — 2.6 GHz' },
+                        { label: 'Memory Bus', value: '128-bit — 384-bit' },
+                        { label: 'Bandwidth', value: '200 — 1.000 GB/s' },
+                        { label: 'TDP', value: '75W — 450W' },
+                        { label: 'Ray Tracing', value: 'Hardware RT Cores (tergantung model)' },
+                        { label: 'DLSS / FSR', value: 'AI Upscaling Technology' }
+                    ],
+                    tips: 'Untuk gaming 1080p, 6-8 GB VRAM cukup. Untuk 1440p, minimal 8-12 GB. Untuk 4K, 12-24 GB. Perhatikan juga power supply requirement — GPU high-end butuh PSU 750W+. NVIDIA unggul di ray tracing & DLSS, AMD unggul di price-to-performance.',
+                    contoh: 'NVIDIA RTX 4060 (1080p high), RTX 4070 Super (1440p high), RTX 4080 Super (4K), AMD RX 7800 XT (price-performance king)'
+                }
+            },
+            {
+                id: 'motherboard',
+                category: 'Connectivity',
+                title: 'Motherboard',
+                icon: '🔌',
+                desc: 'Papan sirkuit utama yang menghubungkan semua komponen. Menentukan fitur, ekspansi, dan kompatibilitas keseluruhan sistem.',
+                specs: ['ATX/mATX/ITX', 'PCIe 5.0', 'WiFi 6E', 'USB 3.2 Gen 2x2'],
+                detail: {
+                    fungsi: 'Motherboard adalah fondasi dari setiap PC. Ia menyediakan sirkuit, slot, dan port yang menghubungkan CPU, GPU, RAM, storage, dan periferal. Motherboard juga berisi chipset yang mengatur komunikasi antar komponen, BIOS/UEFI untuk konfigurasi sistem, dan berbagai controller (audio, network, USB).',
+                    spesifikasi: [
+                        { label: 'Form Factor', value: 'ATX (305×244mm), mATX (244×244mm), ITX (170×170mm)' },
+                        { label: 'Socket', value: 'LGA 1700 / AM5 (tergantung CPU)' },
+                        { label: 'Chipset', value: 'Z790/B760 (Intel) / X670/B650 (AMD)' },
+                        { label: 'RAM Slots', value: '2 — 4 slot DDR4/DDR5' },
+                        { label: 'PCIe Slots', value: 'x16 untuk GPU, x1/x4 untuk ekspansi' },
+                        { label: 'M.2 Slots', value: '2 — 5 slot NVMe SSD' },
+                        { label: 'SATA Ports', value: '4 — 8 port untuk HDD/SSD SATA' },
+                        { label: 'USB Ports', value: 'USB 2.0, 3.2 Gen 1/2, USB-C, Thunderbolt' },
+                        { label: 'Network', value: 'Gigabit LAN, 2.5GbE, WiFi 6E/7, Bluetooth 5.3' }
+                    ],
+                    tips: 'Pilih motherboard berdasarkan CPU socket dan chipset yang kompatibel. Untuk overclocking, pilih chipset Z-series (Intel) atau X-series (AMD). Perhatikan jumlah M.2 slot untuk storage masa depan. Form factor harus sesuai dengan case (ATX case muat mATX, tapi tidak sebaliknya).',
+                    contoh: 'ASUS ROG Strix Z790-E (high-end Intel), MSI MAG B650 Tomahawk (mid AMD), Gigabyte B760M DS3H (budget Intel)'
+                }
+            },
+            {
+                id: 'ram',
+                category: 'Memory',
+                title: 'RAM (Memory)',
+                icon: '💾',
+                desc: 'Tempat penyimpanan sementara untuk data yang sedang diproses. Kecepatan dan kapasitas RAM sangat mempengaruhi responsivitas sistem.',
+                specs: ['16-64 GB', 'DDR4/DDR5', '3200-7200 MHz', 'CL16-CL40'],
+                detail: {
+                    fungsi: 'Random Access Memory (RAM) adalah memori volatile yang menyimpan data dan instruksi yang sedang aktif digunakan oleh CPU. Semakin banyak RAM, semakin banyak aplikasi dan data yang dapat diakses secara simultan tanpa swapping ke storage (yang jauh lebih lambat). RAM juga menyimpan frame buffer untuk GPU dan cache untuk sistem operasi.',
+                    spesifikasi: [
+                        { label: 'Kapasitas', value: '8 GB — 128 GB (2×32GB kit umum)' },
+                        { label: 'Tipe', value: 'DDR4 / DDR5' },
+                        { label: 'Speed', value: 'DDR4: 2400 — 4000 MHz / DDR5: 4800 — 7200+ MHz' },
+                        { label: 'Latency (CAS)', value: 'CL14 — CL40 (lebih rendah = lebih cepat)' },
+                        { label: 'Voltage', value: '1.2V (DDR4 standar) / 1.1V (DDR5 standar)' },
+                        { label: 'Channel', value: 'Dual Channel (2 stick) / Quad Channel (4 stick, HEDT)' },
+                        { label: 'XMP/EXPO', value: 'Profil overclocking untuk mencapai speed tertinggi' }
+                    ],
+                    tips: 'Untuk gaming modern, minimal 16 GB (2×8GB dual channel). Untuk content creation, 32 GB atau lebih. DDR5 menawarkan bandwidth lebih tinggi tapi latency lebih tinggi juga — untuk gaming, DDR4-3600 CL16 masih sangat kompetitif. Selalu pasang RAM dalam pasangan (dual channel) untuk performa optimal.',
+                    contoh: 'Corsair Vengeance DDR5 32GB 5600MHz (kit 2×16GB), G.Skill Trident Z5 RGB DDR5 64GB 6000MHz, Kingston Fury Beast DDR4 32GB 3200MHz'
+                }
+            },
+            {
+                id: 'storage',
+                category: 'Storage',
+                title: 'Storage (SSD/HDD)',
+                icon: '💿',
+                desc: 'Media penyimpanan permanen untuk OS, aplikasi, game, dan file. SSD untuk kecepatan, HDD untuk kapasitas besar.',
+                specs: ['256GB-4TB+', 'NVMe/SATA', '3500-7000 MB/s', 'TLC/QLC NAND'],
+                detail: {
+                    fungsi: 'Storage adalah media penyimpanan non-volatile yang menyimpan data secara permanen meski komputer dimatikan. SSD (Solid State Drive) menggunakan chip flash memory NAND untuk kecepatan tinggi, sementara HDD (Hard Disk Drive) menggunakan piringan magnetik berputar untuk kapasitas besar dengan harga murah.',
+                    spesifikasi: [
+                        { label: 'Tipe SSD', value: 'NVMe (M.2 PCIe) / SATA SSD (2.5")' },
+                        { label: 'Read Speed (NVMe Gen4)', value: '3.500 — 7.000 MB/s' },
+                        { label: 'Read Speed (NVMe Gen5)', value: '10.000 — 14.000 MB/s' },
+                        { label: 'Read Speed (SATA)', value: '500 — 550 MB/s' },
+                        { label: 'NAND Type', value: 'SLC (tercepat, mahal) / MLC / TLC (populer) / QLC (kapasitas, murah)' },
+                        { label: 'DRAM Cache', value: 'Dengan DRAM (lebih baik) / DRAM-less (budget)' },
+                        { label: 'Endurance (TBW)', value: '150 — 2.400 TB written' },
+                        { label: 'HDD Speed', value: '5.400 / 7.200 RPM (lebih tinggi = lebih cepat)' }
+                    ],
+                    tips: 'Gunakan NVMe SSD untuk OS dan game utama (minimal 500GB-1TB). SATA SSD untuk game sekunder. HDD untuk storage massal (file, foto, video). Perhatikan endurance (TBW) untuk SSD — semakin tinggi, semakin tahan lama. Pilih SSD dengan DRAM cache untuk performa konsisten.',
+                    contoh: 'Samsung 990 Pro 2TB (NVMe Gen4 flagship), WD Black SN850X 1TB (gaming), Seagate Barracuda 4TB (HDD storage massal)'
+                }
+            },
+            {
+                id: 'psu',
+                category: 'Power',
+                title: 'Power Supply (PSU)',
+                icon: '⚡',
+                desc: 'Mengubah listrik AC dari wall outlet menjadi DC yang digunakan komponen PC. Kualitas PSU menentukan stabilitas dan umur komponen.',
+                specs: ['550-1200W', '80 Plus Gold/Plat', 'Modular', 'ATX 3.0'],
+                detail: {
+                    fungsi: 'Power Supply Unit (PSU) mengkonversi tegangan AC 220V dari stopkontak menjadi tegangan DC 3.3V, 5V, dan 12V yang dibutuhkan komponen PC. PSU yang berkualitas memberikan tegangan stabil, efisiensi tinggi, dan proteksi terhadap komponen dari power surge, short circuit, dan overheating.',
+                    spesifikasi: [
+                        { label: 'Wattage', value: '450W — 1600W (pilih 20-30% di atas kebutuhan)' },
+                        { label: 'Efficiency Rating', value: '80 Plus White → Bronze → Silver → Gold → Platinum → Titanium' },
+                        { label: 'Modularity', value: 'Non-modular / Semi-modular / Full-modular' },
+                        { label: 'Form Factor', value: 'ATX (standar) / SFX (compact) / SFX-L' },
+                        { label: 'ATX 3.0', value: 'Standar baru dengan 12VHPWR untuk GPU high-end' },
+                        { label: 'Rail Type', value: 'Single Rail (lebih stabil) / Multi Rail' },
+                        { label: 'Fan Size', value: '120mm / 135mm / 140mm (lebih besar = lebih senyap)' },
+                        { label: 'Warranty', value: '5 — 12 tahun (indikator kualitas)' }
+                    ],
+                    tips: 'Jangan irit di PSU — komponen terpenting untuk umur PC. Hitung wattage total sistem + 20% headroom. Pilih minimal 80 Plus Gold untuk efisiensi. Untuk GPU RTX 40-series, pilih PSU ATX 3.0 dengan kabel 12VHPWR. Brand terpercaya: Seasonic, Corsair, be quiet!, EVGA, Super Flower.',
+                    contoh: 'Seasonic Focus GX-850 (80+ Gold, full modular), Corsair RM850x (reliable), be quiet! Dark Power Pro 12 1000W (premium)'
+                }
+            },
+            {
+                id: 'cooler',
+                category: 'Thermal',
+                title: 'CPU Cooler',
+                icon: '❄️',
+                desc: 'Menjaga suhu CPU tetap optimal dengan menyalurkan panas ke heatsink dan fan. Penting untuk performa dan umur processor.',
+                specs: ['Air/AIO', '120-360mm', 'TDP 150-300W', 'RGB/Non-RGB'],
+                detail: {
+                    fungsi: 'CPU Cooler berfungsi untuk menyerap panas dari CPU melalui heatspreader dan heatpipes, lalu menyebarkannya ke heatsink yang didinginkan oleh fan. Cooler yang efektif menjaga CPU di bawah thermal throttle point, memungkinkan boost clock lebih tinggi dan lebih lama.',
+                    spesifikasi: [
+                        { label: 'Tipe', value: 'Air Cooler (tower) / AIO Liquid Cooler (closed loop)' },
+                        { label: 'TDP Rating', value: '100W — 300W+' },
+                        { label: 'Fan Size', value: '92mm / 120mm / 140mm' },
+                        { label: 'Radiator Size (AIO)', value: '120mm / 240mm / 280mm / 360mm' },
+                        { label: 'Noise Level', value: '15 — 35 dBA (lebih rendah = lebih senyap)' },
+                        { label: 'Heatpipes', value: '4 — 8 heatpipes (air cooler)' },
+                        { label: 'Pump Speed (AIO)', value: '2.000 — 4.000 RPM' },
+                        { label: 'Socket Compatibility', value: 'LGA 1700 / AM5 / AM4 / LGA 1200' }
+                    ],
+                    tips: 'Untuk CPU non-K/non-X (non-overclock), stock cooler atau budget air cooler cukup. Untuk overclocking, pilih air cooler premium (Noctua NH-D15) atau AIO 240mm+. Perhatikan clearance dengan RAM dan case. AIO lebih estetik dan performa lebih konsisten, tapi air cooler lebih reliable (tidak ada pump failure).',
+                    contoh: 'Noctua NH-D15 (air cooler terbaik), DeepCool AK620 (value air cooler), Arctic Liquid Freezer II 360 (AIO terbaik), NZXT Kraken Elite 280 (premium AIO)'
+                }
+            },
+            {
+                id: 'case',
+                category: 'Enclosure',
+                title: 'PC Case',
+                icon: '📦',
+                desc: 'Rumah untuk semua komponen PC. Menentukan airflow, estetika, ukuran, dan kemudahan build.',
+                specs: ['Mid/Full Tower', 'Tempered Glass', 'Mesh Front', 'USB-C'],
+                detail: {
+                    fungsi: 'PC Case (chassis) adalah enclosure yang melindungi komponen PC dari debu, benturan fisik, dan interferensi elektromagnetik. Case yang baik memiliki airflow optimal untuk pendinginan, ruang manajemen kabel yang rapi, dan kompatibilitas dengan berbagai ukuran komponen.',
+                    spesifikasi: [
+                        { label: 'Form Factor', value: 'Full Tower / Mid Tower / Mini Tower / Mini-ITX' },
+                        { label: 'Motherboard Support', value: 'E-ATX / ATX / mATX / ITX' },
+                        { label: 'GPU Clearance', value: '300 — 450mm (periksa sebelum beli!)' },
+                        { label: 'CPU Cooler Clearance', value: '160 — 190mm (air cooler height)' },
+                        { label: 'Fan Support', value: 'Front: 3×120mm / Top: 2-3×120mm / Rear: 1×120mm' },
+                        { label: 'Radiator Support', value: 'Front: 240-360mm / Top: 240-360mm' },
+                        { label: 'Drive Bays', value: '2.5" SSD mounts / 3.5" HDD cages' },
+                        { label: 'Front I/O', value: 'USB-A, USB-C, Audio Jack, Power/Reset' }
+                    ],
+                    tips: 'Prioritaskan airflow mesh front panel daripada solid glass. Pastikan GPU clearance cukup (cek panjang GPU + ruang kabel). Case dengan dust filter lebih mudah dirawat. Perhatikan jumlah fan yang included — budget case sering hanya kasih 1-2 fan.',
+                    contoh: 'Fractal Design Meshify 2 (airflow terbaik), Lian Li O11 Dynamic (estetika), Phanteks Eclipse G360A (value), NZXT H7 Flow (balanced)'
+                }
+            },
+            {
+                id: 'fans',
+                category: 'Thermal',
+                title: 'Case Fans',
+                icon: '🌀',
+                desc: 'Menggerakkan udara di dalam case untuk mendinginkan komponen. Konfigurasi intake dan exhaust yang tepat sangat penting.',
+                specs: ['120/140mm', 'PWM', 'Static Pressure', 'ARGB'],
+                detail: {
+                    fungsi: 'Case fans menggerakkan udara panas keluar dari case dan membawa udara dingin masuk. Konfigurasi yang ideal adalah intake di depan/bawah dan exhaust di belakang/atas (mengikuti aliran udara panas naik). Static pressure fans cocok untuk radiator, airflow fans untuk case mesh.',
+                    spesifikasi: [
+                        { label: 'Ukuran', value: '120mm / 140mm (140mm lebih senyap untuk airflow sama)' },
+                        { label: 'Tipe', value: 'Airflow (high CFM) / Static Pressure (high mmH2O)' },
+                        { label: 'RPM Range', value: '500 — 2.500 RPM (PWM controlled)' },
+                        { label: 'Noise', value: '15 — 35 dBA' },
+                        { label: 'Bearing Type', value: 'Sleeve / Rifle / Fluid Dynamic (FDB) / Ball Bearing' },
+                        { label: 'Connector', value: '3-pin (DC) / 4-pin (PWM)' },
+                        { label: 'RGB', value: 'Non-RGB / ARGB (5V 3-pin addressable)' }
+                    ],
+                    tips: 'Gunakan fan 140mm jika case support — lebih senyap dan efisien. Static pressure fan untuk radiator AIO, airflow fan untuk case intake. Bearing FDB lebih tahan lama dan senyap. Untuk konfigurasi optimal: 3 intake front, 1 exhaust rear, 2-3 exhaust top.',
+                    contoh: 'Noctua NF-A12x25 (terbaik overall), Arctic P12 PWM PST (value king), Lian Li UNI FAN SL-INF (estetika ARGB), be quiet! Silent Wings 4 (senyap)'
+                }
+            },
+            {
+                id: 'monitor',
+                category: 'Peripheral',
+                title: 'Monitor',
+                icon: '🖥️',
+                desc: 'Tampilan visual utama. Resolusi, refresh rate, dan panel type menentukan pengalaman gaming dan produktivitas.',
+                specs: ['1080p-4K', '60-360Hz', 'IPS/OLED', '1ms Response'],
+                detail: {
+                    fungsi: 'Monitor menampilkan output visual dari GPU. Spesifikasi monitor sangat mempengaruhi pengalaman — refresh rate tinggi untuk gaming smooth, resolusi tinggi untuk detail lebih banyak, panel IPS/OLED untuk warna akurat, dan response time rendah untuk competitive gaming.',
+                    spesifikasi: [
+                        { label: 'Resolusi', value: '1080p (FHD) / 1440p (QHD) / 4K (UHD) / Ultrawide' },
+                        { label: 'Refresh Rate', value: '60Hz / 144Hz / 165Hz / 240Hz / 360Hz' },
+                        { label: 'Panel Type', value: 'TN (cepat, murah) / VA (kontras) / IPS (warna) / OLED (terbaik)' },
+                        { label: 'Response Time', value: '1ms — 5ms (GTG)' },
+                        { label: 'Color Gamut', value: 'sRGB / DCI-P3 / Adobe RGB' },
+                        { label: 'HDR', value: 'HDR400 / HDR600 / HDR1000 / True HDR (OLED)' },
+                        { label: 'Adaptive Sync', value: 'G-Sync (NVIDIA) / FreeSync (AMD)' },
+                        { label: 'Connectivity', value: 'HDMI 2.1 / DisplayPort 1.4/2.1 / USB-C' }
+                    ],
+                    tips: 'Pilih resolusi berdasarkan GPU — RTX 4060 untuk 1080p, RTX 4070+ untuk 1440p, RTX 4080+ untuk 4K. Gaming competitive: prioritaskan refresh rate (240Hz+). Content creation: prioritaskan color accuracy (IPS/P3 95%+). OLED terbaik untuk visual tapi ada risk burn-in.',
+                    contoh: 'LG 27GP850 (1440p 165Hz IPS), Samsung Odyssey G7 (1440p 240Hz VA), ASUS ROG Swift PG27AQDM (1440p 240Hz OLED), Dell U2723QE (4K IPS content creation)'
+                }
+            },
+            {
+                id: 'keyboard',
+                category: 'Peripheral',
+                title: 'Keyboard',
+                icon: '⌨️',
+                desc: 'Input utama untuk mengetik dan gaming. Switch type, layout, dan fitur tambahan menentukan kenyamanan.',
+                specs: ['Mechanical', 'RGB', 'Hot-swappable', 'Wireless'],
+                detail: {
+                    fungsi: 'Keyboard adalah perangkat input utama untuk memasukkan teks, perintah, dan kontrol. Keyboard mechanical menggunakan switch individual per tombol untuk tactile feedback dan durability. Fitur seperti macro keys, media controls, dan RGB lighting meningkatkan fungsionalitas dan estetika.',
+                    spesifikasi: [
+                        { label: 'Switch Type', value: 'Linear (Red) / Tactile (Brown) / Clicky (Blue)' },
+                        { label: 'Switch Brand', value: 'Cherry MX / Gateron / Kailh / Razer / Logitech' },
+                        { label: 'Layout', value: 'Full-size / TKL (80%) / 75% / 65% / 60%' },
+                        { label: 'Keycap Material', value: 'ABS (murah, licin) / PBT (tahan lama, matte)' },
+                        { label: 'Hot-swappable', value: 'Bisa ganti switch tanpa solder' },
+                        { label: 'Connectivity', value: 'Wired USB / Bluetooth / 2.4GHz Wireless' },
+                        { label: 'Polling Rate', value: '125Hz — 8000Hz (lebih tinggi = lebih responsif)' },
+                        { label: 'N-Key Rollover', value: 'Anti-ghosting untuk semua tombol' }
+                    ],
+                    tips: 'Linear switch untuk gaming (smooth, cepat). Tactile untuk typing + gaming (feedback tanpa suara berisik). Clicky untuk pure typing (banyak suara). Hot-swappable memungkinkan eksperimen switch tanpa beli keyboard baru. Layout TKL/75% hemat ruang meja tanpa kehilangan fungsi.',
+                    contoh: 'Keychron Q1 Pro (custom 75% wireless), Wooting 60HE (rapid trigger gaming), Razer Huntsman V2 (optical switches), Logitech G Pro X (TKL tournament)'
+                }
+            },
+            {
+                id: 'mouse',
+                category: 'Peripheral',
+                title: 'Mouse',
+                icon: '🖱️',
+                desc: 'Input presisi untuk navigasi, gaming, dan desain. Sensor, weight, dan shape menentukan akurasi dan kenyamanan.',
+                specs: ['25K+ DPI', '1ms Latency', 'Lightweight', 'Wireless'],
+                detail: {
+                    fungsi: 'Mouse adalah perangkat input pointing yang mengkonversi gerakan tangan menjadi kursor di layar. Mouse gaming memiliki sensor optik/laser berkualitas tinggi, polling rate tinggi, dan weight optimization untuk akurasi maksimal dalam competitive gaming.',
+                    spesifikasi: [
+                        { label: 'Sensor', value: 'Optical (PMW 3370, 3395, Hero 25K) / Laser' },
+                        { label: 'DPI/CPI', value: '400 — 25.600 (jarang digunakan di atas 3.200)' },
+                        { label: 'Polling Rate', value: '125Hz / 500Hz / 1000Hz / 2000Hz / 4000Hz / 8000Hz' },
+                        { label: 'Weight', value: '50g (ultra-light) — 100g+ (heavy)' },
+                        { label: 'Connectivity', value: 'Wired / Wireless (2.4GHz / Bluetooth)' },
+                        { label: 'Battery (Wireless)', value: '40 — 200+ jam' },
+                        { label: 'Buttons', value: '5 — 20+ (programmable)' },
+                        { label: 'Shape', value: 'Ambidextrous / Ergonomic (Right/Left handed)' }
+                    ],
+                    tips: 'Sensor modern (3395, Hero 25K) sudah lebih dari cukup — fokus pada weight dan shape yang nyaman. Lightweight mouse (60-70g) populer untuk FPS competitive. Wireless sekarang setara wired dengan latency <1ms. Shape ergonomic untuk palm grip, ambidextrous untuk claw/fingertip grip.',
+                    contoh: 'Logitech G Pro X Superlight 2 (60g wireless), Razer Viper V2 Pro (58g wireless), Zowie EC2-C (ergonomic wired), Pulsar X2 Mini (ultra-light wireless)'
+                }
+            }
+        ];
+
+        // Render cards
+        function renderCards() {
+            const grid = document.getElementById('componentsGrid');
+            components.forEach((comp, index) => {
+                const card = document.createElement('div');
+                card.className = 'component-card animate-in';
+                card.style.animationDelay = `${index * 0.08}s`;
+                card.innerHTML = `
+                    <div class="card-visual">
+                        <div class="component-icon">${comp.icon}</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-category">${comp.category}</div>
+                        <h3 class="card-title">${comp.title}</h3>
+                        <p class="card-desc">${comp.desc}</p>
+                        <div class="card-specs">
+                            ${comp.specs.map(spec => `<span class="spec-tag">${spec}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => openModal(comp));
+                grid.appendChild(card);
+            });
+        }
+
+        // Modal functions
+        function openModal(comp) {
+            document.getElementById('modalCategory').textContent = comp.category;
+            document.getElementById('modalTitle').textContent = comp.title;
+            
+            const body = document.getElementById('modalBody');
+            body.innerHTML = `
+                <div class="detail-section">
+                    <h4>📋 Fungsi & Penjelasan</h4>
+                    <p>${comp.detail.fungsi}</p>
+                </div>
+                <div class="detail-section">
+                    <h4>⚙️ Spesifikasi Detail</h4>
+                    <div class="detail-grid">
+                        ${comp.detail.spesifikasi.map(spec => `
+                            <div class="detail-item">
+                                <div class="detail-item-label">${spec.label}</div>
+                                <div class="detail-item-value">${spec.value}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <h4>💡 Tips Memilih</h4>
+                    <p>${comp.detail.tips}</p>
+                </div>
+                <div class="detail-section">
+                    <h4>🏷️ Rekomendasi Produk</h4>
+                    <p>${comp.detail.contoh}</p>
+                </div>
+            `;
+            
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on overlay click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Initialize
+        renderCards();
+    </script>
+</body>
+</html>'''
+
+with open('/mnt/agents/output/techvault_pc_documentation.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print(f"File saved! Size: {len(html_content)} chars")
+print("Ready to copy-paste!")
