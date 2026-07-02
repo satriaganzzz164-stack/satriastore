@@ -1,0 +1,1647 @@
+
+html_content = '''<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warung Satria — Cita Rasa Nusantara</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FAF7F2;
+            --cream-dark: #F0EBE3;
+            --charcoal: #1A1A1A;
+            --charcoal-light: #2D2D2D;
+            --warm-brown: #8B6914;
+            --warm-gold: #C9A227;
+            --warm-gold-light: #E8D5A3;
+            --text-dark: #1A1A1A;
+            --text-light: #6B6560;
+            --text-muted: #9A9590;
+            --border: #E5E0D8;
+            --white: #FFFFFF;
+            --success: #4A7C59;
+            --shadow-soft: rgba(0,0,0,0.06);
+            --shadow-medium: rgba(0,0,0,0.1);
+            --shadow-strong: rgba(0,0,0,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--cream); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--warm-gold); }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            background: rgba(250, 247, 242, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 12px 48px;
+            box-shadow: 0 2px 20px var(--shadow-soft);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--charcoal);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px; height: 40px;
+            background: var(--warm-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 36px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0;
+            width: 0; height: 2px;
+            background: var(--warm-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--charcoal);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-cart {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-cart:hover {
+            background: var(--warm-gold);
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px; right: -8px;
+            width: 22px; height: 22px;
+            background: var(--warm-gold);
+            color: var(--white);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 8px;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--charcoal);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 48px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg-pattern {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(201, 162, 39, 0.04) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--warm-brown);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--warm-gold);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(42px, 5vw, 64px);
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--charcoal);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 span {
+            color: var(--warm-gold);
+            font-style: italic;
+        }
+
+        .hero-desc {
+            font-size: 17px;
+            color: var(--text-light);
+            max-width: 480px;
+            margin-bottom: 36px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 14px 32px;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--warm-gold);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--shadow-medium);
+        }
+
+        .btn-secondary {
+            padding: 14px 32px;
+            background: transparent;
+            color: var(--charcoal);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--warm-gold);
+            color: var(--warm-gold);
+            transform: translateY(-2px);
+        }
+
+        .hero-images {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .hero-img {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px var(--shadow-medium);
+            transition: all 0.4s ease;
+        }
+
+        .hero-img:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px var(--shadow-strong);
+        }
+
+        .hero-img img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-img:nth-child(2) {
+            margin-top: 40px;
+        }
+
+        .hero-img:nth-child(3) {
+            margin-top: -40px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 80px 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-tag {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--warm-brown);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+            color: var(--charcoal);
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-light);
+            max-width: 560px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ===== MENU TABS ===== */
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+        }
+
+        .menu-tab {
+            padding: 12px 28px;
+            background: var(--white);
+            border: 1.5px solid var(--border);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .menu-tab:hover {
+            border-color: var(--warm-gold);
+            color: var(--warm-gold);
+        }
+
+        .menu-tab.active {
+            background: var(--charcoal);
+            color: var(--white);
+            border-color: var(--charcoal);
+        }
+
+        /* ===== MENU GRID ===== */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .menu-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px var(--shadow-soft);
+            border-color: var(--warm-gold-light);
+        }
+
+        .menu-card-img {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .menu-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .menu-card:hover .menu-card-img img {
+            transform: scale(1.08);
+        }
+
+        .menu-card-badge {
+            position: absolute;
+            top: 16px; left: 16px;
+            padding: 6px 14px;
+            background: var(--warm-gold);
+            color: var(--white);
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-card-badge.bestseller {
+            background: var(--charcoal);
+        }
+
+        .menu-card-badge.new {
+            background: var(--success);
+        }
+
+        .menu-card-content {
+            padding: 24px;
+        }
+
+        .menu-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .menu-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--charcoal);
+        }
+
+        .menu-card-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--warm-gold);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .menu-card-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .menu-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-card-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .stars {
+            color: var(--warm-gold);
+        }
+
+        .btn-add {
+            padding: 10px 20px;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add:hover {
+            background: var(--warm-gold);
+            transform: scale(1.05);
+        }
+
+        .btn-add.added {
+            background: var(--success);
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-section {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 100px 48px;
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-img {
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        .about-img img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-text .section-tag {
+            color: var(--warm-gold-light);
+        }
+
+        .about-text .section-title {
+            color: var(--white);
+            text-align: left;
+        }
+
+        .about-text p {
+            color: rgba(255,255,255,0.7);
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .about-stat h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--warm-gold);
+            margin-bottom: 4px;
+        }
+
+        .about-stat span {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 16px 32px var(--shadow-soft);
+            transform: translateY(-4px);
+        }
+
+        .testimonial-stars {
+            color: var(--warm-gold);
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-text {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .testimonial-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: var(--cream-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .testimonial-name {
+            font-weight: 600;
+            color: var(--charcoal);
+            font-size: 14px;
+        }
+
+        .testimonial-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 60px 48px 30px;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+        }
+
+        .footer-brand .logo {
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--warm-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--warm-gold);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255,255,255,0.4);
+            font-size: 13px;
+        }
+
+        /* ===== CART SIDEBAR ===== */
+        .cart-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .cart-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            top: 0; right: 0;
+            width: 420px;
+            max-width: 100%;
+            height: 100vh;
+            background: var(--white);
+            z-index: 2001;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.active {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+        }
+
+        .cart-close {
+            width: 36px; height: 36px;
+            background: var(--cream);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .cart-close:hover {
+            background: var(--warm-gold);
+            color: var(--white);
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .cart-empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: var(--cream);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .cart-item-img {
+            width: 64px; height: 64px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .cart-item-price {
+            color: var(--warm-gold);
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .cart-item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qty-btn {
+            width: 28px; height: 28px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .qty-btn:hover {
+            background: var(--charcoal);
+            color: var(--white);
+        }
+
+        .cart-item-remove {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.2s ease;
+        }
+
+        .cart-item-remove:hover {
+            color: #C0392B;
+        }
+
+        .cart-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .cart-total.grand {
+            font-size: 18px;
+            font-weight: 700;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            margin-top: 12px;
+        }
+
+        .cart-total.grand span:last-child {
+            color: var(--warm-gold);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 16px;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-checkout:hover {
+            background: var(--warm-gold);
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--charcoal);
+            color: var(--white);
+            padding: 16px 28px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text { order: 2; }
+            .hero-images { order: 1; max-width: 600px; margin: 0 auto; }
+            .hero-desc { margin: 0 auto 36px; }
+            .hero-buttons { justify-content: center; }
+            .about-container { grid-template-columns: 1fr; gap: 48px; }
+            .footer-container { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 16px 20px; }
+            .menu-toggle { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 70px; left: 0; right: 0;
+                background: rgba(250, 247, 242, 0.98);
+                flex-direction: column;
+                padding: 24px;
+                gap: 16px;
+                border-bottom: 1px solid var(--border);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+            }
+            .nav-links.active { transform: translateY(0); }
+            .section { padding: 60px 20px; }
+            .hero { padding: 100px 20px 40px; }
+            .hero-images { grid-template-columns: 1fr; }
+            .hero-img:nth-child(2), .hero-img:nth-child(3) { margin-top: 0; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .about-section { padding: 60px 20px; }
+            .about-stats { flex-direction: column; gap: 24px; }
+            .footer-container { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+            .cart-sidebar { width: 100%; }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#home" class="logo">
+            <div class="logo-icon">🍽️</div>
+            Warung Satria
+        </a>
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" class="active">Beranda</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#testimonials">Ulasan</a></li>
+            <li><a href="#contact">Kontak</a></li>
+            <li>
+                <button class="nav-cart" onclick="toggleCart()">
+                    🛒 Keranjang
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="hero-bg-pattern"></div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">✨ Sejak 2015</div>
+                <h1>Cita Rasa <span>Nusantara</span> yang Autentik</h1>
+                <p class="hero-desc">Nikmati kelezatan masakan tradisional Indonesia dengan sentuhan modern. Dari Nasi Goreng hingga Rendang, setiap hidangan dibuat dengan cinta dan bahan-bahan pilihan.</p>
+                <div class="hero-buttons">
+                    <a href="#menu" class="btn-primary">📖 Lihat Menu</a>
+                    <a href="#about" class="btn-secondary">ℹ️ Tentang Kami</a>
+                </div>
+            </div>
+            <div class="hero-images">
+                <div class="hero-img animate-in">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg" alt="Nasi Goreng">
+                </div>
+                <div class="hero-img animate-in" style="animation-delay: 0.15s">
+                    <img src="https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg" alt="Rendang">
+                </div>
+                <div class="hero-img animate-in" style="animation-delay: 0.3s">
+                    <img src="https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg" alt="Sate Ayam">
+                </div>
+                <div class="hero-img animate-in" style="animation-delay: 0.45s">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg" alt="Gado-Gado">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="section" id="menu">
+        <div class="section-header">
+            <div class="section-tag">Menu Kami</div>
+            <h2 class="section-title">Pilihan Hidangan Lezat</h2>
+            <p class="section-desc">Dari makanan berat hingga camilan dan minuman segar, semua dibuat dengan bahan-bahan segar dan berkualitas.</p>
+        </div>
+
+        <div class="menu-tabs">
+            <button class="menu-tab active" data-category="all" onclick="filterMenu('all')">Semua</button>
+            <button class="menu-tab" data-category="makanan" onclick="filterMenu('makanan')">🍛 Makanan Utama</button>
+            <button class="menu-tab" data-category="minuman" onclick="filterMenu('minuman')">🥤 Minuman</button>
+            <button class="menu-tab" data-category="camilan" onclick="filterMenu('camilan')">🍩 Camilan</button>
+        </div>
+
+        <div class="menu-grid" id="menuGrid"></div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-img">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg" alt="Warung Satria">
+            </div>
+            <div class="about-text">
+                <div class="section-tag">Tentang Kami</div>
+                <h2 class="section-title">Kisah Warung Satria</h2>
+                <p>Warung Satria didirikan pada tahun 2015 dengan misi sederhana: menyajikan masakan Indonesia yang autentik dengan harga terjangkau. Berawal dari sebuah warung kecil di pinggir jalan, kini kami telah menjadi destinasi kuliner favorit bagi pecinta makanan Nusantara.</p>
+                <p>Setiap hidangan kami dibuat menggunakan resep turun-temurun yang telah disempurnakan selama bertahun-tahun. Kami hanya menggunakan bahan-bahan segar dan rempah-rempah pilihan untuk memastikan setiap suapan memberikan pengalaman rasa yang tak terlupakan.</p>
+                <div class="about-stats">
+                    <div class="about-stat">
+                        <h4>9+</h4>
+                        <span>Tahun Berdiri</span>
+                    </div>
+                    <div class="about-stat">
+                        <h4>50K+</h4>
+                        <span>Pelanggan Puas</span>
+                    </div>
+                    <div class="about-stat">
+                        <h4>20+</h4>
+                        <span>Menu Andalan</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" id="testimonials">
+        <div class="section-header">
+            <div class="section-tag">Testimoni</div>
+            <h2 class="section-title">Apa Kata Mereka?</h2>
+            <p class="section-desc">Ulasan jujur dari pelanggan setia Warung Satria.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card animate-in">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Nasi Goreng Satria jadi favorit saya! Rasa kecap manisnya pas, ayamnya empuk, dan porsinya sangat mengenyangkan. Harganya juga sangat terjangkau untuk kualitas sebaik ini."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">👨</div>
+                    <div>
+                        <div class="testimonial-name">Budi Santoso</div>
+                        <div class="testimonial-role">Pelanggan Setia</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card animate-in" style="animation-delay: 0.1s">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Rendangnya bener-bener autentik! Dagingnya empuk dan bumbunya meresap sempurna. Saya yang asli Padang aja bilang ini enak banget. Recommended!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">👩</div>
+                    <div>
+                        <div class="testimonial-name">Dewi Anggraini</div>
+                        <div class="testimonial-role">Food Blogger</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card animate-in" style="animation-delay: 0.2s">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Es Cendolnya segar banget! Cocok buat diminum siang-siang. Pelayanannya juga cepat dan ramah. Warung Satria memang juara!"</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">👨</div>
+                    <div>
+                        <div class="testimonial-name">Ahmad Rizky</div>
+                        <div class="testimonial-role">Mahasiswa</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <a href="#home" class="logo">
+                    <div class="logo-icon">🍽️</div>
+                    Warung Satria
+                </a>
+                <p>Menyajikan kelezatan masakan Nusantara dengan cinta dan dedikasi sejak 2015. Setiap hidangan adalah perjalanan rasa yang tak terlupakan.</p>
+            </div>
+            <div>
+                <h4 class="footer-title">Menu</h4>
+                <ul class="footer-links">
+                    <li><a href="#menu" onclick="filterMenu('makanan')">Makanan Utama</a></li>
+                    <li><a href="#menu" onclick="filterMenu('minuman')">Minuman</a></li>
+                    <li><a href="#menu" onclick="filterMenu('camilan')">Camilan</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Jam Buka</h4>
+                <ul class="footer-links">
+                    <li><a>Senin — Jumat: 10:00 — 22:00</a></li>
+                    <li><a>Sabtu — Minggu: 09:00 — 23:00</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-title">Kontak</h4>
+                <ul class="footer-links">
+                    <li><a>📍 Jl. Raya Nusantara No. 45</a></li>
+                    <li><a>📞 (021) 555-7890</a></li>
+                    <li><a>✉️ hello@warungsatria.id</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Warung Satria. All rights reserved.</p>
+            <p>Dibuat dengan ❤️ untuk pecinta kuliner Indonesia</p>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>🛒 Keranjang Belanja</h3>
+            <button class="cart-close" onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Keranjang masih kosong</p>
+                <p style="font-size: 13px; margin-top: 8px;">Tambahkan menu favoritmu!</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <span>Subtotal</span>
+                <span id="subtotalPrice">Rp 0</span>
+            </div>
+            <div class="cart-total">
+                <span>PPN (10%)</span>
+                <span id="taxPrice">Rp 0</span>
+            </div>
+            <div class="cart-total grand">
+                <span>Total</span>
+                <span id="grandTotal">Rp 0</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">💳 Pesan Sekarang</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span id="toastIcon">✅</span>
+        <span id="toastMessage">Item ditambahkan ke keranjang!</span>
+    </div>
+
+    <script>
+        // ===== MENU DATA =====
+        const menuItems = [
+            {
+                id: 1,
+                name: "Nasi Goreng Spesial",
+                desc: "Nasi goreng dengan ayam, telur mata sapi, sayuran segar, dan sambal terasi homemade. Porsi besar dan mengenyangkan.",
+                price: 25000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.9,
+                reviews: 328
+            },
+            {
+                id: 2,
+                name: "Rendang Sapi",
+                desc: "Daging sapi dimasak perlahan dengan santan dan rempah-rempah khas Padang selama 8 jam. Empuk dan bumbu meresap sempurna.",
+                price: 35000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.9,
+                reviews: 256
+            },
+            {
+                id: 3,
+                name: "Sate Ayam Madura",
+                desc: "Sate ayam panggang dengan bumbu kacang khas Madura, disajikan dengan lontong dan acar timun.",
+                price: 28000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.8,
+                reviews: 189
+            },
+            {
+                id: 4,
+                name: "Gado-Gado",
+                desc: "Sayuran segar rebus dengan tahu, tempe, telur, dan kentang, disiram saus kacang yang gurih dan manis.",
+                price: 22000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg",
+                badge: "new",
+                badgeText: "Baru",
+                rating: 4.7,
+                reviews: 142
+            },
+            {
+                id: 5,
+                name: "Mie Ayam Bakso",
+                desc: "Mie kuning dengan ayam cincang, bakso sapi, sawi hijau, dan kuah kaldu ayam yang gurih.",
+                price: 20000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/f125cfb7ec59864dfe57944bb198f9ad57ee7ec1.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 198
+            },
+            {
+                id: 6,
+                name: "Ayam Goreng Kremes",
+                desc: "Ayam kampung goreng dengan bumbu lengkuas, disajikan dengan kremesan renyah dan sambal terasi.",
+                price: 27000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/piquantpost.com/5aa05d93cd97f2f6ed9d707480abd39fec6cd594.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.8,
+                reviews: 267
+            },
+            {
+                id: 7,
+                name: "Soto Ayam Lamongan",
+                desc: "Soto ayam khas Lamongan dengan kuah kuning, suun, telur, koya, dan perasan jeruk nipis.",
+                price: 23000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/cdn.pickuplimes.com/f0621d1b896d9b5ae725a819161ba6252fd4e46f.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.8,
+                reviews: 156
+            },
+            {
+                id: 8,
+                name: "Es Teh Manis",
+                desc: "Teh hitam pilihan dengan gula aren asli dan es batu. Segar dan menyegarkan tenggorokan.",
+                price: 8000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/asset.kompas.com/06503962bca0737edcee9c96b80fef0a9e180959.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.9,
+                reviews: 412
+            },
+            {
+                id: 9,
+                name: "Es Jeruk Segar",
+                desc: "Perasan jeruk nipis dan jeruk manis asli dengan madu dan es batu. Vitamin C alami yang menyegarkan.",
+                price: 12000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/5e7d2923a60de94022e20246db6601024255c7b6.jpg",
+                badge: "new",
+                badgeText: "Baru",
+                rating: 4.7,
+                reviews: 98
+            },
+            {
+                id: 10,
+                name: "Es Cendol",
+                desc: "Cendol pandan dengan santan kental, gula merah cair, dan es serut. Minuman tradisional yang selalu dicari.",
+                price: 15000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/whattocooktoday.com/55dd2a7af458cf14364b1dc95fc0af053748faae.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.9,
+                reviews: 345
+            },
+            {
+                id: 11,
+                name: "Pisang Goreng",
+                desc: "Pisang tanduk goreng dengan tepung renyah, disajikan dengan taburan keju dan coklat meses.",
+                price: 12000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/asianinspirations.com.au/77426de42e329e0cbf15f52ac15d44e49c266c6c.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.8,
+                reviews: 289
+            },
+            {
+                id: 12,
+                name: "Martabak Manis",
+                desc: "Martabak tebal dengan topping coklat, keju, kacang, dan susu kental manis. Manis dan lembut.",
+                price: 18000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/www.chocolatesandchai.com/a56f2bd9df6236b50f09c29d5d300c507583fa82.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.8,
+                reviews: 234
+            },
+            {
+                id: 13,
+                name: "Bakwan Sayur",
+                desc: "Gorengan sayuran dengan wortel, kol, dan tauge dalam balutan tepung renyah. 3 pcs per porsi.",
+                price: 10000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/cebc2e9a443421a7fa34b5ef0b51eb03f018349d.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 167
+            },
+            {
+                id: 14,
+                name: "Es Kopi Susu",
+                desc: "Kopi tubruk strong dengan susu segar dan gula aren. Perfect blend of bitter and sweet.",
+                price: 15000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/66310f5b68f162ae80b27329d8d275f4178914a9.jpg",
+                badge: "new",
+                badgeText: "Baru",
+                rating: 4.8,
+                reviews: 178
+            },
+            {
+                id: 15,
+                name: "Nasi Uduk Komplit",
+                desc: "Nasi uduk dengan ayam goreng, telur balado, tempe orek, sambal, dan lalapan.",
+                price: 28000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 145
+            }
+        ];
+
+        // ===== STATE =====
+        let cart = [];
+        let currentCategory = 'all';
+
+        // ===== FORMAT PRICE =====
+        function formatPrice(price) {
+            return 'Rp ' + price.toLocaleString('id-ID');
+        }
+
+        // ===== RENDER MENU =====
+        function renderMenu(category = 'all') {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+
+            const filtered = category === 'all' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === category);
+
+            filtered.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'menu-card animate-in';
+                card.style.animationDelay = `${index * 0.06}s`;
+                card.dataset.category = item.category;
+
+                const badgeHtml = item.badge 
+                    ? `<div class="menu-card-badge ${item.badge}">${item.badgeText}</div>` 
+                    : '';
+
+                card.innerHTML = `
+                    <div class="menu-card-img">
+                        ${badgeHtml}
+                        <img src="${item.image}" alt="${item.name}" loading="lazy">
+                    </div>
+                    <div class="menu-card-content">
+                        <div class="menu-card-header">
+                            <h3 class="menu-card-title">${item.name}</h3>
+                            <span class="menu-card-price">${formatPrice(item.price)}</span>
+                        </div>
+                        <p class="menu-card-desc">${item.desc}</p>
+                        <div class="menu-card-footer">
+                            <div class="menu-card-rating">
+                                <span class="stars">★</span>
+                                <span>${item.rating}</span>
+                                <span style="color: var(--text-muted);">(${item.reviews})</span>
+                            </div>
+                            <button class="btn-add" onclick="addToCart(${item.id})" id="btn-${item.id}">
+                                + Tambah
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ===== FILTER MENU =====
+        function filterMenu(category) {
+            currentCategory = category;
+            
+            // Update tab active state
+            document.querySelectorAll('.menu-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.category === category);
+            });
+
+            renderMenu(category);
+        }
+
+        // ===== CART FUNCTIONS =====
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            if (!item) return;
+
+            const existing = cart.find(c => c.id === itemId);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+
+            updateCart();
+            showToast(`✅ ${item.name} ditambahkan!`);
+
+            // Button feedback
+            const btn = document.getElementById(`btn-${itemId}`);
+            if (btn) {
+                btn.classList.add('added');
+                btn.textContent = '✓ Ditambah';
+                setTimeout(() => {
+                    btn.classList.remove('added');
+                    btn.textContent = '+ Tambah';
+                }, 1500);
+            }
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(c => c.id !== itemId);
+            updateCart();
+        }
+
+        function updateQty(itemId, delta) {
+            const item = cart.find(c => c.id === itemId);
+            if (!item) return;
+            
+            item.qty += delta;
+            if (item.qty <= 0) {
+                removeFromCart(itemId);
+            } else {
+                updateCart();
+            }
+        }
+
+        function updateCart() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartCount').textContent = count;
+
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">🛒</div>
+                        <p>Keranjang masih kosong</p>
+                        <p style="font-size: 13px; margin-top: 8px;">Tambahkan menu favoritmu!</p>
+                    </div>
+                `;
+                cartFooter.style.display = 'none';
+                return;
+            }
+
+            cartFooter.style.display = 'block';
+            
+            let html = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">${formatPrice(item.price)}</div>
+                        </div>
+                        <div class="cart-item-qty">
+                            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">−</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">🗑️</button>
+                    </div>
+                `;
+            });
+
+            cartItems.innerHTML = html;
+
+            const tax = Math.round(subtotal * 0.1);
+            const total = subtotal + tax;
+
+            document.getElementById('subtotalPrice').textContent = formatPrice(subtotal);
+            document.getElementById('taxPrice').textContent = formatPrice(tax);
+            document.getElementById('grandTotal').textContent = formatPrice(total);
+        }
+
+        function toggleCart() {
+            document.getElementById('cartOverlay').classList.toggle('active');
+            document.getElementById('cartSidebar').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('cartSidebar').classList.contains('active') ? 'hidden' : '';
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+            const tax = Math.round(total * 0.1);
+            const grandTotal = total + tax;
+            
+            showToast(`🎉 Pesanan berhasil! Total: ${formatPrice(grandTotal)}`);
+            cart = [];
+            updateCart();
+            setTimeout(toggleCart, 1500);
+        }
+
+        // ===== TOAST =====
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ===== MOBILE MENU =====
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // ===== NAVBAR SCROLL =====
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+            // Active nav link
+            const sections = ['home', 'menu', 'about', 'testimonials', 'contact'];
+            const scrollPos = window.scrollY + 100;
+            
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                const link = document.querySelector(`a[href="#${id}"]`);
+                if (section && link) {
+                    const top = section.offsetTop;
+                    const bottom = top + section.offsetHeight;
+                    if (scrollPos >= top && scrollPos < bottom) {
+                        document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+                        link.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+
+        // ===== INIT =====
+        renderMenu();
+    </script>
+</body>
+</html>'''
+
+with open('/mnt/agents/output/warung_satria.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print(f"✅ File saved! Size: {len(html_content):,} chars")
+print("Warung Satria restaurant website is ready!")
