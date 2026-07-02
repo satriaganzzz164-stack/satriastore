@@ -361,195 +361,961 @@
 </head>
 <body>
 
-<div class="app">
-  <div class="header">
-    <div class="brand">🪐 SatzAI</div>
-    <div class="status">
-      <span class="status-dot"></span>
-      <span>Online</span>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-text">NEXUS PC</div>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
     </div>
-  </div>
 
-  <div class="chat-area" id="chat-area">
-    <div class="welcome" id="welcome">
-      <h2>Selamat Datang di SatzAI</h2>
-      <p>Asisten AI pribadi Anda. Tanyakan apa saja!</p>
-      <div class="suggestions">
-        <span class="suggestion" onclick="sendSuggestion(this)">📝 Buatkan saya motivasi</span>
-        <span class="suggestion" onclick="sendSuggestion(this)">💻 Jelaskan coding</span>
-        <span class="suggestion" onclick="sendSuggestion(this)">🎨 Ide desain website</span>
-        <span class="suggestion" onclick="sendSuggestion(this)">📚 Ceritakan dongeng</span>
-      </div>
+    <!-- Particles Background -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">NEXUS<span>PREMIUM PC</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#products">Produk</a></li>
+            <li><a href="#features">Fitur</a></li>
+            <li><a href="#showcase">Showcase</a></li>
+            <li><a href="#testimonials">Testimoni</a></li>
+        </ul>
+        <button class="nav-cta">Hubungi Kami</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg"><canvas id="hero-canvas"></canvas></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">&#9733; Toko PC Gaming No.1 Indonesia</div>
+            <h1 class="hero-title">Bangun <span class="gradient-text">Rig Gaming</span><br>Impian Anda</h1>
+            <p class="hero-subtitle">PC gaming premium dengan performa tertinggi. Dari build custom hingga prebuilt high-end, kami menghadirkan pengalaman gaming yang tak tertandingi.</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn-primary">Jelajahi Produk</a>
+                <a href="#showcase" class="btn-secondary">Build Custom</a>
+            </div>
+        </div>
+        <div class="scroll-indicator"><span>Scroll</span><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-item"><i class="fas fa-microchip"></i> RTX 4090</div>
+            <div class="marquee-item"><i class="fas fa-memory"></i> DDR5 7200MHz</div>
+            <div class="marquee-item"><i class="fas fa-hdd"></i> NVMe Gen 5</div>
+            <div class="marquee-item"><i class="fas fa-fan"></i> Liquid Cooling</div>
+            <div class="marquee-item"><i class="fas fa-bolt"></i> 1000W PSU</div>
+            <div class="marquee-item"><i class="fas fa-desktop"></i> 4K 240Hz</div>
+            <div class="marquee-item"><i class="fas fa-wifi"></i> WiFi 7</div>
+            <div class="marquee-item"><i class="fas fa-shield-alt"></i> 5 Tahun Garansi</div>
+            <div class="marquee-item"><i class="fas fa-microchip"></i> RTX 4090</div>
+            <div class="marquee-item"><i class="fas fa-memory"></i> DDR5 7200MHz</div>
+            <div class="marquee-item"><i class="fas fa-hdd"></i> NVMe Gen 5</div>
+            <div class="marquee-item"><i class="fas fa-fan"></i> Liquid Cooling</div>
+            <div class="marquee-item"><i class="fas fa-bolt"></i> 1000W PSU</div>
+            <div class="marquee-item"><i class="fas fa-desktop"></i> 4K 240Hz</div>
+            <div class="marquee-item"><i class="fas fa-wifi"></i> WiFi 7</div>
+            <div class="marquee-item"><i class="fas fa-shield-alt"></i> 5 Tahun Garansi</div>
+        </div>
     </div>
-  </div>
 
-  <div class="input-area">
-    <input type="text" id="user-input" placeholder="Ketik pesan kamu di sini..." onkeydown="if(event.key==='Enter')sendMessage()">
-    <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
-  </div>
-</div>
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="section-header">
+            <div class="section-label">Koleksi Kami</div>
+            <h2 class="section-title">PC Gaming <span style="color: var(--primary);">Premium</span></h2>
+            <p class="section-desc">Pilih dari koleksi PC gaming high-end kami yang dirancang untuk performa maksimal</p>
+        </div>
+        <div class="products-grid">
+            <div class="product-card" data-product="1">
+                <div class="product-badge badge-hot">Hot</div>
+                <img src="https://kimi-web-img.moonshot.cn/img/thumbs.dreamstime.com/6a20688dd65e908218d142eaf85e57617ecca06c.jpg" alt="Gaming Setup RGB" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Gaming Setup</div>
+                    <h3 class="product-name">Nexus Ultimate RGB Setup</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">RTX 4090</span><span class="spec-tag">i9-14900K</span>
+                        <span class="spec-tag">64GB DDR5</span><span class="spec-tag">2TB NVMe</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price"><span class="currency">Rp</span> 45.999.000<span class="old">Rp 52.000.000</span></div>
+                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-product="2">
+                <div class="product-badge badge-new">New</div>
+                <img src="https://kimi-web-img.moonshot.cn/img/cdn.mos.cms.futurecdn.net/c22bfd6c2ba20f507045f901c9f47afec8c4bbbb.jpg" alt="High End Water Cooled PC" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Custom Water Cooled</div>
+                    <h3 class="product-name">Nexus Hydro X Pro</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">RTX 4080</span><span class="spec-tag">i7-14700K</span>
+                        <span class="spec-tag">32GB DDR5</span><span class="spec-tag">Custom Loop</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price"><span class="currency">Rp</span> 38.500.000</div>
+                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-product="3">
+                <div class="product-badge badge-premium">Premium</div>
+                <img src="https://kimi-web-img.moonshot.cn/img/www.jouleperformance.com/f372a62254a9034a69184a28e82dd74e58091a75.png" alt="High End Gaming PC Components" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Prebuilt High-End</div>
+                    <h3 class="product-name">Nexus Titan Build</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">RTX 4070 Ti</span><span class="spec-tag">i5-14600K</span>
+                        <span class="spec-tag">32GB DDR5</span><span class="spec-tag">1TB NVMe</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price"><span class="currency">Rp</span> 28.999.000<span class="old">Rp 32.000.000</span></div>
+                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-product="4">
+                <div class="product-badge badge-new">New</div>
+                <img src="https://kimi-web-img.moonshot.cn/img/cdn.mos.cms.futurecdn.net/ccee7b5052b25c547abb31c9fff97684587c4b82.png" alt="White Gaming PC Build" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Aesthetic Build</div>
+                    <h3 class="product-name">Nexus Frost White</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">RTX 4070</span><span class="spec-tag">Ryzen 7 7800X</span>
+                        <span class="spec-tag">32GB DDR5</span><span class="spec-tag">White Theme</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price"><span class="currency">Rp</span> 24.500.000</div>
+                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-product="5">
+                <div class="product-badge badge-hot">Hot</div>
+                <img src="https://kimi-web-img.moonshot.cn/img/cdn.avadirect.com/c82462cfd10d9929ef1b1e8560a8a78ff685204f.jpg" alt="Pink Gaming PC" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Aesthetic Build</div>
+                    <h3 class="product-name">Nexus Sakura Pink</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">RTX 4060 Ti</span><span class="spec-tag">Ryzen 5 7600</span>
+                        <span class="spec-tag">16GB DDR5</span><span class="spec-tag">Pink Theme</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price"><span class="currency">Rp</span> 18.999.000<span class="old">Rp 21.000.000</span></div>
+                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-product="6">
+                <div class="product-badge badge-premium">Premium</div>
+                <img src="https://kimi-web-img.moonshot.cn/img/emarque.co/ee2b06becbe5124d6f0ca3ae8601ddea77d4c449.jpg" alt="RGB Gaming PC Build" class="product-image">
+                <div class="product-info">
+                    <div class="product-category">Enthusiast Build</div>
+                    <h3 class="product-name">Nexus Spectra RGB</h3>
+                    <div class="product-specs">
+                        <span class="spec-tag">RTX 4090</span><span class="spec-tag">i9-14900KS</span>
+                        <span class="spec-tag">128GB DDR5</span><span class="spec-tag">4TB NVMe</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price"><span class="currency">Rp</span> 65.000.000</div>
+                        <button class="btn-buy"><i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<script>
-  const chatArea = document.getElementById('chat-area');
-  const userInput = document.getElementById('user-input');
-  const sendBtn = document.getElementById('send-btn');
-  const welcome = document.getElementById('welcome');
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="section-header">
+            <div class="section-label">Mengapa Kami</div>
+            <h2 class="section-title">Keunggulan <span style="color: var(--secondary);">Nexus PC</span></h2>
+            <p class="section-desc">Kami menghadirkan pengalaman terbaik dalam setiap build PC gaming</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-award"></i></div>
+                <h3 class="feature-title">Garansi 5 Tahun</h3>
+                <p class="feature-desc">Setiap PC gaming kami dilindungi garansi komprehensif 5 tahun untuk semua komponen utama.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-tools"></i></div>
+                <h3 class="feature-title">Build Custom</h3>
+                <p class="feature-desc">Tim ahli kami akan membantu merancang dan membangun PC sesuai kebutuhan dan budget Anda.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shipping-fast"></i></div>
+                <h3 class="feature-title">Pengiriman Aman</h3>
+                <p class="feature-desc">Packing khusus dengan foam protection dan asuransi pengiriman untuk keamanan maksimal.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                <h3 class="feature-title">Support 24/7</h3>
+                <p class="feature-desc">Tim support teknis kami siap membantu kapan saja untuk troubleshooting dan konsultasi.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-microchip"></i></div>
+                <h3 class="feature-title">Komponen Original</h3>
+                <p class="feature-desc">Hanya menggunakan komponen original dan berkualitas dari brand ternama dunia.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h3 class="feature-title">Stress Tested</h3>
+                <p class="feature-desc">Setiap PC melewati stress test 48 jam untuk memastikan stabilitas dan performa optimal.</p>
+            </div>
+        </div>
+    </section>
 
-  // Database jawaban lengkap
-  const responses = {
-    motivasi: [
-      'Setiap langkah kecil yang kamu ambil hari ini adalah investasi untuk masa depan yang lebih baik. Jangan menyerah! 💪✨',
-      'Kegagalan adalah guru terbaik. Bangkit, belajar, dan terus maju! 🔥',
-      'Kamu lebih kuat dari yang kamu pikir. Percayalah pada dirimu sendiri! 💫',
-      'Hari ini mungkin sulit, besok akan lebih baik. Tetap semangat! 🌟',
-      'Jangan bandingkan awalmu dengan puncak orang lain. Setiap perjalanan punya waktunya masing-masing. 🚀',
-      'Kesuksesan bukan tentang tidak pernah gagal, tapi tentang bangkit setiap kali jatuh. 💯',
-      'Rasa takut adalah tanda bahwa kamu sedang melakukan sesuatu yang berarti. Hadapi dengan berani! 🦁',
-      'Tidak ada yang mustahil bagi mereka yang berusaha. Teruslah berjuang! ⚡',
-      'Setiap masalah adalah peluang bersembunyi. Cari solusi, bukan alasan! 🔍',
-      'Percaya dirimu adalah langkah pertama menuju kesuksesan. Kamu bisa! 💎'
-    ],
-    coding: [
-      'Coding itu seperti memecahkan puzzle — setiap baris kode adalah potongan yang membentuk solusi. Terus latihan ya! 🚀',
-      'Error di kode itu normal, bukan kegagalan. Itu tanda kamu sedang belajar! 💻',
-      'Belajar coding itu marathon, bukan sprint. Konsistensi lebih penting dari kecepatan. 🏃‍♂️',
-      'Setiap programmer hebat pernah menjadi pemula. Jangan bandingkan awalmu dengan puncak orang lain! 👨‍💻',
-      'Debug adalah seni. Setiap bug yang kamu perbaiki membuatmu lebih baik dari sebelumnya. 🐛',
-      'Jangan hafal sintaks, pahami konsep. Kalau konsep kuat, bahasa apapun bisa dipelajari. 🧠',
-      'Google adalah teman terbaik programmer. Tidak ada yang hafal semuanya, yang penting tahu cara mencari! 🔍',
-      'Code yang bagus adalah code yang bisa dibaca orang lain. Tulis seolah-olah kamu akan membacanya 1 tahun lagi. 📖',
-      'Refactoring bukan membuang waktu, itu investasi untuk masa depan. Code bersih = hidup mudah. ✨',
-      'Tidak ada yang namanya code sempurna. Yang ada adalah code yang cukup baik untuk saat ini. Iterasi terus! 🔄'
-    ],
-    desain: [
-      'Desain yang baik bukan hanya tentang estetika, tapi juga tentang bagaimana pengguna merasakan pengalaman. Pikirkan user journey! 🎨',
-      'Less is more. Desain sederhana seringkali lebih powerful daripada yang terlalu ramai. ✨',
-      'Warna dan tipografi adalah bahasa visual. Pilihlah dengan hati-hati untuk menyampaikan pesan yang tepat. 🖌️',
-      'Prototyping cepat, iterasi banyak. Jangan takut untuk mencoba dan mengubah! 🔄',
-      'White space bukan ruang kosong, itu ruang bernapas. Biarkan desainmu bernapas! 🌬️',
-      'Konsistensi adalah kunci. Gunakan sistem desain untuk menjaga keseragaman. 📐',
-      'Desain untuk user, bukan untuk dirimu sendiri. Test dengan orang lain! 👥',
-      'Mobile first! Kebanyakan user mengakses dari HP. Pastikan desainmu responsif. 📱',
-      'Kontras yang baik = readability yang baik. Pastikan teks bisa dibaca dengan jelas. 👁️',
-      'Inspirasi bisa dari mana saja. Lihat Dribbble, Behance, atau bahkan alam sekitarmu! 🌿'
-    ],
-    cerita: [
-      'Dahulu kala, di sebuah kerajaan digital, ada seorang developer yang membangun website paling keren di dunia... 🌟',
-      'Ada seekor kucing yang bisa coding. Setiap malam, dia mengetik dengan cakarnya dan membuat aplikasi yang luar biasa! 🐱‍💻',
-      'Di planet jauh, ada AI yang belajar tentang cinta dari manusia. Dia menemukan bahwa kebaikan adalah kode terindah... 🤖❤️',
-      'Seorang anak kecil menemukan komputer tua di loteng. Saat dinyalakan, dia menemukan dunia digital yang penuh petualangan! 🚀',
-      'Di sebuah hutan pixel, ada sprite kecil yang berpetualang mencari bug jahat yang merusak dunianya... 🌲👾',
-      'Seorang hacker etis menemukan portal rahasia di internet. Di baliknya, ada internet paralel yang lebih indah... 🌐✨',
-      'Robot kecil bernama Byte hidup di server farm. Setiap malam, dia berkeliling membantu data yang tersesat pulang... 🤖🏠',
-      'Di dunia di mana semua orang punya superpower, seorang anak biasa menemukan bahwa kecerdasannya adalah kekuatan terbesar... 🧠💪',
-      'Seekor burung robot terbang mengelilingi dunia digital, mengumpulkan fragment kode yang hilang untuk menyelamatkan internet... 🐦🌐',
-      'Di masa depan, manusia dan AI hidup berdampingan. Tapi satu AI kecil ingin tahu: apa artinya menjadi manusia? 🤔🌍'
-    ],
-    umum: [
-      'Halo! Saya SatzAI, asisten virtualmu. Ada yang bisa saya bantu hari ini? 😊',
-      'Wah, pertanyaan menarik! Saya masih belajar banyak hal, tapi saya akan berusaha membantu semampu saya. 📚',
-      'Terima kasih sudah bertanya! Saya senang bisa berbincang denganmu. Ada topik lain yang ingin dibahas? 💬',
-      'Hmm, saya belum terlalu paham tentang itu. Tapi saya bisa bantu dengan motivasi, coding, desain, atau cerita! 🎯',
-      'Setiap hari adalah kesempatan baru untuk belajar. Jangan ragu untuk terus bertanya! 🌟',
-      'Saya adalah AI lokal yang berjalan di browsermu. Tidak perlu internet untuk berbincang! 🚀',
-      'Waktu di Indonesia sekarang jam ' + new Date().getHours() + ':' + new Date().getMinutes().toString().padStart(2,'0') + '. Semoga harimu menyenangkan! ⏰',
-      'Tahukah kamu? Website ini dibuat dengan HTML, CSS, dan JavaScript murni. Tanpa framework! 💻',
-      'Saya bisa bantu brainstorming ide, memberi motivasi, atau sekadar berbincang. Apa yang kamu butuhkan? 🤝',
-      'Jangan lupa istirahat ya! Terlalu lama di depan layar tidak baik untuk kesehatan. 💪'
-    ]
-  };
+    <!-- Showcase Section -->
+    <section class="showcase-section" id="showcase">
+        <div class="section-header">
+            <div class="section-label">Showcase</div>
+            <h2 class="section-title">Build <span style="color: var(--accent);">Unggulan</span></h2>
+            <p class="section-desc">Lihat detail spesifikasi PC gaming premium pilihan kami</p>
+        </div>
+        <div class="showcase-container">
+            <div class="showcase-item">
+                <div class="showcase-image-wrapper">
+                    <img src="https://kimi-web-img.moonshot.cn/img/siriuspowerpc.com/e1f82be8bc315bc3e16b5afd65a1f0edd663c725.webp" alt="Custom RGB Gaming PC Interior" class="showcase-image">
+                </div>
+                <div class="showcase-content">
+                    <div class="showcase-label">Enthusiast Series</div>
+                    <h3 class="showcase-title">Nexus Nebula RGB</h3>
+                    <p class="showcase-desc">PC gaming dengan sistem cooling custom dan lighting RGB yang dapat dikustomisasi penuh. Dirancang untuk gamer yang menginginkan performa ekstrem dengan estetika yang memukau.</p>
+                    <div class="showcase-specs">
+                        <div class="showcase-spec"><i class="fas fa-microchip"></i><span>Intel Core i9-14900K</span></div>
+                        <div class="showcase-spec"><i class="fas fa-video"></i><span>RTX 4090 24GB</span></div>
+                        <div class="showcase-spec"><i class="fas fa-memory"></i><span>64GB DDR5-7200</span></div>
+                        <div class="showcase-spec"><i class="fas fa-hdd"></i><span>2TB NVMe Gen 5</span></div>
+                    </div>
+                    <div class="showcase-price">Rp 52.999.000</div>
+                    <a href="#" class="btn-primary">Pesan Sekarang</a>
+                </div>
+            </div>
+            <div class="showcase-item reverse">
+                <div class="showcase-image-wrapper">
+                    <img src="https://kimi-web-img.moonshot.cn/img/static.cybertron.com/c8ed80bd878856b947a248c764d5648e99b62b16.jpg" alt="CLX Gaming PC Purple" class="showcase-image">
+                </div>
+                <div class="showcase-content">
+                    <div class="showcase-label">Streamer Series</div>
+                    <h3 class="showcase-title">Nexus Stream Pro</h3>
+                    <p class="showcase-desc">PC khusus untuk content creator dan streamer dengan dual PC setup capability. Encoding hardware yang powerful untuk streaming 4K tanpa lag.</p>
+                    <div class="showcase-specs">
+                        <div class="showcase-spec"><i class="fas fa-microchip"></i><span>AMD Ryzen 9 7950X</span></div>
+                        <div class="showcase-spec"><i class="fas fa-video"></i><span>RTX 4080 16GB</span></div>
+                        <div class="showcase-spec"><i class="fas fa-memory"></i><span>32GB DDR5-6400</span></div>
+                        <div class="showcase-spec"><i class="fas fa-hdd"></i><span>1TB NVMe + 4TB HDD</span></div>
+                    </div>
+                    <div class="showcase-price">Rp 35.500.000</div>
+                    <a href="#" class="btn-primary">Pesan Sekarang</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  // Keywords untuk matching
-  const keywords = {
-    motivasi: ['motivasi', 'semangat', 'bangkit', 'gagal', 'sedih', 'putus', 'capek', 'lelah', 'takut', 'berani', 'kuat', 'bisa', 'semangatin', 'down', 'patah'],
-    coding: ['coding', 'program', 'kode', 'code', 'error', 'bug', 'debug', 'javascript', 'html', 'css', 'python', 'developer', 'web', 'app', 'software', 'komputer'],
-    desain: ['desain', 'design', 'warna', 'color', 'ui', 'ux', 'tampilan', 'layout', 'font', 'tipografi', 'responsive', 'mobile', 'mockup', 'figma', 'website'],
-    cerita: ['cerita', 'dongeng', 'story', 'novel', 'baca', 'petualangan', 'fantasi', 'fiksi', 'naratif', 'karakter', 'plot', 'dongengin', 'kisah']
-  };
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item"><div class="stat-number" data-count="5000">0</div><div class="stat-label">PC Terjual</div></div>
+            <div class="stat-item"><div class="stat-number" data-count="98">0</div><div class="stat-label">% Kepuasan</div></div>
+            <div class="stat-item"><div class="stat-number" data-count="15">0</div><div class="stat-label">Tahun Pengalaman</div></div>
+            <div class="stat-item"><div class="stat-number" data-count="24">0</div><div class="stat-label">Jam Support</div></div>
+        </div>
+    </section>
 
-  function getTime() {
-    const now = new Date();
-    return now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-  }
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="section-header">
+            <div class="section-label">Testimoni</div>
+            <h2 class="section-title">Apa Kata <span style="color: var(--primary);">Pelanggan</span></h2>
+            <p class="section-desc">Pengalaman nyata dari para gamer yang telah mempercayakan build PC mereka pada kami</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">PC dari Nexus benar-benar mengubah pengalaman gaming saya. FPS stabil di semua game AAA dan build quality-nya sangat premium. Recommended banget!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">AR</div>
+                    <div class="testimonial-info"><h4>Andi Raharjo</h4><span>Pro Gamer</span><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">Proses custom build sangat smooth. Tim mereka sangat profesional dan memberikan rekomendasi yang tepat sesuai budget. Hasilnya melebihi ekspektasi!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">BS</div>
+                    <div class="testimonial-info"><h4>Budi Santoso</h4><span>Content Creator</span><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">Garansi 5 tahun dan support 24/7 benar-benar real. Pernah ada masalah kecil dan mereka respon sangat cepat. Service terbaik yang pernah saya dapatkan!</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">CW</div>
+                    <div class="testimonial-info"><h4>Citra Wijaya</h4><span>Streamer</span><div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  function addMessage(text, isUser) {
-    if (welcome) welcome.style.display = 'none';
-    const msg = document.createElement('div');
-    msg.className = 'message ' + (isUser ? 'user' : 'ai');
-    msg.innerHTML = `
-      <div class="avatar">${isUser ? '👤' : '🤖'}</div>
-      <div class="bubble">
-        ${text}
-        <span class="time">${getTime()}</span>
-      </div>
-    `;
-    chatArea.appendChild(msg);
-    chatArea.scrollTop = chatArea.scrollHeight;
-  }
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="cta-title">Siap untuk Upgrade?</h2>
+        <p class="cta-desc">Jadilah bagian dari komunitas gamer premium. Dapatkan konsultasi gratis untuk build PC impian Anda.</p>
+        <a href="#" class="btn-primary">Konsultasi Gratis</a>
+    </section>
 
-  function addTyping() {
-    const typing = document.createElement('div');
-    typing.className = 'message ai';
-    typing.id = 'typing-indicator';
-    typing.innerHTML = `
-      <div class="avatar">🤖</div>
-      <div class="bubble">
-        <div class="typing"><span></span><span></span><span></span></div>
-      </div>
-    `;
-    chatArea.appendChild(typing);
-    chatArea.scrollTop = chatArea.scrollHeight;
-    return typing;
-  }
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo">NEXUS<span>PREMIUM PC</span></div>
+                <p>Toko PC gaming premium terbaik di Indonesia. Menyediakan build custom, prebuilt high-end, dan komponen komputer berkualitas dengan garansi terbaik.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h4>Produk</h4>
+                <ul>
+                    <li><a href="#">PC Gaming Prebuilt</a></li>
+                    <li><a href="#">Build Custom</a></li>
+                    <li><a href="#">Komponen PC</a></li>
+                    <li><a href="#">Aksesoris Gaming</a></li>
+                    <li><a href="#">Monitor Gaming</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="#">Konsultasi Build</a></li>
+                    <li><a href="#">Upgrade PC</a></li>
+                    <li><a href="#">Repair & Service</a></li>
+                    <li><a href="#">Instalasi Software</a></li>
+                    <li><a href="#">Cable Management</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Kontak</h4>
+                <ul>
+                    <li><a href="#"><i class="fas fa-map-marker-alt" style="margin-right:8px;color:var(--primary)"></i> Jakarta, Indonesia</a></li>
+                    <li><a href="#"><i class="fas fa-phone" style="margin-right:8px;color:var(--primary)"></i> +62 812-3456-7890</a></li>
+                    <li><a href="#"><i class="fas fa-envelope" style="margin-right:8px;color:var(--primary)"></i> info@nexuspc.id</a></li>
+                    <li><a href="#"><i class="fas fa-clock" style="margin-right:8px;color:var(--primary)"></i> Buka 24 Jam</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 <span>NEXUS PC</span>. All Rights Reserved. Crafted with passion for gamers.</p>
+        </div>
+    </footer>
 
-  function removeTyping() {
-    const typing = document.getElementById('typing-indicator');
-    if (typing) typing.remove();
-  }
+    <script>
 
-  function getResponse(text) {
-    const lower = text.toLowerCase();
+    // ===== LOADER =====
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loader').classList.add('hidden');
+        }, 2200);
+    });
 
-    // Cek keywords
-    for (const [category, words] of Object.entries(keywords)) {
-      if (words.some(w => lower.includes(w))) {
-        const list = responses[category];
-        return list[Math.floor(Math.random() * list.length)];
-      }
+    // ===== NAVBAR SCROLL =====
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // ===== HERO CANVAS ANIMATION =====
+    const heroCanvas = document.getElementById('hero-canvas');
+    const heroCtx = heroCanvas.getContext('2d');
+    let heroParticles = [];
+    let mouseX = 0, mouseY = 0;
+
+    function resizeHeroCanvas() {
+        heroCanvas.width = window.innerWidth;
+        heroCanvas.height = window.innerHeight;
+    }
+    resizeHeroCanvas();
+    window.addEventListener('resize', resizeHeroCanvas);
+
+    class HeroParticle {
+        constructor() {
+            this.x = Math.random() * heroCanvas.width;
+            this.y = Math.random() * heroCanvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.5;
+            this.speedY = (Math.random() - 0.5) * 0.5;
+            this.opacity = Math.random() * 0.5 + 0.1;
+            this.color = Math.random() > 0.5 ? '0, 240, 255' : '255, 45, 149';
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x < 0 || this.x > heroCanvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > heroCanvas.height) this.speedY *= -1;
+        }
+        draw() {
+            heroCtx.beginPath();
+            heroCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            heroCtx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+            heroCtx.fill();
+        }
     }
 
-    // Default: umum
-    const list = responses.umum;
-    return list[Math.floor(Math.random() * list.length)];
-  }
+    for (let i = 0; i < 80; i++) {
+        heroParticles.push(new HeroParticle());
+    }
 
-  function sendMessage() {
-    const text = userInput.value.trim();
-    if (!text) return;
+    function animateHero() {
+        heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+        heroParticles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        // Draw connections
+        for (let i = 0; i < heroParticles.length; i++) {
+            for (let j = i + 1; j < heroParticles.length; j++) {
+                const dx = heroParticles[i].x - heroParticles[j].x;
+                const dy = heroParticles[i].y - heroParticles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 150) {
+                    heroCtx.beginPath();
+                    heroCtx.moveTo(heroParticles[i].x, heroParticles[i].y);
+                    heroCtx.lineTo(heroParticles[j].x, heroParticles[j].y);
+                    heroCtx.strokeStyle = `rgba(0, 240, 255, ${0.1 * (1 - dist / 150)})`;
+                    heroCtx.lineWidth = 0.5;
+                    heroCtx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(animateHero);
+    }
+    animateHero();
 
-    userInput.value = '';
-    addMessage(text, true);
+    // ===== PARTICLES BACKGROUND =====
+    const particlesCanvas = document.getElementById('particles-canvas');
+    const particlesCtx = particlesCanvas.getContext('2d');
+    let particles = [];
 
-    sendBtn.disabled = true;
-    const typing = addTyping();
+    function resizeParticlesCanvas() {
+        particlesCanvas.width = window.innerWidth;
+        particlesCanvas.height = window.innerHeight;
+    }
+    resizeParticlesCanvas();
+    window.addEventListener('resize', resizeParticlesCanvas);
 
-    // Simulasi delay thinking (1-2 detik)
-    setTimeout(() => {
-      removeTyping();
-      const response = getResponse(text);
-      addMessage(response, false);
-      sendBtn.disabled = false;
-      userInput.focus();
-    }, 1000 + Math.random() * 1000);
-  }
+    class Particle {
+        constructor() {
+            this.x = Math.random() * particlesCanvas.width;
+            this.y = Math.random() * particlesCanvas.height;
+            this.size = Math.random() * 1.5 + 0.3;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.opacity = Math.random() * 0.3 + 0.05;
+        }
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x < 0) this.x = particlesCanvas.width;
+            if (this.x > particlesCanvas.width) this.x = 0;
+            if (this.y < 0) this.y = particlesCanvas.height;
+            if (this.y > particlesCanvas.height) this.y = 0;
+        }
+        draw() {
+            particlesCtx.beginPath();
+            particlesCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            particlesCtx.fillStyle = `rgba(0, 240, 255, ${this.opacity})`;
+            particlesCtx.fill();
+        }
+    }
 
-  function sendSuggestion(el) {
-    userInput.value = el.textContent.replace(/^[📝💻🎨📚] /, '');
-    sendMessage();
-  }
+    for (let i = 0; i < 50; i++) {
+        particles.push(new Particle());
+    }
 
-  userInput.focus();
-</script>
+    function animateParticles() {
+        particlesCtx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
 
+    // ===== GSAP SCROLL ANIMATIONS =====
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero entrance
+    gsap.from('.hero-badge', { opacity: 0, y: 30, duration: 1, delay: 2.5, ease: 'power3.out' });
+    gsap.from('.hero-title', { opacity: 0, y: 50, duration: 1.2, delay: 2.7, ease: 'power3.out' });
+    gsap.from('.hero-subtitle', { opacity: 0, y: 30, duration: 1, delay: 3, ease: 'power3.out' });
+    gsap.from('.hero-buttons', { opacity: 0, y: 30, duration: 1, delay: 3.2, ease: 'power3.out' });
+    gsap.from('.scroll-indicator', { opacity: 0, duration: 1, delay: 3.5, ease: 'power3.out' });
+
+    // Section headers
+    document.querySelectorAll('.section-header').forEach(header => {
+        gsap.from(header, {
+            scrollTrigger: { trigger: header, start: 'top 85%', toggleActions: 'play none none none' },
+            opacity: 0, y: 40, duration: 0.8, ease: 'power3.out'
+        });
+    });
+
+    // Product cards - staggered
+    gsap.from('.product-card', {
+        scrollTrigger: { trigger: '.products-grid', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 60, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+    });
+
+    // Feature cards
+    gsap.from('.feature-card', {
+        scrollTrigger: { trigger: '.features-grid', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 50, scale: 0.95, duration: 0.7, stagger: 0.1, ease: 'power3.out'
+    });
+
+    // Showcase items
+    document.querySelectorAll('.showcase-item').forEach((item, index) => {
+        const image = item.querySelector('.showcase-image-wrapper');
+        const content = item.querySelector('.showcase-content');
+        const direction = index % 2 === 0 ? -80 : 80;
+
+        gsap.from(image, {
+            scrollTrigger: { trigger: item, start: 'top 75%', toggleActions: 'play none none none' },
+            opacity: 0, x: direction, duration: 1, ease: 'power3.out'
+        });
+        gsap.from(content, {
+            scrollTrigger: { trigger: item, start: 'top 75%', toggleActions: 'play none none none' },
+            opacity: 0, x: -direction, duration: 1, delay: 0.2, ease: 'power3.out'
+        });
+    });
+
+    // Stats counter animation
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-count'));
+        gsap.from(stat, {
+            scrollTrigger: { trigger: stat, start: 'top 85%', toggleActions: 'play none none none' },
+            textContent: 0, duration: 2.5, ease: 'power2.out',
+            snap: { textContent: 1 },
+            onUpdate: function() {
+                stat.textContent = Math.ceil(this.targets()[0].textContent).toLocaleString();
+            }
+        });
+    });
+
+    // Testimonial cards
+    gsap.from('.testimonial-card', {
+        scrollTrigger: { trigger: '.testimonials-grid', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 50, rotateX: 10, duration: 0.8, stagger: 0.2, ease: 'power3.out'
+    });
+
+    // CTA section
+    gsap.from('.cta-title', {
+        scrollTrigger: { trigger: '.cta-section', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 40, duration: 0.8, ease: 'power3.out'
+    });
+    gsap.from('.cta-desc', {
+        scrollTrigger: { trigger: '.cta-section', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 30, duration: 0.8, delay: 0.2, ease: 'power3.out'
+    });
+    gsap.from('.cta-section .btn-primary', {
+        scrollTrigger: { trigger: '.cta-section', start: 'top 80%', toggleActions: 'play none none none' },
+        opacity: 0, y: 30, duration: 0.8, delay: 0.4, ease: 'power3.out'
+    });
+
+    // Footer
+    gsap.from('.footer-grid > div', {
+        scrollTrigger: { trigger: '.footer', start: 'top 90%', toggleActions: 'play none none none' },
+        opacity: 0, y: 30, duration: 0.6, stagger: 0.1, ease: 'power3.out'
+    });
+
+    // ===== PARALLAX EFFECT =====
+    document.querySelectorAll('.showcase-image').forEach(img => {
+        gsap.to(img, {
+            scrollTrigger: {
+                trigger: img.parentElement,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: -30,
+            ease: 'none'
+        });
+    });
+
+    // ===== PRODUCT CARD INTERACTION =====
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, { scale: 1.02, duration: 0.3, ease: 'power2.out' });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, { scale: 1, duration: 0.3, ease: 'power2.out' });
+        });
+    });
+
+    // ===== SMOOTH SCROLL FOR NAV LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                gsap.to(window, {
+                    duration: 1.2,
+                    scrollTo: { y: target, offsetY: 80 },
+                    ease: 'power3.inOut'
+                });
+            }
+        });
+    });
+
+    // ===== MOUSE FOLLOW GLOW =====
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // ===== BUTTON BUY CLICK =====
+    document.querySelectorAll('.btn-buy').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = btn.closest('.product-card');
+            gsap.to(btn, { scale: 0.8, duration: 0.1, yoyo: true, repeat: 1 });
+            // Create ripple effect
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute; width: 20px; height: 20px;
+                background: var(--primary); border-radius: 50%;
+                pointer-events: none; opacity: 0.6;
+            `;
+            const rect = btn.getBoundingClientRect();
+            ripple.style.left = (rect.left + rect.width/2 - 10) + 'px';
+            ripple.style.top = (rect.top + rect.height/2 - 10) + 'px';
+            document.body.appendChild(ripple);
+            gsap.to(ripple, {
+                scale: 15, opacity: 0, duration: 0.6,
+                onComplete: () => ripple.remove()
+            });
+        });
+    });
+
+    // ===== NAV CTA CLICK =====
+    document.querySelector('.nav-cta').addEventListener('click', () => {
+        alert('Hubungi kami di WhatsApp: +62 812-3456-7890 atau email: info@nexuspc.id');
+    });
+
+    // ===== SCROLL REVEAL FOR MARQUEE =====
+    gsap.from('.marquee-section', {
+        scrollTrigger: { trigger: '.marquee-section', start: 'top 90%', toggleActions: 'play none none none' },
+        opacity: 0, y: 20, duration: 0.6, ease: 'power3.out'
+    });
+
+    // ===== FLOATING ELEMENTS PARALLAX =====
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        document.querySelectorAll('.float-element').forEach((el, i) => {
+            const speed = 0.1 + (i * 0.05);
+            el.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    });
+
+    // ===== TILT EFFECT ON PRODUCT CARDS =====
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+        });
+    });
+
+    // ===== TEXT SCRAMBLE EFFECT FOR HERO TITLE =====
+    class TextScramble {
+        constructor(el) {
+            this.el = el;
+            this.chars = '!<>-_\/[]{}--=+*^?#________';
+            this.update = this.update.bind(this);
+        }
+        setText(newText) {
+            const oldText = this.el.innerText;
+            const length = Math.max(oldText.length, newText.length);
+            const promise = new Promise((resolve) => this.resolve = resolve);
+            this.queue = [];
+            for (let i = 0; i < length; i++) {
+                const from = oldText[i] || '';
+                const to = newText[i] || '';
+                const start = Math.floor(Math.random() * 40);
+                const end = start + Math.floor(Math.random() * 40);
+                this.queue.push({ from, to, start, end });
+            }
+            cancelAnimationFrame(this.frameRequest);
+            this.frame = 0;
+            this.update();
+            return promise;
+        }
+        update() {
+            let output = '';
+            let complete = 0;
+            for (let i = 0, n = this.queue.length; i < n; i++) {
+                let { from, to, start, end, char } = this.queue[i];
+                if (this.frame >= end) {
+                    complete++;
+                    output += to;
+                } else if (this.frame >= start) {
+                    if (!char || Math.random() < 0.28) {
+                        char = this.randomChar();
+                        this.queue[i].char = char;
+                    }
+                    output += `<span style="color:var(--primary)">${char}</span>`;
+                } else {
+                    output += from;
+                }
+            }
+            this.el.innerHTML = output;
+            if (complete === this.queue.length) {
+                this.resolve();
+            } else {
+                this.frameRequest = requestAnimationFrame(this.update);
+                this.frame++;
+            }
+        }
+        randomChar() {
+            return this.chars[Math.floor(Math.random() * this.chars.length)];
+        }
+    }
+
+    // ===== CURSOR GLOW =====
+    const cursorGlow = document.createElement('div');
+    cursorGlow.style.cssText = `
+        position: fixed; width: 300px; height: 300px;
+        background: radial-gradient(circle, rgba(0,240,255,0.08) 0%, transparent 70%);
+        border-radius: 50%; pointer-events: none; z-index: 9998;
+        transform: translate(-50%, -50%); transition: opacity 0.3s;
+    `;
+    document.body.appendChild(cursorGlow);
+
+    document.addEventListener('mousemove', (e) => {
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    // ===== INTERSECTION OBSERVER FOR FADE IN =====
+    const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.product-card, .feature-card, .testimonial-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        fadeObserver.observe(el);
+    });
+
+    // ===== NAV LINK ACTIVE STATE =====
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            if (window.scrollY >= sectionTop) {
+                current = section.getAttribute('id');
+            }
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.style.color = '';
+            if (link.getAttribute('href') === '#' + current) {
+                link.style.color = 'var(--primary)';
+            }
+        });
+    });
+
+    // ===== MAGNETIC BUTTON EFFECT =====
+    document.querySelectorAll('.btn-primary, .btn-secondary, .nav-cta').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        });
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0, 0)';
+        });
+    });
+
+    // ===== GLITCH EFFECT ON SCROLL =====
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        const scrollDiff = currentScroll - lastScroll;
+        if (Math.abs(scrollDiff) > 50) {
+            document.querySelectorAll('.section-title').forEach(title => {
+                title.style.textShadow = `${Math.random() * 4 - 2}px 0 var(--primary), ${Math.random() * 4 - 2}px 0 var(--secondary)`;
+                setTimeout(() => { title.style.textShadow = 'none'; }, 100);
+            });
+        }
+        lastScroll = currentScroll;
+    });
+
+    // ===== SMOOTH SCROLL POLYFILL =====
+    if (!('scrollBehavior' in document.documentElement.style)) {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    }
+
+    // ===== PRODUCT CARD 3D TILT ENHANCED =====
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 15;
+            const rotateY = (centerX - x) / 15;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+            card.style.transition = 'transform 0.1s ease-out';
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+            card.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+    });
+
+    // ===== FEATURE CARD ICON ANIMATION =====
+    document.querySelectorAll('.feature-card').forEach(card => {
+        const icon = card.querySelector('.feature-icon');
+        card.addEventListener('mouseenter', () => {
+            gsap.to(icon, { rotation: 360, duration: 0.6, ease: 'power2.out' });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(icon, { rotation: 0, duration: 0.6, ease: 'power2.out' });
+        });
+    });
+
+    // ===== SHOWCASE IMAGE ZOOM ON SCROLL =====
+    document.querySelectorAll('.showcase-image-wrapper').forEach(wrapper => {
+        const img = wrapper.querySelector('.showcase-image');
+        gsap.to(img, {
+            scrollTrigger: {
+                trigger: wrapper,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 2
+            },
+            scale: 1.1,
+            ease: 'none'
+        });
+    });
+
+    // ===== TESTIMONIAL CARD HOVER =====
+    document.querySelectorAll('.testimonial-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            gsap.to(card, { y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.3)', duration: 0.3 });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, { y: 0, boxShadow: 'none', duration: 0.3 });
+        });
+    });
+
+    // ===== HERO PARALLAX =====
+    gsap.to('.hero-content', {
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1
+        },
+        y: 100,
+        opacity: 0.3,
+        ease: 'none'
+    });
+
+    // ===== NAVBAR BLUR ON SCROLL =====
+    window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        if (scrollY > 100) {
+            navbar.style.backdropFilter = `blur(${Math.min(scrollY / 10, 20)}px)`;
+        } else {
+            navbar.style.backdropFilter = 'blur(0px)';
+        }
+    });
+
+    // ===== SCROLL VELOCITY EFFECT =====
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        document.body.style.transition = 'transform 0.1s';
+        document.body.style.transform = 'skewY(0.5deg)';
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            document.body.style.transform = 'skewY(0deg)';
+        }, 100);
+    });
+
+    // ===== RIPPLE EFFECT ON BUTTONS =====
+    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const ripple = document.createElement('span');
+            ripple.style.cssText = `
+                position: absolute; background: rgba(255,255,255,0.3);
+                border-radius: 50%; transform: scale(0); pointer-events: none;
+                animation: rippleEffect 0.6s linear;
+            `;
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+            ripple.style.marginLeft = ripple.style.marginTop = -Math.max(rect.width, rect.height) / 2 + 'px';
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Add ripple keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes rippleEffect {
+            to { transform: scale(2); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // ===== INIT =====
+    console.log('%c NEXUS PC ', 'background: linear-gradient(135deg, #00f0ff, #ff2d95); color: #000; font-size: 24px; font-weight: bold; padding: 10px 20px; border-radius: 10px;');
+    console.log('%c Premium Gaming PC Store - Built with passion ', 'color: #00f0ff; font-size: 14px;');
+    </script>
 </body>
 </html>
