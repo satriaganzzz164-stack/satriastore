@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+
+import math
+
+html_content = '''<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -22,11 +25,7 @@
             --shadow-hover: rgba(0, 0, 0, 0.12);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -36,12 +35,9 @@
             min-height: 100vh;
         }
 
-        /* ===== NAVBAR ===== */
         .navbar {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
@@ -60,9 +56,7 @@
             letter-spacing: -0.5px;
         }
 
-        .logo span {
-            color: var(--accent-warm);
-        }
+        .logo span { color: var(--accent-warm); }
 
         .nav-links {
             display: flex;
@@ -80,9 +74,7 @@
             transition: color 0.3s ease;
         }
 
-        .nav-links a:hover {
-            color: var(--text);
-        }
+        .nav-links a:hover { color: var(--text); }
 
         .nav-right {
             display: flex;
@@ -114,14 +106,12 @@
             transform: translateY(-1px);
         }
 
-        /* ===== MAIN LAYOUT ===== */
         .main-container {
             display: flex;
             height: 100vh;
             padding-top: 72px;
         }
 
-        /* ===== 3D VIEWER AREA ===== */
         .viewer-area {
             flex: 1;
             position: relative;
@@ -160,8 +150,7 @@
             transition: all 0.3s ease;
         }
 
-        .view-btn:hover,
-        .view-btn.active {
+        .view-btn:hover, .view-btn.active {
             background: var(--text);
             color: var(--white);
             border-color: var(--text);
@@ -179,7 +168,6 @@
             opacity: 0.7;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 380px;
             background: var(--white);
@@ -190,9 +178,7 @@
             flex-direction: column;
         }
 
-        .product-header {
-            margin-bottom: 36px;
-        }
+        .product-header { margin-bottom: 36px; }
 
         .product-tag {
             font-size: 11px;
@@ -218,16 +204,13 @@
             line-height: 1.7;
         }
 
-        /* ===== SECTIONS ===== */
         .section {
             margin-bottom: 32px;
             padding-bottom: 32px;
             border-bottom: 1px solid var(--border);
         }
 
-        .section:last-of-type {
-            border-bottom: none;
-        }
+        .section:last-of-type { border-bottom: none; }
 
         .section-title {
             font-size: 12px;
@@ -238,7 +221,6 @@
             margin-bottom: 20px;
         }
 
-        /* ===== COLOR PICKER ===== */
         .color-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -255,9 +237,7 @@
             position: relative;
         }
 
-        .color-option:hover {
-            transform: scale(1.1);
-        }
+        .color-option:hover { transform: scale(1.1); }
 
         .color-option.active {
             border-color: var(--text);
@@ -276,12 +256,8 @@
             transition: opacity 0.3s ease;
         }
 
-        .color-option:hover .color-label,
-        .color-option.active .color-label {
-            opacity: 1;
-        }
+        .color-option:hover .color-label, .color-option.active .color-label { opacity: 1; }
 
-        /* ===== MATERIAL SELECTOR ===== */
         .material-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -315,19 +291,9 @@
             display: block;
         }
 
-        .material-name {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text);
-        }
+        .material-name { font-size: 12px; font-weight: 500; color: var(--text); }
+        .material-desc { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
-        .material-desc {
-            font-size: 10px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        /* ===== SIZE SELECTOR ===== */
         .size-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -347,23 +313,10 @@
             background: var(--white);
         }
 
-        .size-option:hover {
-            border-color: var(--text-muted);
-        }
+        .size-option:hover { border-color: var(--text-muted); }
+        .size-option.active { background: var(--text); color: var(--white); border-color: var(--text); }
+        .size-option.disabled { opacity: 0.4; cursor: not-allowed; text-decoration: line-through; }
 
-        .size-option.active {
-            background: var(--text);
-            color: var(--white);
-            border-color: var(--text);
-        }
-
-        .size-option.disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            text-decoration: line-through;
-        }
-
-        /* ===== SOLE SELECTOR ===== */
         .sole-options {
             display: flex;
             flex-direction: column;
@@ -381,14 +334,8 @@
             transition: all 0.3s ease;
         }
 
-        .sole-option:hover {
-            border-color: var(--text-muted);
-        }
-
-        .sole-option.active {
-            border-color: var(--text);
-            background: var(--bg);
-        }
+        .sole-option:hover { border-color: var(--text-muted); }
+        .sole-option.active { border-color: var(--text); background: var(--bg); }
 
         .sole-preview {
             width: 48px;
@@ -398,19 +345,9 @@
             border: 1px solid var(--border);
         }
 
-        .sole-info h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 2px;
-        }
+        .sole-info h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+        .sole-info p { font-size: 12px; color: var(--text-muted); }
 
-        .sole-info p {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* ===== LACE SELECTOR ===== */
         .lace-grid {
             display: flex;
             gap: 12px;
@@ -431,15 +368,8 @@
             color: var(--text);
         }
 
-        .lace-option:hover {
-            border-color: var(--text-muted);
-        }
-
-        .lace-option.active {
-            border-color: var(--text);
-            background: var(--text);
-            color: var(--white);
-        }
+        .lace-option:hover { border-color: var(--text-muted); }
+        .lace-option.active { border-color: var(--text); background: var(--text); color: var(--white); }
 
         .lace-color-dot {
             width: 14px;
@@ -448,7 +378,6 @@
             border: 1px solid rgba(0,0,0,0.1);
         }
 
-        /* ===== SUMMARY BAR ===== */
         .summary-bar {
             margin-top: auto;
             padding-top: 24px;
@@ -462,14 +391,8 @@
             font-size: 13px;
         }
 
-        .summary-row span:first-child {
-            color: var(--text-light);
-        }
-
-        .summary-row span:last-child {
-            color: var(--text);
-            font-weight: 500;
-        }
+        .summary-row span:first-child { color: var(--text-light); }
+        .summary-row span:last-child { color: var(--text); font-weight: 500; }
 
         .summary-total {
             display: flex;
@@ -479,18 +402,8 @@
             border-top: 1px solid var(--border);
         }
 
-        .summary-total span:first-child {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .summary-total span:last-child {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text);
-            font-family: 'Playfair Display', serif;
-        }
+        .summary-total span:first-child { font-size: 14px; font-weight: 600; color: var(--text); }
+        .summary-total span:last-child { font-size: 22px; font-weight: 700; color: var(--text); font-family: 'Playfair Display', serif; }
 
         .btn-add-cart {
             width: 100%;
@@ -513,61 +426,32 @@
             box-shadow: 0 8px 24px var(--shadow-hover);
         }
 
-        /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .sidebar > * {
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
+        .sidebar > * { animation: fadeInUp 0.6s ease forwards; }
         .sidebar > *:nth-child(1) { animation-delay: 0.1s; }
         .sidebar > *:nth-child(2) { animation-delay: 0.2s; }
         .sidebar > *:nth-child(3) { animation-delay: 0.3s; }
         .sidebar > *:nth-child(4) { animation-delay: 0.4s; }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .main-container {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid var(--border);
-            }
-            .viewer-area {
-                height: 50vh;
-            }
+            .main-container { flex-direction: column; }
+            .sidebar { width: 100%; border-left: none; border-top: 1px solid var(--border); }
+            .viewer-area { height: 50vh; }
         }
 
         @media (max-width: 768px) {
-            .navbar {
-                padding: 16px 20px;
-            }
-            .nav-links {
-                display: none;
-            }
-            .sidebar {
-                padding: 28px 20px;
-            }
+            .navbar { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .sidebar { padding: 28px 20px; }
         }
 
-        /* ===== LOADING ===== */
         .loading-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: var(--bg);
             display: flex;
             flex-direction: column;
@@ -577,10 +461,7 @@
             transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+        .loading-screen.hidden { opacity: 0; visibility: hidden; }
 
         .loading-logo {
             font-family: 'Playfair Display', serif;
@@ -618,19 +499,14 @@
             text-transform: uppercase;
         }
     </style>
-<base target="_blank">
 </head>
 <body>
-    <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">Atelier</div>
-        <div class="loading-bar">
-            <div class="loading-bar-fill"></div>
-        </div>
+        <div class="loading-bar"><div class="loading-bar-fill"></div></div>
         <div class="loading-text">Memuat konfigurator...</div>
     </div>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="logo">Atelier<span>.</span></div>
         <ul class="nav-links">
@@ -645,9 +521,7 @@
         </div>
     </nav>
 
-    <!-- Main Container -->
     <div class="main-container">
-        <!-- 3D Viewer -->
         <div class="viewer-area">
             <div class="viewer-hint">Drag untuk memutar • Scroll untuk zoom</div>
             <div id="canvas-container"></div>
@@ -659,7 +533,6 @@
             </div>
         </div>
 
-        <!-- Sidebar -->
         <div class="sidebar">
             <div class="product-header">
                 <div class="product-tag">Edisi Terbatas</div>
@@ -667,44 +540,22 @@
                 <p class="product-desc">Desain sneaker premium yang sepenuhnya dapat dikustomisasi. Pilih warna, material, dan detail sesuai gayamu.</p>
             </div>
 
-            <!-- Color Section -->
             <div class="section">
                 <h3 class="section-title">Warna Upper</h3>
                 <div class="color-grid" id="upperColors">
-                    <div class="color-option active" style="background: #FFFFFF;" data-color="#FFFFFF" data-name="Putih">
-                        <span class="color-label">Putih</span>
-                    </div>
-                    <div class="color-option" style="background: #1A1A1A;" data-color="#1A1A1A" data-name="Hitam">
-                        <span class="color-label">Hitam</span>
-                    </div>
-                    <div class="color-option" style="background: #8B4513;" data-color="#8B4513" data-name="Coklat">
-                        <span class="color-label">Coklat</span>
-                    </div>
-                    <div class="color-option" style="background: #2C3E50;" data-color="#2C3E50" data-name="Navy">
-                        <span class="color-label">Navy</span>
-                    </div>
-                    <div class="color-option" style="background: #8B7355;" data-color="#8B7355" data-name="Tan">
-                        <span class="color-label">Tan</span>
-                    </div>
-                    <div class="color-option" style="background: #C0392B;" data-color="#C0392B" data-name="Merah">
-                        <span class="color-label">Merah</span>
-                    </div>
-                    <div class="color-option" style="background: #27AE60;" data-color="#27AE60" data-name="Hijau">
-                        <span class="color-label">Hijau</span>
-                    </div>
-                    <div class="color-option" style="background: #D4A574;" data-color="#D4A574" data-name="Krem">
-                        <span class="color-label">Krem</span>
-                    </div>
-                    <div class="color-option" style="background: #7F8C8D;" data-color="#7F8C8D" data-name="Abu-abu">
-                        <span class="color-label">Abu-abu</span>
-                    </div>
-                    <div class="color-option" style="background: #E8DCC8;" data-color="#E8DCC8" data-name="Beige">
-                        <span class="color-label">Beige</span>
-                    </div>
+                    <div class="color-option active" style="background: #FFFFFF;" data-color="#FFFFFF" data-name="Putih"><span class="color-label">Putih</span></div>
+                    <div class="color-option" style="background: #1A1A1A;" data-color="#1A1A1A" data-name="Hitam"><span class="color-label">Hitam</span></div>
+                    <div class="color-option" style="background: #8B4513;" data-color="#8B4513" data-name="Coklat"><span class="color-label">Coklat</span></div>
+                    <div class="color-option" style="background: #2C3E50;" data-color="#2C3E50" data-name="Navy"><span class="color-label">Navy</span></div>
+                    <div class="color-option" style="background: #8B7355;" data-color="#8B7355" data-name="Tan"><span class="color-label">Tan</span></div>
+                    <div class="color-option" style="background: #C0392B;" data-color="#C0392B" data-name="Merah"><span class="color-label">Merah</span></div>
+                    <div class="color-option" style="background: #27AE60;" data-color="#27AE60" data-name="Hijau"><span class="color-label">Hijau</span></div>
+                    <div class="color-option" style="background: #D4A574;" data-color="#D4A574" data-name="Krem"><span class="color-label">Krem</span></div>
+                    <div class="color-option" style="background: #7F8C8D;" data-color="#7F8C8D" data-name="Abu"><span class="color-label">Abu</span></div>
+                    <div class="color-option" style="background: #E8DCC8;" data-color="#E8DCC8" data-name="Beige"><span class="color-label">Beige</span></div>
                 </div>
             </div>
 
-            <!-- Material Section -->
             <div class="section">
                 <h3 class="section-title">Material Upper</h3>
                 <div class="material-grid" id="materials">
@@ -741,7 +592,6 @@
                 </div>
             </div>
 
-            <!-- Sole Section -->
             <div class="section">
                 <h3 class="section-title">Jenis Sol</h3>
                 <div class="sole-options" id="soles">
@@ -769,38 +619,30 @@
                 </div>
             </div>
 
-            <!-- Lace Section -->
             <div class="section">
                 <h3 class="section-title">Warna Tali</h3>
                 <div class="lace-grid" id="laces">
                     <div class="lace-option active" data-lace="#FFFFFF" data-price="0">
-                        <div class="lace-color-dot" style="background: #FFFFFF;"></div>
-                        Putih
+                        <div class="lace-color-dot" style="background: #FFFFFF;"></div>Putih
                     </div>
                     <div class="lace-option" data-lace="#1A1A1A" data-price="0">
-                        <div class="lace-color-dot" style="background: #1A1A1A;"></div>
-                        Hitam
+                        <div class="lace-color-dot" style="background: #1A1A1A;"></div>Hitam
                     </div>
                     <div class="lace-option" data-lace="#8B4513" data-price="15000">
-                        <div class="lace-color-dot" style="background: #8B4513;"></div>
-                        Coklat
+                        <div class="lace-color-dot" style="background: #8B4513;"></div>Coklat
                     </div>
                     <div class="lace-option" data-lace="#C0392B" data-price="15000">
-                        <div class="lace-color-dot" style="background: #C0392B;"></div>
-                        Merah
+                        <div class="lace-color-dot" style="background: #C0392B;"></div>Merah
                     </div>
                     <div class="lace-option" data-lace="#2C3E50" data-price="15000">
-                        <div class="lace-color-dot" style="background: #2C3E50;"></div>
-                        Navy
+                        <div class="lace-color-dot" style="background: #2C3E50;"></div>Navy
                     </div>
                     <div class="lace-option" data-lace="#D4A574" data-price="20000">
-                        <div class="lace-color-dot" style="background: #D4A574;"></div>
-                        Krem
+                        <div class="lace-color-dot" style="background: #D4A574;"></div>Krem
                     </div>
                 </div>
             </div>
 
-            <!-- Size Section -->
             <div class="section">
                 <h3 class="section-title">Ukuran</h3>
                 <div class="size-grid" id="sizes">
@@ -817,53 +659,28 @@
                 </div>
             </div>
 
-            <!-- Summary -->
             <div class="summary-bar">
-                <div class="summary-row">
-                    <span>Base Price</span>
-                    <span id="basePrice">Rp 1.299.000</span>
-                </div>
-                <div class="summary-row">
-                    <span>Material</span>
-                    <span id="materialPrice">+ Rp 0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Sol</span>
-                    <span id="solePrice">+ Rp 0</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tali</span>
-                    <span id="lacePrice">+ Rp 0</span>
-                </div>
-                <div class="summary-total">
-                    <span>Total</span>
-                    <span id="totalPrice">Rp 1.299.000</span>
-                </div>
+                <div class="summary-row"><span>Base Price</span><span id="basePrice">Rp 1.299.000</span></div>
+                <div class="summary-row"><span>Material</span><span id="materialPrice">+ Rp 0</span></div>
+                <div class="summary-row"><span>Sol</span><span id="solePrice">+ Rp 0</span></div>
+                <div class="summary-row"><span>Tali</span><span id="lacePrice">+ Rp 0</span></div>
+                <div class="summary-total"><span>Total</span><span id="totalPrice">Rp 1.299.000</span></div>
                 <button class="btn-add-cart" id="addToCart">Tambah ke Keranjang</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ===== THREE.JS SETUP =====
         let scene, camera, renderer, controls;
-        let sneakerGroup, upperMesh, soleMesh, laceMesh, tongueMesh, heelMesh;
+        let sneakerGroup;
+        let upperMeshes = [], soleMeshes = [], laceMeshes = [], tongueMesh, heelMesh, toeMesh;
         let currentUpperColor = 0xFFFFFF;
         let currentSoleColor = 0x2C2C2C;
         let currentLaceColor = 0xFFFFFF;
-        let isAutoRotating = true;
 
-        // Price state
-        let prices = {
-            base: 1299000,
-            material: 0,
-            sole: 0,
-            lace: 0
-        };
+        let prices = { base: 1299000, material: 0, sole: 0, lace: 0 };
 
-        function formatPrice(price) {
-            return 'Rp ' + price.toLocaleString('id-ID');
-        }
+        function formatPrice(price) { return 'Rp ' + price.toLocaleString('id-ID'); }
 
         function updateTotal() {
             const total = prices.base + prices.material + prices.sole + prices.lace;
@@ -871,21 +688,316 @@
             document.getElementById('navPrice').textContent = formatPrice(total);
         }
 
+        // ===== CREATE REALISTIC SNEAKER GEOMETRY =====
+        function createSneakerShape() {
+            const shape = new THREE.Shape();
+            
+            // Draw sneaker profile (side view outline)
+            // Start from bottom front (toe tip)
+            shape.moveTo(1.4, 0.15);
+            
+            // Toe top curve
+            shape.bezierCurveTo(1.3, 0.35, 1.1, 0.5, 0.8, 0.52);
+            
+            // Top of foot (vamp)
+            shape.bezierCurveTo(0.4, 0.55, 0.0, 0.58, -0.3, 0.6);
+            
+            // Tongue area
+            shape.bezierCurveTo(-0.5, 0.7, -0.6, 0.9, -0.65, 1.1);
+            
+            // Ankle collar top
+            shape.bezierCurveTo(-0.7, 1.25, -0.9, 1.3, -1.1, 1.25);
+            
+            // Heel back
+            shape.bezierCurveTo(-1.3, 1.2, -1.4, 1.0, -1.4, 0.7);
+            
+            // Heel bottom
+            shape.bezierCurveTo(-1.4, 0.4, -1.35, 0.25, -1.3, 0.15);
+            
+            // Bottom sole back
+            shape.lineTo(1.4, 0.15);
+            
+            return shape;
+        }
+
+        function buildSneaker() {
+            sneakerGroup = new THREE.Group();
+
+            const upperMat = new THREE.MeshStandardMaterial({
+                color: currentUpperColor, roughness: 0.7, metalness: 0.05
+            });
+            const soleMat = new THREE.MeshStandardMaterial({
+                color: currentSoleColor, roughness: 0.4, metalness: 0.1
+            });
+            const laceMat = new THREE.MeshStandardMaterial({
+                color: currentLaceColor, roughness: 0.8, metalness: 0.0
+            });
+            const tongueMat = new THREE.MeshStandardMaterial({
+                color: currentUpperColor, roughness: 0.75, metalness: 0.05
+            });
+            const heelMat = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(currentUpperColor).multiplyScalar(0.85),
+                roughness: 0.6, metalness: 0.1
+            });
+            const toeMat = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(currentUpperColor).multiplyScalar(0.92),
+                roughness: 0.5, metalness: 0.1
+            });
+
+            // ===== 1. MAIN UPPER BODY - Using ExtrudeGeometry with custom shape =====
+            const sneakerShape = new THREE.Shape();
+            
+            // More realistic sneaker silhouette
+            // Bottom curve (sole line)
+            sneakerShape.moveTo(1.35, 0.32);
+            sneakerShape.bezierCurveTo(1.2, 0.32, 0.8, 0.32, 0.3, 0.32);
+            sneakerShape.bezierCurveTo(-0.2, 0.32, -0.8, 0.32, -1.25, 0.32);
+            
+            // Heel back
+            sneakerShape.bezierCurveTo(-1.35, 0.4, -1.38, 0.6, -1.38, 0.8);
+            sneakerShape.bezierCurveTo(-1.38, 1.0, -1.35, 1.15, -1.25, 1.25);
+            
+            // Heel top / ankle
+            sneakerShape.bezierCurveTo(-1.1, 1.3, -0.9, 1.28, -0.75, 1.2);
+            
+            // Tongue back
+            sneakerShape.bezierCurveTo(-0.6, 1.1, -0.5, 0.95, -0.45, 0.8);
+            
+            // Top of vamp
+            sneakerShape.bezierCurveTo(-0.2, 0.75, 0.1, 0.72, 0.4, 0.68);
+            
+            // Toe top
+            sneakerShape.bezierCurveTo(0.8, 0.62, 1.1, 0.55, 1.25, 0.48);
+            
+            // Toe front
+            sneakerShape.bezierCurveTo(1.38, 0.42, 1.4, 0.38, 1.35, 0.32);
+
+            const extrudeSettings = {
+                steps: 2,
+                depth: 1.0,
+                bevelEnabled: true,
+                bevelThickness: 0.08,
+                bevelSize: 0.08,
+                bevelSegments: 4
+            };
+
+            const upperGeo = new THREE.ExtrudeGeometry(sneakerShape, extrudeSettings);
+            upperGeo.center();
+            
+            // Scale to make it look like a shoe width
+            upperGeo.scale(1, 1, 0.65);
+            
+            const upper = new THREE.Mesh(upperGeo, upperMat);
+            upper.position.set(0, 0.55, 0);
+            upper.castShadow = true;
+            upper.receiveShadow = true;
+            sneakerGroup.add(upper);
+            upperMeshes.push(upper);
+
+            // ===== 2. SOLE - Two layers =====
+            // Bottom sole
+            const soleShape = new THREE.Shape();
+            soleShape.moveTo(1.4, 0.0);
+            soleShape.bezierCurveTo(1.3, 0.05, 0.8, 0.08, 0.3, 0.08);
+            soleShape.bezierCurveTo(-0.2, 0.08, -0.8, 0.08, -1.3, 0.05);
+            soleShape.bezierCurveTo(-1.38, 0.03, -1.4, 0.0, -1.35, -0.02);
+            soleShape.lineTo(1.4, -0.02);
+            soleShape.lineTo(1.4, 0.0);
+
+            const soleExtrude = {
+                steps: 1, depth: 1.05, bevelEnabled: true,
+                bevelThickness: 0.05, bevelSize: 0.05, bevelSegments: 3
+            };
+
+            const soleGeo = new THREE.ExtrudeGeometry(soleShape, soleExtrude);
+            soleGeo.center();
+            soleGeo.scale(1, 1, 0.68);
+            
+            const sole = new THREE.Mesh(soleGeo, soleMat);
+            sole.position.set(0, 0.12, 0);
+            sole.castShadow = true;
+            sole.receiveShadow = true;
+            sneakerGroup.add(sole);
+            soleMeshes.push(sole);
+
+            // Midsole stripe
+            const midsoleGeo = new THREE.BoxGeometry(2.6, 0.06, 1.0);
+            const midsoleMat = new THREE.MeshStandardMaterial({
+                color: 0xFFFFFF, roughness: 0.3, metalness: 0.05
+            });
+            const midsole = new THREE.Mesh(midsoleGeo, midsoleMat);
+            midsole.position.set(0, 0.28, 0);
+            sneakerGroup.add(midsole);
+
+            // ===== 3. TONGUE =====
+            const tongueShape = new THREE.Shape();
+            tongueShape.moveTo(-0.3, 0.0);
+            tongueShape.bezierCurveTo(-0.2, 0.4, -0.15, 0.7, -0.1, 0.9);
+            tongueShape.bezierCurveTo(-0.05, 1.0, 0.05, 1.0, 0.1, 0.9);
+            tongueShape.bezierCurveTo(0.15, 0.7, 0.2, 0.4, 0.3, 0.0);
+            tongueShape.lineTo(-0.3, 0.0);
+
+            const tongueExtrude = {
+                steps: 1, depth: 0.7, bevelEnabled: true,
+                bevelThickness: 0.03, bevelSize: 0.03, bevelSegments: 2
+            };
+
+            const tongueGeo = new THREE.ExtrudeGeometry(tongueShape, tongueExtrude);
+            tongueGeo.center();
+            tongueMesh = new THREE.Mesh(tongueGeo, tongueMat);
+            tongueMesh.position.set(-0.4, 1.0, 0);
+            tongueMesh.rotation.z = 0.2;
+            tongueMesh.castShadow = true;
+            sneakerGroup.add(tongueMesh);
+
+            // ===== 4. HEEL COUNTER =====
+            const heelGeo = new THREE.BoxGeometry(0.5, 0.8, 0.85);
+            const heelPos = heelGeo.attributes.position;
+            for (let i = 0; i < heelPos.count; i++) {
+                const x = heelPos.getX(i);
+                const y = heelPos.getY(i);
+                const z = heelPos.getZ(i);
+                // Round the top
+                if (y > 0.3) {
+                    heelPos.setX(i, x * (1 - (y - 0.3) * 0.3));
+                }
+                // Curve the sides
+                heelPos.setZ(i, z * (0.95 + Math.abs(x) * 0.05));
+            }
+            heelGeo.computeVertexNormals();
+            heelMesh = new THREE.Mesh(heelGeo, heelMat);
+            heelMesh.position.set(-1.05, 0.75, 0);
+            heelMesh.castShadow = true;
+            sneakerGroup.add(heelMesh);
+
+            // ===== 5. TOE CAP =====
+            const toeGeo = new THREE.SphereGeometry(0.45, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.6);
+            toeMesh = new THREE.Mesh(toeGeo, toeMat);
+            toeMesh.position.set(1.0, 0.45, 0);
+            toeMesh.scale.set(1.1, 0.7, 1.0);
+            toeMesh.rotation.z = -0.3;
+            toeMesh.castShadow = true;
+            sneakerGroup.add(toeMesh);
+
+            // ===== 6. LACES =====
+            const laceGroup = new THREE.Group();
+            for (let i = 0; i < 5; i++) {
+                // Create zigzag lace pattern
+                const laceGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.75, 8);
+                const lace = new THREE.Mesh(laceGeo, laceMat);
+                lace.rotation.z = Math.PI / 2;
+                lace.position.set(-0.15 + i * 0.18, 0.82 + i * 0.08, 0);
+                laceGroup.add(lace);
+                laceMeshes.push(lace);
+
+                // Cross lace
+                if (i < 4) {
+                    const crossGeo = new THREE.CylinderGeometry(0.015, 0.015, 0.2, 6);
+                    const cross1 = new THREE.Mesh(crossGeo, laceMat);
+                    cross1.position.set(-0.06 + i * 0.18, 0.86 + i * 0.08, 0.15);
+                    cross1.rotation.x = Math.PI / 4;
+                    laceGroup.add(cross1);
+                    laceMeshes.push(cross1);
+
+                    const cross2 = new THREE.Mesh(crossGeo, laceMat);
+                    cross2.position.set(-0.06 + i * 0.18, 0.86 + i * 0.08, -0.15);
+                    cross2.rotation.x = -Math.PI / 4;
+                    laceGroup.add(cross2);
+                    laceMeshes.push(cross2);
+                }
+            }
+            sneakerGroup.add(laceGroup);
+
+            // ===== 7. ANKLE COLLAR =====
+            const collarGeo = new THREE.TorusGeometry(0.38, 0.07, 12, 24, Math.PI);
+            const collarMat = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(currentUpperColor).multiplyScalar(0.8),
+                roughness: 0.9, metalness: 0.0
+            });
+            const collar = new THREE.Mesh(collarGeo, collarMat);
+            collar.position.set(-1.15, 1.15, 0);
+            collar.rotation.y = Math.PI / 2;
+            collar.rotation.z = Math.PI / 2;
+            sneakerGroup.add(collar);
+
+            // ===== 8. LOGO PATCH =====
+            const logoGeo = new THREE.CircleGeometry(0.12, 32);
+            const logoMat = new THREE.MeshStandardMaterial({
+                color: 0x8B7355, roughness: 0.3, metalness: 0.3
+            });
+            const logo = new THREE.Mesh(logoGeo, logoMat);
+            logo.position.set(-1.36, 0.95, 0);
+            logo.rotation.y = -Math.PI / 2;
+            sneakerGroup.add(logo);
+
+            // ===== 9. EYELETS =====
+            for (let i = 0; i < 5; i++) {
+                const eyeletGeo = new THREE.TorusGeometry(0.035, 0.012, 8, 16);
+                const eyeletMat = new THREE.MeshStandardMaterial({
+                    color: 0xB8B8B8, roughness: 0.2, metalness: 0.85
+                });
+                const eyeletL = new THREE.Mesh(eyeletGeo, eyeletMat);
+                eyeletL.position.set(-0.15 + i * 0.18, 0.78 + i * 0.08, 0.33);
+                eyeletL.rotation.y = Math.PI / 2;
+                sneakerGroup.add(eyeletL);
+
+                const eyeletR = new THREE.Mesh(eyeletGeo, eyeletMat);
+                eyeletR.position.set(-0.15 + i * 0.18, 0.78 + i * 0.08, -0.33);
+                eyeletR.rotation.y = Math.PI / 2;
+                sneakerGroup.add(eyeletR);
+            }
+
+            // ===== 10. STITCHING LINES =====
+            const stitchMat = new THREE.MeshStandardMaterial({
+                color: 0x888888, roughness: 0.8
+            });
+            
+            // Side stitching
+            const stitchGeo1 = new THREE.BoxGeometry(2.4, 0.008, 0.008);
+            const stitch1 = new THREE.Mesh(stitchGeo1, stitchMat);
+            stitch1.position.set(0, 0.58, 0.34);
+            sneakerGroup.add(stitch1);
+
+            const stitch2 = stitch1.clone();
+            stitch2.position.set(0, 0.58, -0.34);
+            sneakerGroup.add(stitch2);
+
+            // Heel stitching
+            const stitchGeo3 = new THREE.BoxGeometry(0.008, 0.6, 0.008);
+            const stitch3 = new THREE.Mesh(stitchGeo3, stitchMat);
+            stitch3.position.set(-1.25, 0.7, 0.34);
+            sneakerGroup.add(stitch3);
+
+            const stitch4 = stitch3.clone();
+            stitch4.position.set(-1.25, 0.7, -0.34);
+            sneakerGroup.add(stitch4);
+
+            // ===== 11. SOLE TREAD PATTERN =====
+            for (let i = -3; i <= 3; i++) {
+                const treadGeo = new THREE.BoxGeometry(0.08, 0.04, 0.7);
+                const treadMat = new THREE.MeshStandardMaterial({
+                    color: 0x1A1A1A, roughness: 0.9
+                });
+                const tread = new THREE.Mesh(treadGeo, treadMat);
+                tread.position.set(i * 0.35, -0.05, 0);
+                sneakerGroup.add(tread);
+            }
+
+            scene.add(sneakerGroup);
+        }
+
         function initThree() {
             const container = document.getElementById('canvas-container');
             const width = container.clientWidth;
             const height = container.clientHeight;
 
-            // Scene
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0xF5F3EF);
             scene.fog = new THREE.Fog(0xF5F3EF, 8, 20);
 
-            // Camera
-            camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-            camera.position.set(4, 3, 5);
+            camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+            camera.position.set(3.5, 2.5, 4.5);
 
-            // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(width, height);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -895,373 +1007,115 @@
             renderer.toneMappingExposure = 1.2;
             container.appendChild(renderer.domElement);
 
-            // Controls
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true;
             controls.dampingFactor = 0.05;
-            controls.minDistance = 3;
+            controls.minDistance = 2.5;
             controls.maxDistance = 10;
-            controls.maxPolarAngle = Math.PI / 2 - 0.1;
+            controls.maxPolarAngle = Math.PI / 2 - 0.05;
             controls.autoRotate = true;
-            controls.autoRotateSpeed = 1.5;
+            controls.autoRotateSpeed = 1.0;
             controls.enablePan = false;
 
-            // Lights
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.55);
             scene.add(ambientLight);
 
-            const keyLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            keyLight.position.set(5, 8, 5);
+            const keyLight = new THREE.DirectionalLight(0xffffff, 0.9);
+            keyLight.position.set(4, 8, 5);
             keyLight.castShadow = true;
             keyLight.shadow.mapSize.width = 2048;
             keyLight.shadow.mapSize.height = 2048;
             keyLight.shadow.camera.near = 0.1;
-            keyLight.shadow.camera.far = 20;
-            keyLight.shadow.bias = -0.001;
+            keyLight.shadow.camera.far = 25;
+            keyLight.shadow.bias = -0.0005;
             scene.add(keyLight);
 
-            const fillLight = new THREE.DirectionalLight(0xffeedd, 0.4);
-            fillLight.position.set(-5, 4, -3);
+            const fillLight = new THREE.DirectionalLight(0xFFE4C4, 0.35);
+            fillLight.position.set(-5, 3, -3);
             scene.add(fillLight);
 
-            const rimLight = new THREE.DirectionalLight(0xffffff, 0.3);
-            rimLight.position.set(0, 3, -5);
+            const rimLight = new THREE.DirectionalLight(0xffffff, 0.25);
+            rimLight.position.set(0, 2, -6);
             scene.add(rimLight);
 
             // Floor
-            const floorGeometry = new THREE.PlaneGeometry(20, 20);
-            const floorMaterial = new THREE.ShadowMaterial({ opacity: 0.1 });
-            const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+            const floorGeo = new THREE.PlaneGeometry(25, 25);
+            const floorMat = new THREE.ShadowMaterial({ opacity: 0.08 });
+            const floor = new THREE.Mesh(floorGeo, floorMat);
             floor.rotation.x = -Math.PI / 2;
             floor.position.y = -0.5;
             floor.receiveShadow = true;
             scene.add(floor);
 
-            // Build Sneaker
             buildSneaker();
 
-            // Handle resize
             window.addEventListener('resize', onWindowResize);
-
-            // Stop auto-rotate on interaction
-            controls.addEventListener('start', () => {
-                controls.autoRotate = false;
-            });
+            controls.addEventListener('start', () => { controls.autoRotate = false; });
 
             animate();
         }
 
-        function buildSneaker() {
-            sneakerGroup = new THREE.Group();
-
-            // Materials
-            const upperMaterial = new THREE.MeshStandardMaterial({
-                color: currentUpperColor,
-                roughness: 0.7,
-                metalness: 0.05,
-            });
-
-            const soleMaterial = new THREE.MeshStandardMaterial({
-                color: currentSoleColor,
-                roughness: 0.4,
-                metalness: 0.1,
-            });
-
-            const laceMaterial = new THREE.MeshStandardMaterial({
-                color: currentLaceColor,
-                roughness: 0.8,
-                metalness: 0.0,
-            });
-
-            const tongueMaterial = new THREE.MeshStandardMaterial({
-                color: currentUpperColor,
-                roughness: 0.75,
-                metalness: 0.05,
-            });
-
-            const heelMaterial = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(currentUpperColor).multiplyScalar(0.85),
-                roughness: 0.6,
-                metalness: 0.1,
-            });
-
-            // ===== UPPER BODY =====
-            // Main body - elongated box with rounded feel
-            const upperGeo = new THREE.BoxGeometry(2.8, 1.0, 1.2);
-            // Deform the geometry to look more like a shoe
-            const upperPos = upperGeo.attributes.position;
-            for (let i = 0; i < upperPos.count; i++) {
-                const x = upperPos.getX(i);
-                const y = upperPos.getY(i);
-                const z = upperPos.getZ(i);
-
-                // Taper the toe
-                if (x > 0.5) {
-                    upperPos.setY(i, y * (1 - (x - 0.5) * 0.4));
-                    upperPos.setZ(i, z * (1 - (x - 0.5) * 0.3));
-                }
-                // Round the heel
-                if (x < -0.8) {
-                    upperPos.setZ(i, z * (0.9 + (x + 0.8) * 0.1));
-                }
-                // Arch the top
-                if (y > 0) {
-                    upperPos.setY(i, y + Math.sin((x + 1.4) * 0.8) * 0.3);
-                }
-            }
-            upperGeo.computeVertexNormals();
-            upperMesh = new THREE.Mesh(upperGeo, upperMaterial);
-            upperMesh.position.set(0, 0.6, 0);
-            upperMesh.castShadow = true;
-            upperMesh.receiveShadow = true;
-            sneakerGroup.add(upperMesh);
-
-            // ===== SOLE =====
-            const soleGeo = new THREE.BoxGeometry(3.0, 0.35, 1.35);
-            const solePos = soleGeo.attributes.position;
-            for (let i = 0; i < solePos.count; i++) {
-                const x = solePos.getX(i);
-                const y = solePos.getY(i);
-                const z = solePos.getZ(i);
-
-                if (x > 0.6) {
-                    solePos.setZ(i, z * (1 - (x - 0.6) * 0.35));
-                    solePos.setY(i, y * (1 - (x - 0.6) * 0.2));
-                }
-                if (x < -0.9) {
-                    solePos.setZ(i, z * 0.95);
-                }
-            }
-            soleGeo.computeVertexNormals();
-            soleMesh = new THREE.Mesh(soleGeo, soleMaterial);
-            soleMesh.position.set(0, 0.15, 0);
-            soleMesh.castShadow = true;
-            soleMesh.receiveShadow = true;
-            sneakerGroup.add(soleMesh);
-
-            // Sole detail - stripe
-            const stripeGeo = new THREE.BoxGeometry(2.8, 0.05, 1.4);
-            const stripeMat = new THREE.MeshStandardMaterial({
-                color: 0xFFFFFF,
-                roughness: 0.3,
-            });
-            const stripe = new THREE.Mesh(stripeGeo, stripeMat);
-            stripe.position.set(0, 0.32, 0);
-            sneakerGroup.add(stripe);
-
-            // ===== TONGUE =====
-            const tongueGeo = new THREE.BoxGeometry(1.0, 0.6, 0.9);
-            const tonguePos = tongueGeo.attributes.position;
-            for (let i = 0; i < tonguePos.count; i++) {
-                const x = tonguePos.getX(i);
-                const y = tonguePos.getY(i);
-                if (y > 0) {
-                    tonguePos.setX(i, x * 0.85);
-                }
-            }
-            tongueGeo.computeVertexNormals();
-            tongueMesh = new THREE.Mesh(tongueGeo, tongueMaterial);
-            tongueMesh.position.set(-0.3, 1.15, 0);
-            tongueMesh.rotation.z = 0.15;
-            tongueMesh.castShadow = true;
-            sneakerGroup.add(tongueMesh);
-
-            // ===== HEEL COUNTER =====
-            const heelGeo = new THREE.BoxGeometry(0.6, 0.7, 1.15);
-            heelMesh = new THREE.Mesh(heelGeo, heelMaterial);
-            heelMesh.position.set(-1.0, 0.75, 0);
-            heelMesh.castShadow = true;
-            sneakerGroup.add(heelMesh);
-
-            // ===== LACES =====
-            const laceGroup = new THREE.Group();
-            for (let i = 0; i < 5; i++) {
-                const laceGeo = new THREE.CylinderGeometry(0.025, 0.025, 0.9, 8);
-                const lace = new THREE.Mesh(laceGeo, laceMaterial);
-                lace.rotation.z = Math.PI / 2;
-                lace.position.set(-0.6 + i * 0.25, 1.05 + i * 0.06, 0);
-                laceGroup.add(lace);
-            }
-            laceMesh = laceGroup;
-            sneakerGroup.add(laceMesh);
-
-            // ===== TOE CAP =====
-            const toeGeo = new THREE.SphereGeometry(0.55, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-            const toeMat = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(currentUpperColor).multiplyScalar(0.9),
-                roughness: 0.5,
-                metalness: 0.1,
-            });
-            const toe = new THREE.Mesh(toeGeo, toeMat);
-            toe.position.set(1.15, 0.35, 0);
-            toe.scale.set(1, 0.6, 1);
-            toe.castShadow = true;
-            sneakerGroup.add(toe);
-
-            // ===== ANKLE COLLAR =====
-            const collarGeo = new THREE.TorusGeometry(0.45, 0.08, 8, 16, Math.PI);
-            const collarMat = new THREE.MeshStandardMaterial({
-                color: new THREE.Color(currentUpperColor).multiplyScalar(0.8),
-                roughness: 0.9,
-            });
-            const collar = new THREE.Mesh(collarGeo, collarMat);
-            collar.position.set(-1.1, 1.0, 0);
-            collar.rotation.y = Math.PI / 2;
-            collar.rotation.z = Math.PI / 2;
-            sneakerGroup.add(collar);
-
-            // ===== LOGO PATCH =====
-            const logoGeo = new THREE.CircleGeometry(0.15, 32);
-            const logoMat = new THREE.MeshStandardMaterial({
-                color: 0x8B7355,
-                roughness: 0.3,
-                metalness: 0.3,
-            });
-            const logo = new THREE.Mesh(logoGeo, logoMat);
-            logo.position.set(-1.31, 0.9, 0);
-            logo.rotation.y = -Math.PI / 2;
-            sneakerGroup.add(logo);
-
-            // ===== EYELETS =====
-            for (let i = 0; i < 5; i++) {
-                const eyeletGeo = new THREE.TorusGeometry(0.04, 0.015, 8, 16);
-                const eyeletMat = new THREE.MeshStandardMaterial({
-                    color: 0xC0C0C0,
-                    roughness: 0.2,
-                    metalness: 0.8,
-                });
-                const eyeletL = new THREE.Mesh(eyeletGeo, eyeletMat);
-                eyeletL.position.set(-0.6 + i * 0.25, 1.0 + i * 0.06, 0.46);
-                eyeletL.rotation.y = Math.PI / 2;
-                sneakerGroup.add(eyeletL);
-
-                const eyeletR = new THREE.Mesh(eyeletGeo, eyeletMat);
-                eyeletR.position.set(-0.6 + i * 0.25, 1.0 + i * 0.06, -0.46);
-                eyeletR.rotation.y = Math.PI / 2;
-                sneakerGroup.add(eyeletR);
-            }
-
-            // ===== STITCHING DETAIL =====
-            const stitchGeo = new THREE.BoxGeometry(2.6, 0.01, 0.01);
-            const stitchMat = new THREE.MeshStandardMaterial({
-                color: 0x888888,
-                roughness: 0.8,
-            });
-            const stitch = new THREE.Mesh(stitchGeo, stitchMat);
-            stitch.position.set(0, 0.65, 0.6);
-            sneakerGroup.add(stitch);
-
-            const stitch2 = stitch.clone();
-            stitch2.position.set(0, 0.65, -0.6);
-            sneakerGroup.add(stitch2);
-
-            scene.add(sneakerGroup);
-        }
-
         function updateUpperColor(color) {
             currentUpperColor = new THREE.Color(color);
-            if (upperMesh) {
-                upperMesh.material.color.set(currentUpperColor);
-            }
-            if (tongueMesh) {
-                tongueMesh.material.color.set(currentUpperColor);
-            }
-            if (heelMesh) {
-                heelMesh.material.color.set(currentUpperColor.clone().multiplyScalar(0.85));
-            }
+            upperMeshes.forEach(m => m.material.color.set(currentUpperColor));
+            if (tongueMesh) tongueMesh.material.color.set(currentUpperColor);
+            if (heelMesh) heelMesh.material.color.set(currentUpperColor.clone().multiplyScalar(0.85));
+            if (toeMesh) toeMesh.material.color.set(currentUpperColor.clone().multiplyScalar(0.92));
         }
 
         function updateSoleColor(color) {
             currentSoleColor = new THREE.Color(color);
-            if (soleMesh) {
-                soleMesh.material.color.set(currentSoleColor);
-            }
+            soleMeshes.forEach(m => m.material.color.set(currentSoleColor));
         }
 
         function updateLaceColor(color) {
             currentLaceColor = new THREE.Color(color);
-            if (laceMesh) {
-                laceMesh.children.forEach(lace => {
-                    lace.material.color.set(currentLaceColor);
-                });
-            }
+            laceMeshes.forEach(m => m.material.color.set(currentLaceColor));
         }
 
         function updateMaterial(type) {
-            if (!upperMesh) return;
-
             let roughness, metalness;
             switch(type) {
-                case 'canvas':
-                    roughness = 0.85; metalness = 0.0;
-                    break;
-                case 'leather':
-                    roughness = 0.35; metalness = 0.15;
-                    break;
-                case 'suede':
-                    roughness = 0.95; metalness = 0.0;
-                    break;
-                case 'mesh':
-                    roughness = 0.7; metalness = 0.05;
-                    break;
-                case 'nubuck':
-                    roughness = 0.9; metalness = 0.05;
-                    break;
-                case 'cordura':
-                    roughness = 0.8; metalness = 0.02;
-                    break;
-                default:
-                    roughness = 0.7; metalness = 0.05;
+                case 'canvas': roughness = 0.85; metalness = 0.0; break;
+                case 'leather': roughness = 0.35; metalness = 0.15; break;
+                case 'suede': roughness = 0.95; metalness = 0.0; break;
+                case 'mesh': roughness = 0.7; metalness = 0.05; break;
+                case 'nubuck': roughness = 0.9; metalness = 0.05; break;
+                case 'cordura': roughness = 0.8; metalness = 0.02; break;
+                default: roughness = 0.7; metalness = 0.05;
             }
-
-            upperMesh.material.roughness = roughness;
-            upperMesh.material.metalness = metalness;
-            tongueMesh.material.roughness = roughness;
-            tongueMesh.material.metalness = metalness;
+            upperMeshes.forEach(m => { m.material.roughness = roughness; m.material.metalness = metalness; });
+            if (tongueMesh) { tongueMesh.material.roughness = roughness; tongueMesh.material.metalness = metalness; }
         }
 
         function setCameraView(view) {
             const duration = 800;
             const startPos = camera.position.clone();
             let endPos;
-
             switch(view) {
-                case 'side':
-                    endPos = new THREE.Vector3(0, 1, 6);
-                    break;
-                case 'top':
-                    endPos = new THREE.Vector3(0, 7, 0.1);
-                    break;
-                case 'bottom':
-                    endPos = new THREE.Vector3(0, -5, 2);
-                    break;
-                default:
-                    endPos = new THREE.Vector3(4, 3, 5);
+                case 'side': endPos = new THREE.Vector3(0, 1.5, 6); break;
+                case 'top': endPos = new THREE.Vector3(0, 7, 0.5); break;
+                case 'bottom': endPos = new THREE.Vector3(0, -5, 2); break;
+                default: endPos = new THREE.Vector3(3.5, 2.5, 4.5);
             }
-
             const startTime = Date.now();
             function animateCamera() {
                 const elapsed = Date.now() - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 const eased = 1 - Math.pow(1 - progress, 3);
-
                 camera.position.lerpVectors(startPos, endPos, eased);
                 camera.lookAt(0, 0.5, 0);
-
-                if (progress < 1) {
-                    requestAnimationFrame(animateCamera);
-                }
+                if (progress < 1) requestAnimationFrame(animateCamera);
             }
             animateCamera();
         }
 
         function onWindowResize() {
             const container = document.getElementById('canvas-container');
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            camera.aspect = width / height;
+            camera.aspect = container.clientWidth / container.clientHeight;
             camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
+            renderer.setSize(container.clientWidth, container.clientHeight);
         }
 
         function animate() {
@@ -1272,15 +1126,9 @@
 
         // ===== EVENT LISTENERS =====
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Three.js
             initThree();
+            setTimeout(() => { document.getElementById('loadingScreen').classList.add('hidden'); }, 2200);
 
-            // Hide loading screen
-            setTimeout(() => {
-                document.getElementById('loadingScreen').classList.add('hidden');
-            }, 2200);
-
-            // Color picker
             document.querySelectorAll('#upperColors .color-option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     document.querySelectorAll('#upperColors .color-option').forEach(o => o.classList.remove('active'));
@@ -1289,7 +1137,6 @@
                 });
             });
 
-            // Material picker
             document.querySelectorAll('#materials .material-option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     document.querySelectorAll('#materials .material-option').forEach(o => o.classList.remove('active'));
@@ -1301,12 +1148,10 @@
                 });
             });
 
-            // Sole picker
             document.querySelectorAll('#soles .sole-option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     document.querySelectorAll('#soles .sole-option').forEach(o => o.classList.remove('active'));
                     this.classList.add('active');
-
                     let soleColor;
                     switch(this.dataset.sole) {
                         case 'rubber': soleColor = 0x2C2C2C; break;
@@ -1320,7 +1165,6 @@
                 });
             });
 
-            // Lace picker
             document.querySelectorAll('#laces .lace-option').forEach(opt => {
                 opt.addEventListener('click', function() {
                     document.querySelectorAll('#laces .lace-option').forEach(o => o.classList.remove('active'));
@@ -1332,7 +1176,6 @@
                 });
             });
 
-            // Size picker
             document.querySelectorAll('#sizes .size-option').forEach(opt => {
                 if (!opt.classList.contains('disabled')) {
                     opt.addEventListener('click', function() {
@@ -1342,7 +1185,6 @@
                 }
             });
 
-            // View buttons
             document.querySelectorAll('.view-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -1351,19 +1193,19 @@
                 });
             });
 
-            // Add to cart
             document.getElementById('addToCart').addEventListener('click', function() {
                 const btn = this;
                 const originalText = btn.textContent;
                 btn.textContent = '✓ Ditambahkan!';
                 btn.style.background = '#27AE60';
-
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
+                setTimeout(() => { btn.textContent = originalText; btn.style.background = ''; }, 2000);
             });
         });
     </script>
 </body>
-</html>
+</html>'''
+
+with open('/mnt/agents/output/atelier_sneaker_configurator_v2.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print(f"File saved! Size: {len(html_content)} chars")
