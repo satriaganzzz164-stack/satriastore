@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f3ff;
-    --ink: #241c3d;
+    --bg: #0f0b1e;
+    --ink: #f4f0ff;
     --yellow: #ffcf5c;
     --yellow2: #ff9f5c;
     --pink: #ff8fc4;
@@ -23,13 +23,17 @@
     --purple2: #9d6bff;
     --orange: #ffb37c;
     --orange2: #ff8a5c;
-    --muted: #8a82a3;
+    --muted: #a89ec9;
+    --gold: #f0c862;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
     font-family: 'Inter', sans-serif;
     background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(157,107,255,0.14) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(92,138,255,0.12) 0%, transparent 55%);
     color: var(--ink);
     min-height: 100%;
     display: flex;
@@ -43,8 +47,8 @@
   .blob {
     position: fixed;
     border-radius: 50%;
-    filter: blur(60px);
-    opacity: .4;
+    filter: blur(70px);
+    opacity: .28;
     z-index: 0;
     animation: blobFloat 14s ease-in-out infinite;
   }
@@ -62,9 +66,9 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    background: rgba(255,255,255,0.75);
+    background: rgba(28, 22, 48, 0.7);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(157,107,255,0.18);
+    border: 1px solid rgba(240,200,98,0.35);
     border-radius: 99px;
     padding: 8px 18px;
     font-size: 11px;
@@ -72,10 +76,22 @@
     letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--ink);
-    box-shadow: 0 8px 20px rgba(157,107,255,0.12);
-    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    margin-bottom: 14px;
   }
   .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green2); box-shadow: 0 0 8px var(--green2); }
+  .badge .sparkle { color: var(--gold); animation: sparkleTwinkle 1.8s ease-in-out infinite; }
+  @keyframes sparkleTwinkle { 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.4; transform:scale(.8)} }
+
+  .edition-line {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--gold);
+    margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .edition-line b { color: var(--ink); font-weight: 800; }
 
   h1 {
     font-family: 'Space Grotesk', sans-serif;
@@ -86,13 +102,16 @@
   }
 
   h1 .hl {
-    background: linear-gradient(135deg, var(--pink2), var(--purple2));
+    background: linear-gradient(120deg, var(--pink2), var(--purple2), var(--gold), var(--pink2));
+    background-size: 300% auto;
     padding: 3px 16px;
     border-radius: 20px;
     display: inline-block;
     color: #fff;
     box-shadow: 0 10px 24px rgba(157,107,255,0.35);
+    animation: hlShimmer 5s linear infinite;
   }
+  @keyframes hlShimmer { to { background-position: 300% center; } }
 
   .sub { font-size: 13.5px; font-weight: 500; margin-top: 16px; color: var(--muted); }
 
@@ -113,12 +132,12 @@
     flex-direction: column;
     gap: 11px;
     padding: 24px 22px;
-    background: linear-gradient(165deg, #ffffff, #fbf9ff);
-    border: 1px solid rgba(157,107,255,0.1);
+    background: linear-gradient(165deg, #1c1730, #16122a);
+    border: 1px solid rgba(255,255,255,0.07);
     border-radius: 26px;
     text-decoration: none;
     color: var(--ink);
-    box-shadow: 0 12px 28px rgba(90,60,150,0.08);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
     transition: transform .3s cubic-bezier(.34,1.5,.64,1), box-shadow .3s ease;
     overflow: hidden;
   }
@@ -128,16 +147,25 @@
     position: absolute;
     top: 0; left: -60%;
     width: 40%; height: 100%;
-    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.7), transparent);
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), rgba(224,184,77,0.35), rgba(255,143,196,0.35), transparent);
     transform: skewX(-16deg);
     transition: left .6s ease;
+  }
+
+  a.card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 14px; right: 14px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, rgba(224,184,77,0.6), transparent);
   }
 
   a.card:hover::before { left: 130%; }
 
   a.card:hover {
     transform: translateY(-7px);
-    box-shadow: 0 24px 40px rgba(90,60,150,0.16), var(--glow, 0 0 0 transparent);
+    box-shadow: 0 24px 44px rgba(0,0,0,0.5), var(--glow, 0 0 0 transparent);
   }
 
   a.card:active { transform: translateY(-3px) scale(0.98); }
@@ -189,7 +217,7 @@
     font-family: 'Space Grotesk', sans-serif;
     font-size: 10.5px;
     font-weight: 700;
-    color: #d4cce8;
+    color: rgba(255,255,255,0.2);
     letter-spacing: .5px;
   }
 
@@ -205,9 +233,9 @@
     position: relative; z-index: 2;
     margin-top: 36px;
     display: flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.75);
+    background: rgba(28, 22, 48, 0.7);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(157,107,255,0.15);
+    border: 1px solid rgba(255,255,255,0.08);
     color: var(--muted);
     padding: 9px 20px;
     border-radius: 99px;
@@ -215,7 +243,7 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     font-weight: 700;
-    box-shadow: 0 8px 20px rgba(90,60,150,0.08);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
   }
   footer .dot {
     width: 7px; height: 7px; border-radius: 50%;
@@ -239,9 +267,10 @@
 <div class="blob b3"></div>
 
 <div class="head">
-  <div class="badge"><span class="dot"></span>Satria Network</div>
+  <div class="badge"><span class="sparkle">✦</span>Limited Edition · Satria Network<span class="sparkle">✦</span></div>
   <h1>SATXX<span class="hl">CLOUDS</span></h1>
   <div class="sub">Pilih layanan yang Anda butuhkan</div>
+  <div class="edition-line">Edition N° <b>0001</b> · Exclusive Access</div>
 </div>
 
 <div class="menu-grid">
