@@ -6,223 +6,243 @@
 <title>Satria Clouds — Menu</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg1: #060a1a;
-    --bg2: #0a1230;
-    --text: #f2f6ff;
-    --muted: rgba(242, 246, 255, 0.55);
+    --bg: #fef6e4;
+    --ink: #1a1a1a;
+    --yellow: #ffd93d;
+    --pink: #ff6b9d;
+    --blue: #4d9de0;
+    --green: #7cd992;
+    --purple: #b892ff;
+    --orange: #ff9b54;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    color: var(--text);
-    background: radial-gradient(ellipse at 30% 10%, #10265a 0%, var(--bg1) 55%),
-                radial-gradient(ellipse at 85% 90%, #2a1450 0%, transparent 55%);
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(var(--ink) 1.2px, transparent 1.2px);
+    background-size: 26px 26px;
+    background-position: -8px -8px;
+    color: var(--ink);
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100%;
-    position: relative;
-    padding: 48px 20px 40px;
+    padding: 40px 20px 60px;
     overflow-x: hidden;
   }
 
-  /* ===== BACKGROUND FLOATING BUBBLES ===== */
-  .bg-bubble {
-    position: fixed;
-    bottom: -120px;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.12);
-    animation: rise linear infinite;
-    pointer-events: none;
-    z-index: 0;
-  }
-  @keyframes rise {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    8% { opacity: .8; }
-    92% { opacity: .5; }
-    100% { transform: translateY(-118vh) translateX(var(--drift, 40px)); opacity: 0; }
-  }
-
   /* ===== HEADER ===== */
-  .head { position: relative; z-index: 2; text-align: center; margin-bottom: 32px; }
-  .eyebrow {
-    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 10px;
-  }
-  h1 {
-    font-size: clamp(26px, 4vw, 38px);
-    font-weight: 800; letter-spacing: 1px;
-  }
-  h1 span {
-    background: linear-gradient(120deg, #7dd3fc, #c4b5fd, #f0abfc);
-    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .sub { font-size: 13px; color: var(--muted); margin-top: 8px; }
+  .head { text-align: center; margin-bottom: 30px; position: relative; }
 
-  /* ===== BUBBLE LIST (VERTICAL) ===== */
-  .bubble-list {
+  .badge {
+    display: inline-block;
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    border-radius: 99px;
+    padding: 6px 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 var(--ink);
+    margin-bottom: 18px;
+    transform: rotate(-2deg);
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(34px, 6vw, 54px);
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  h1 .hl {
+    background: var(--pink);
+    padding: 2px 10px;
+    border: 3px solid var(--ink);
+    display: inline-block;
+    transform: rotate(-1.5deg);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+
+  .sub {
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 16px;
+    color: #444;
+  }
+
+  /* ===== MENU GRID ===== */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 680px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  a.card {
     position: relative;
-    z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    width: 100%;
-    max-width: 440px;
-  }
-
-  a.bubble {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 22px;
-    border-radius: 60px;
+    gap: 10px;
+    padding: 22px 20px;
+    background: #fff;
+    border: 3px solid var(--ink);
+    border-radius: 18px;
     text-decoration: none;
-    color: var(--text);
-    background:
-      radial-gradient(circle at 18% 20%, rgba(255,255,255,0.32), rgba(255,255,255,0.04) 35%, transparent 60%),
-      radial-gradient(circle at 85% 85%, rgba(124,156,255,0.14), transparent 60%);
-    border: 1px solid rgba(255,255,255,0.26);
-    backdrop-filter: blur(8px);
-    box-shadow:
-      inset 0 0 20px rgba(255,255,255,0.10),
-      inset 0 -10px 22px rgba(80,60,180,0.14),
-      0 10px 26px rgba(0,0,0,0.35),
-      0 0 26px rgba(150,140,255,0.10);
-    animation: bob 6s ease-in-out infinite;
-    transition: transform .3s cubic-bezier(.34,1.4,.64,1), box-shadow .3s ease;
-    overflow: hidden;
+    color: var(--ink);
+    box-shadow: 6px 6px 0 var(--ink);
+    transition: transform .15s ease, box-shadow .15s ease;
   }
 
-  a.bubble::before {
-    content: '';
-    position: absolute;
-    top: 16%; left: 6%;
-    width: 15%; height: 46%;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.5);
-    filter: blur(5px);
-    transform: rotate(-15deg);
+  a.card:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 9px 9px 0 var(--ink);
   }
 
-  a.bubble:hover {
-    animation-play-state: paused;
-    transform: scale(1.03) translateY(-2px);
-    box-shadow:
-      inset 0 0 26px rgba(255,255,255,0.16),
-      inset 0 -10px 22px rgba(80,60,180,0.18),
-      0 16px 34px rgba(0,0,0,0.4),
-      0 0 36px rgba(180,160,255,0.25);
+  a.card:active {
+    transform: translate(2px, 2px);
+    box-shadow: 3px 3px 0 var(--ink);
   }
 
-  a.bubble:active { transform: scale(0.98); }
-
-  @keyframes bob {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
-
-  .bubble-list a:nth-child(1) { animation-duration: 5.4s; animation-delay: 0s; }
-  .bubble-list a:nth-child(2) { animation-duration: 6.1s; animation-delay: .2s; }
-  .bubble-list a:nth-child(3) { animation-duration: 5.7s; animation-delay: .4s; }
-  .bubble-list a:nth-child(4) { animation-duration: 6.4s; animation-delay: .1s; }
-  .bubble-list a:nth-child(5) { animation-duration: 5.2s; animation-delay: .5s; }
-  .bubble-list a:nth-child(6) { animation-duration: 6.2s; animation-delay: .3s; }
-  .bubble-list a:nth-child(7) { animation-duration: 5.9s; animation-delay: .6s; }
-
-  .bubble-icon {
-    position: relative;
-    z-index: 1;
-    width: 42px; height: 42px;
-    flex-shrink: 0;
-    border-radius: 50%;
+  .card-icon {
+    width: 52px; height: 52px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 19px;
-    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.4), rgba(255,255,255,0.05) 50%, transparent 75%);
-    border: 1px solid rgba(255,255,255,0.3);
-    box-shadow: inset 0 0 10px rgba(255,255,255,0.15);
+    font-size: 24px;
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0 var(--ink);
   }
 
-  .bubble-label { position: relative; z-index: 1; flex: 1; min-width: 0; }
-  .bubble-label .name { display: block; font-size: 14px; font-weight: 700; }
-  .bubble-label small { display: block; font-size: 10.5px; color: var(--muted); margin-top: 2px; }
+  a.card:nth-child(1) .card-icon { background: var(--yellow); }
+  a.card:nth-child(2) .card-icon { background: var(--pink); }
+  a.card:nth-child(3) .card-icon { background: var(--blue); }
+  a.card:nth-child(4) .card-icon { background: var(--green); }
+  a.card:nth-child(5) .card-icon { background: var(--purple); }
+  a.card:nth-child(6) .card-icon { background: var(--orange); }
+  a.card:nth-child(7) .card-icon { background: var(--yellow); }
 
-  .bubble-arrow {
-    position: relative; z-index: 1;
-    font-size: 14px; color: var(--muted); flex-shrink: 0;
-    transition: transform .3s ease, color .3s ease;
+  .card-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16.5px;
+    font-weight: 700;
+    letter-spacing: -.2px;
   }
-  a.bubble:hover .bubble-arrow { transform: translateX(4px); color: #dbeafe; }
+
+  .card-desc {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  .card-num {
+    position: absolute;
+    top: 14px; right: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--ink);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 6px;
+  }
+
+  a.card.wide {
+    grid-column: span 2;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+  }
+
+  a.card.wide .card-text { display: flex; flex-direction: column; gap: 4px; }
 
   footer {
-    position: relative; z-index: 2;
-    margin-top: 30px;
-    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--muted);
+    margin-top: 34px;
     display: flex; align-items: center; gap: 8px;
+    background: var(--ink);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 99px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
   }
   footer .dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: #4ade80; box-shadow: 0 0 8px #4ade80;
-    animation: pulse 2s ease infinite;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green);
+    animation: pulse 1.6s ease infinite;
   }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-  @media (max-width: 480px) {
-    a.bubble { padding: 13px 18px; gap: 12px; border-radius: 40px; }
-    .bubble-icon { width: 36px; height: 36px; font-size: 16px; }
-    .bubble-label .name { font-size: 13px; }
-    .bubble-label small { font-size: 10px; }
+  @media (max-width: 560px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    a.card.wide { grid-column: span 1; flex-direction: column; align-items: flex-start; }
+    h1 { font-size: 30px; }
   }
 </style>
 </head>
 <body>
 
 <div class="head">
-  <div class="eyebrow">Satria Network</div>
-  <h1><span>SATXX</span>CLOUDS</h1>
+  <div class="badge">⚡ Satria Network</div>
+  <h1>SATXX<span class="hl">CLOUDS</span></h1>
   <div class="sub">Pilih layanan yang Anda butuhkan</div>
 </div>
 
-<div class="bubble-list">
-  <a class="bubble" href="index.html">
-    <span class="bubble-icon">🛒</span>
-    <span class="bubble-label"><span class="name">Store</span><small>Belanja layanan digital</small></span>
-    <span class="bubble-arrow">→</span>
+<div class="menu-grid">
+  <a class="card" href="index.html">
+    <span class="card-num">01</span>
+    <span class="card-icon">🛒</span>
+    <span class="card-name">Store</span>
+    <span class="card-desc">Belanja layanan digital</span>
   </a>
-  <a class="bubble" href="ai.html">
-    <span class="bubble-icon">🤖</span>
-    <span class="bubble-label"><span class="name">Asisten</span><small>Chat dengan asisten AI</small></span>
-    <span class="bubble-arrow">→</span>
+  <a class="card" href="ai.html">
+    <span class="card-num">02</span>
+    <span class="card-icon">🤖</span>
+    <span class="card-name">SatzAI</span>
+    <span class="card-desc">Chat dengan asisten AI</span>
   </a>
-  <a class="bubble" href="pc.html">
-    <span class="bubble-icon">🎮</span>
-    <span class="bubble-label"><span class="name">Custom PC</span><small>Premium builds & custom</small></span>
-    <span class="bubble-arrow">→</span>
+  <a class="card" href="pc.html">
+    <span class="card-num">03</span>
+    <span class="card-icon">🎮</span>
+    <span class="card-name">PC Gaming</span>
+    <span class="card-desc">Premium builds & custom</span>
   </a>
-  <a class="bubble" href="qr.html">
-    <span class="bubble-icon">📱</span>
-    <span class="bubble-label"><span class="name">Create QR</span><small>Generate & scan QR</small></span>
-    <span class="bubble-arrow">→</span>
+  <a class="card" href="qr.html">
+    <span class="card-num">04</span>
+    <span class="card-icon">📱</span>
+    <span class="card-name">QR Studio</span>
+    <span class="card-desc">Generate & scan QR code</span>
   </a>
-  <a class="bubble" href="music.html">
-    <span class="bubble-icon">🎵</span>
-    <span class="bubble-label"><span class="name">Animasi MSC</span><small>Audio visualizer</small></span>
-    <span class="bubble-arrow">→</span>
+  <a class="card" href="music.html">
+    <span class="card-num">05</span>
+    <span class="card-icon">🎵</span>
+    <span class="card-name">Now Playing</span>
+    <span class="card-desc">Audio visualizer & player</span>
   </a>
-  <a class="bubble" href="komponen.html">
-    <span class="bubble-icon">🧩</span>
-    <span class="bubble-label"><span class="name">Komponen PC</span><small>Dokumentasi PC</small></span>
-    <span class="bubble-arrow">→</span>
+  <a class="card" href="komponen.html">
+    <span class="card-num">06</span>
+    <span class="card-icon">🧩</span>
+    <span class="card-name">Komponen</span>
+    <span class="card-desc">Dokumentasi PC</span>
   </a>
-  <a class="bubble" href="kuliner.html">
-    <span class="bubble-icon">🍽️</span>
-    <span class="bubble-label"><span class="name">Restaurant</span><small>Warung Satria</small></span>
-    <span class="bubble-arrow">→</span>
+  <a class="card wide" href="kuliner.html">
+    <span class="card-num">07</span>
+    <span class="card-icon">🍽️</span>
+    <span class="card-text">
+      <span class="card-name">Restaurant</span>
+      <span class="card-desc">Warung Satria</span>
+    </span>
   </a>
 </div>
 
@@ -231,31 +251,6 @@
 <audio id="bgm" src="satria.mp3" loop></audio>
 
 <script>
-  // ===== BACKGROUND BUBBLES GENERATOR =====
-  (function () {
-    var count = 20;
-    var colors = [
-      'rgba(125,211,252,0.16)',
-      'rgba(196,181,253,0.16)',
-      'rgba(240,171,252,0.14)',
-      'rgba(147,197,253,0.14)'
-    ];
-    for (var i = 0; i < count; i++) {
-      var b = document.createElement('div');
-      b.className = 'bg-bubble';
-      var size = Math.random() * 46 + 12;
-      b.style.width = size + 'px';
-      b.style.height = size + 'px';
-      b.style.left = Math.random() * 100 + 'vw';
-      b.style.setProperty('--drift', (Math.random() * 120 - 60) + 'px');
-      b.style.animationDuration = (Math.random() * 10 + 10) + 's';
-      b.style.animationDelay = (Math.random() * 10) + 's';
-      b.style.background = 'radial-gradient(circle at 32% 28%, rgba(255,255,255,0.26), ' + colors[i % colors.length] + ' 45%, transparent 70%)';
-      document.body.appendChild(b);
-    }
-  })();
-
-  // ===== AUDIO =====
   var bgm = document.getElementById('bgm');
   bgm.volume = 0.4;
   bgm.play().catch(function () {
@@ -267,7 +262,7 @@
     document.addEventListener('click', unlockAudio);
     document.addEventListener('touchstart', unlockAudio);
   });
-  document.querySelectorAll('.bubble').forEach(function (btn) {
+  document.querySelectorAll('.card').forEach(function (btn) {
     btn.addEventListener('click', function () { bgm.pause(); });
   });
 </script>
