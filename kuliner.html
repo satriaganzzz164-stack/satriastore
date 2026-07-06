@@ -1,19 +1,23 @@
-
-html_content = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Warung Satria — Cita Rasa Nusantara</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Warung Satria — Limited Edition</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --cream: #FAF7F2;
             --cream-dark: #F0EBE3;
+            --onyx: #0F0D0A;
             --charcoal: #1A1A1A;
             --charcoal-light: #2D2D2D;
             --warm-brown: #8B6914;
             --warm-gold: #C9A227;
+            --gold-bright: #E8C34D;
             --warm-gold-light: #E8D5A3;
             --text-dark: #1A1A1A;
             --text-light: #6B6560;
@@ -21,13 +25,21 @@ html_content = '''<!DOCTYPE html>
             --border: #E5E0D8;
             --white: #FFFFFF;
             --success: #4A7C59;
-            --shadow-soft: rgba(0,0,0,0.06);
-            --shadow-medium: rgba(0,0,0,0.1);
-            --shadow-strong: rgba(0,0,0,0.15);
+            --shadow-soft: rgba(0, 0, 0, 0.06);
+            --shadow-medium: rgba(0, 0, 0, 0.1);
+            --shadow-strong: rgba(0, 0, 0, 0.15);
+            --gold-gradient: linear-gradient(135deg, #B8891F, #E8C34D, #C9A227);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -37,15 +49,68 @@ html_content = '''<!DOCTYPE html>
             overflow-x: hidden;
         }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--cream); }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--warm-gold); }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--warm-gold);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-bright);
+        }
+
+        /* ===== LIMITED EDITION MARQUEE ===== */
+        .top-marquee {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1001;
+            height: 34px;
+            background: var(--onyx);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(201, 162, 39, 0.3);
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 48px;
+            white-space: nowrap;
+            animation: marqueeScroll 26s linear infinite;
+            padding-left: 48px;
+        }
+
+        .marquee-track span {
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-bright);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        @keyframes marqueeScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
 
         /* ===== NAVBAR ===== */
         .navbar {
             position: fixed;
-            top: 0; left: 0; right: 0;
+            top: 34px;
+            left: 0;
+            right: 0;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
@@ -74,13 +139,15 @@ html_content = '''<!DOCTYPE html>
         }
 
         .logo-icon {
-            width: 40px; height: 40px;
-            background: var(--warm-gold);
+            width: 40px;
+            height: 40px;
+            background: var(--gold-gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
+            box-shadow: 0 4px 14px rgba(201, 162, 39, 0.35);
         }
 
         .nav-links {
@@ -103,24 +170,28 @@ html_content = '''<!DOCTYPE html>
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -4px; left: 0;
-            width: 0; height: 2px;
-            background: var(--warm-gold);
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-gradient);
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover, .nav-links a.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--charcoal);
         }
 
-        .nav-links a:hover::after, .nav-links a.active::after {
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
             width: 100%;
         }
 
         .nav-cart {
             position: relative;
             cursor: pointer;
-            padding: 8px;
+            padding: 8px 16px;
             background: var(--charcoal);
             color: var(--white);
             border: none;
@@ -134,19 +205,22 @@ html_content = '''<!DOCTYPE html>
         }
 
         .nav-cart:hover {
-            background: var(--warm-gold);
+            background: var(--gold-gradient);
             transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(201, 162, 39, 0.3);
         }
 
         .cart-count {
             position: absolute;
-            top: -8px; right: -8px;
-            width: 22px; height: 22px;
-            background: var(--warm-gold);
-            color: var(--white);
+            top: -8px;
+            right: -8px;
+            width: 22px;
+            height: 22px;
+            background: var(--gold-gradient);
+            color: var(--onyx);
             border-radius: 50%;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -164,7 +238,8 @@ html_content = '''<!DOCTYPE html>
 
         .menu-toggle span {
             display: block;
-            width: 24px; height: 2px;
+            width: 24px;
+            height: 2px;
             background: var(--charcoal);
             transition: all 0.3s ease;
         }
@@ -174,17 +249,27 @@ html_content = '''<!DOCTYPE html>
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding: 120px 48px 60px;
+            padding: 154px 48px 60px;
             position: relative;
             overflow: hidden;
         }
 
         .hero-bg-pattern {
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(201, 162, 39, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(201, 162, 39, 0.04) 0%, transparent 50%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(201, 162, 39, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(201, 162, 39, 0.06) 0%, transparent 50%);
+        }
+
+        #sparkle-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .hero-content {
@@ -195,6 +280,8 @@ html_content = '''<!DOCTYPE html>
             gap: 60px;
             align-items: center;
             width: 100%;
+            position: relative;
+            z-index: 2;
         }
 
         .hero-text {
@@ -208,21 +295,25 @@ html_content = '''<!DOCTYPE html>
             gap: 8px;
             padding: 8px 20px;
             background: var(--white);
-            border: 1px solid var(--border);
+            border: 1px solid var(--warm-gold-light);
             border-radius: 50px;
             font-size: 12px;
-            font-weight: 500;
+            font-weight: 700;
             color: var(--warm-brown);
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             margin-bottom: 28px;
+            box-shadow: 0 6px 18px rgba(201, 162, 39, 0.12);
         }
 
-        .hero-badge::before {
-            content: '';
-            width: 6px; height: 6px;
-            background: var(--warm-gold);
-            border-radius: 50%;
+        .hero-badge .diamond {
+            color: var(--warm-gold);
+            animation: twinkleGold 1.8s ease-in-out infinite;
+        }
+
+        @keyframes twinkleGold {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .3; }
         }
 
         .hero h1 {
@@ -235,8 +326,17 @@ html_content = '''<!DOCTYPE html>
         }
 
         .hero h1 span {
-            color: var(--warm-gold);
             font-style: italic;
+            background: var(--gold-gradient);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: goldShimmer 4s linear infinite;
+        }
+
+        @keyframes goldShimmer {
+            to { background-position: 200% center; }
         }
 
         .hero-desc {
@@ -254,6 +354,7 @@ html_content = '''<!DOCTYPE html>
         }
 
         .btn-primary {
+            position: relative;
             padding: 14px 32px;
             background: var(--charcoal);
             color: var(--white);
@@ -267,12 +368,27 @@ html_content = '''<!DOCTYPE html>
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+            transform: translateX(-130%);
+            transition: transform .6s ease;
+        }
+
+        .btn-primary:hover::before {
+            transform: translateX(130%);
         }
 
         .btn-primary:hover {
-            background: var(--warm-gold);
+            background: var(--gold-gradient);
+            color: var(--onyx);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px var(--shadow-medium);
+            box-shadow: 0 10px 28px rgba(201, 162, 39, 0.4);
         }
 
         .btn-secondary {
@@ -309,11 +425,13 @@ html_content = '''<!DOCTYPE html>
             overflow: hidden;
             box-shadow: 0 20px 40px var(--shadow-medium);
             transition: all 0.4s ease;
+            border: 2px solid transparent;
         }
 
         .hero-img:hover {
             transform: translateY(-8px);
             box-shadow: 0 30px 60px var(--shadow-strong);
+            border-color: var(--warm-gold-light);
         }
 
         .hero-img img {
@@ -345,9 +463,9 @@ html_content = '''<!DOCTYPE html>
 
         .section-tag {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--warm-brown);
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             text-transform: uppercase;
             margin-bottom: 12px;
         }
@@ -358,6 +476,26 @@ html_content = '''<!DOCTYPE html>
             font-weight: 700;
             color: var(--charcoal);
             margin-bottom: 16px;
+        }
+
+        .gold-divider {
+            width: 64px;
+            height: 2px;
+            margin: 0 auto 20px;
+            background: var(--gold-gradient);
+            position: relative;
+        }
+
+        .gold-divider::before {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            color: var(--warm-gold);
+            background: var(--cream);
+            padding: 0 8px;
         }
 
         .section-desc {
@@ -396,9 +534,11 @@ html_content = '''<!DOCTYPE html>
         }
 
         .menu-tab.active {
-            background: var(--charcoal);
-            color: var(--white);
-            border-color: var(--charcoal);
+            background: var(--gold-gradient);
+            color: var(--onyx);
+            border-color: transparent;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(201, 162, 39, 0.28);
         }
 
         /* ===== MENU GRID ===== */
@@ -419,8 +559,8 @@ html_content = '''<!DOCTYPE html>
 
         .menu-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 24px 48px var(--shadow-soft);
-            border-color: var(--warm-gold-light);
+            box-shadow: 0 26px 54px rgba(201, 162, 39, 0.18);
+            border-color: var(--warm-gold);
         }
 
         .menu-card-img {
@@ -442,9 +582,10 @@ html_content = '''<!DOCTYPE html>
 
         .menu-card-badge {
             position: absolute;
-            top: 16px; left: 16px;
+            top: 16px;
+            left: 16px;
             padding: 6px 14px;
-            background: var(--warm-gold);
+            background: var(--charcoal);
             color: var(--white);
             border-radius: 8px;
             font-size: 11px;
@@ -459,6 +600,15 @@ html_content = '''<!DOCTYPE html>
 
         .menu-card-badge.new {
             background: var(--success);
+        }
+
+        .menu-card-badge.limited {
+            background: var(--gold-gradient);
+            color: var(--onyx);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 14px rgba(201, 162, 39, 0.4);
         }
 
         .menu-card-content {
@@ -482,8 +632,12 @@ html_content = '''<!DOCTYPE html>
         .menu-card-price {
             font-size: 18px;
             font-weight: 700;
-            color: var(--warm-gold);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-family: 'Playfair Display', serif;
+            flex-shrink: 0;
         }
 
         .menu-card-desc {
@@ -512,6 +666,7 @@ html_content = '''<!DOCTYPE html>
         }
 
         .btn-add {
+            position: relative;
             padding: 10px 20px;
             background: var(--charcoal);
             color: var(--white);
@@ -524,22 +679,26 @@ html_content = '''<!DOCTYPE html>
             display: flex;
             align-items: center;
             gap: 6px;
+            overflow: hidden;
         }
 
         .btn-add:hover {
-            background: var(--warm-gold);
+            background: var(--gold-gradient);
+            color: var(--onyx);
             transform: scale(1.05);
         }
 
         .btn-add.added {
             background: var(--success);
+            color: var(--white);
         }
 
         /* ===== ABOUT SECTION ===== */
         .about-section {
-            background: var(--charcoal);
+            background: var(--onyx);
             color: var(--white);
             padding: 100px 48px;
+            position: relative;
         }
 
         .about-container {
@@ -554,7 +713,8 @@ html_content = '''<!DOCTYPE html>
         .about-img {
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(201, 162, 39, 0.25);
         }
 
         .about-img img {
@@ -565,7 +725,7 @@ html_content = '''<!DOCTYPE html>
         }
 
         .about-text .section-tag {
-            color: var(--warm-gold-light);
+            color: var(--gold-bright);
         }
 
         .about-text .section-title {
@@ -573,8 +733,16 @@ html_content = '''<!DOCTYPE html>
             text-align: left;
         }
 
+        .about-text .gold-divider {
+            margin: 0 0 20px;
+        }
+
+        .about-text .gold-divider::before {
+            background: var(--onyx);
+        }
+
         .about-text p {
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.65);
             font-size: 16px;
             line-height: 1.8;
             margin-bottom: 20px;
@@ -585,19 +753,22 @@ html_content = '''<!DOCTYPE html>
             gap: 40px;
             margin-top: 40px;
             padding-top: 40px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(201, 162, 39, 0.2);
         }
 
         .about-stat h4 {
             font-family: 'Playfair Display', serif;
             font-size: 36px;
-            color: var(--warm-gold);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 4px;
         }
 
         .about-stat span {
             font-size: 13px;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -615,11 +786,24 @@ html_content = '''<!DOCTYPE html>
             border-radius: 20px;
             padding: 32px;
             transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 12px;
+            right: 24px;
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            color: var(--warm-gold-light);
+            line-height: 1;
         }
 
         .testimonial-card:hover {
-            box-shadow: 0 16px 32px var(--shadow-soft);
+            box-shadow: 0 18px 36px rgba(201, 162, 39, 0.14);
             transform: translateY(-4px);
+            border-color: var(--warm-gold-light);
         }
 
         .testimonial-stars {
@@ -634,6 +818,8 @@ html_content = '''<!DOCTYPE html>
             line-height: 1.7;
             margin-bottom: 20px;
             font-style: italic;
+            position: relative;
+            z-index: 1;
         }
 
         .testimonial-author {
@@ -643,7 +829,8 @@ html_content = '''<!DOCTYPE html>
         }
 
         .testimonial-avatar {
-            width: 48px; height: 48px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: var(--cream-dark);
             display: flex;
@@ -665,9 +852,10 @@ html_content = '''<!DOCTYPE html>
 
         /* ===== FOOTER ===== */
         .footer {
-            background: var(--charcoal);
+            background: var(--onyx);
             color: var(--white);
             padding: 60px 48px 30px;
+            border-top: 1px solid rgba(201, 162, 39, 0.2);
         }
 
         .footer-container {
@@ -684,7 +872,7 @@ html_content = '''<!DOCTYPE html>
         }
 
         .footer-brand p {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.55);
             font-size: 14px;
             line-height: 1.7;
             max-width: 300px;
@@ -693,7 +881,7 @@ html_content = '''<!DOCTYPE html>
         .footer-title {
             font-size: 14px;
             font-weight: 600;
-            color: var(--warm-gold);
+            color: var(--gold-bright);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 20px;
@@ -708,36 +896,39 @@ html_content = '''<!DOCTYPE html>
         }
 
         .footer-links a {
-            color: rgba(255,255,255,0.6);
+            color: rgba(255, 255, 255, 0.55);
             text-decoration: none;
             font-size: 14px;
             transition: color 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: var(--warm-gold);
+            color: var(--gold-bright);
         }
 
         .footer-bottom {
             max-width: 1400px;
             margin: 40px auto 0;
             padding-top: 24px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(201, 162, 39, 0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .footer-bottom p {
-            color: rgba(255,255,255,0.4);
+            color: rgba(255, 255, 255, 0.35);
             font-size: 13px;
         }
 
         /* ===== CART SIDEBAR ===== */
         .cart-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(4px);
             z-index: 2000;
             opacity: 0;
@@ -752,7 +943,8 @@ html_content = '''<!DOCTYPE html>
 
         .cart-sidebar {
             position: fixed;
-            top: 0; right: 0;
+            top: 0;
+            right: 0;
             width: 420px;
             max-width: 100%;
             height: 100vh;
@@ -774,6 +966,7 @@ html_content = '''<!DOCTYPE html>
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: linear-gradient(180deg, var(--cream), var(--white));
         }
 
         .cart-header h3 {
@@ -782,7 +975,8 @@ html_content = '''<!DOCTYPE html>
         }
 
         .cart-close {
-            width: 36px; height: 36px;
+            width: 36px;
+            height: 36px;
             background: var(--cream);
             border: none;
             border-radius: 10px;
@@ -792,8 +986,8 @@ html_content = '''<!DOCTYPE html>
         }
 
         .cart-close:hover {
-            background: var(--warm-gold);
-            color: var(--white);
+            background: var(--gold-gradient);
+            color: var(--onyx);
         }
 
         .cart-items {
@@ -824,7 +1018,8 @@ html_content = '''<!DOCTYPE html>
         }
 
         .cart-item-img {
-            width: 64px; height: 64px;
+            width: 64px;
+            height: 64px;
             border-radius: 10px;
             object-fit: cover;
         }
@@ -852,7 +1047,8 @@ html_content = '''<!DOCTYPE html>
         }
 
         .qty-btn {
-            width: 28px; height: 28px;
+            width: 28px;
+            height: 28px;
             background: var(--white);
             border: 1px solid var(--border);
             border-radius: 6px;
@@ -900,11 +1096,15 @@ html_content = '''<!DOCTYPE html>
         }
 
         .cart-total.grand span:last-child {
-            color: var(--warm-gold);
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
             font-family: 'Playfair Display', serif;
         }
 
         .btn-checkout {
+            position: relative;
             width: 100%;
             padding: 16px;
             background: var(--charcoal);
@@ -916,10 +1116,13 @@ html_content = '''<!DOCTYPE html>
             cursor: pointer;
             margin-top: 16px;
             transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .btn-checkout:hover {
-            background: var(--warm-gold);
+            background: var(--gold-gradient);
+            color: var(--onyx);
+            box-shadow: 0 12px 28px rgba(201, 162, 39, 0.35);
         }
 
         /* ===== TOAST NOTIFICATION ===== */
@@ -928,8 +1131,8 @@ html_content = '''<!DOCTYPE html>
             bottom: 32px;
             left: 50%;
             transform: translateX(-50%) translateY(100px);
-            background: var(--charcoal);
-            color: var(--white);
+            background: var(--onyx);
+            color: var(--gold-bright);
             padding: 16px 28px;
             border-radius: 12px;
             font-size: 14px;
@@ -940,6 +1143,7 @@ html_content = '''<!DOCTYPE html>
             display: flex;
             align-items: center;
             gap: 10px;
+            border: 1px solid rgba(201, 162, 39, 0.3);
         }
 
         .toast.show {
@@ -949,21 +1153,53 @@ html_content = '''<!DOCTYPE html>
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .hero-content { grid-template-columns: 1fr; text-align: center; }
-            .hero-text { order: 2; }
-            .hero-images { order: 1; max-width: 600px; margin: 0 auto; }
-            .hero-desc { margin: 0 auto 36px; }
-            .hero-buttons { justify-content: center; }
-            .about-container { grid-template-columns: 1fr; gap: 48px; }
-            .footer-container { grid-template-columns: 1fr 1fr; }
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text {
+                order: 2;
+            }
+
+            .hero-images {
+                order: 1;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .hero-desc {
+                margin: 0 auto 36px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            .navbar { padding: 16px 20px; }
-            .menu-toggle { display: flex; }
+            .navbar {
+                padding: 16px 20px;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
             .nav-links {
                 position: fixed;
-                top: 70px; left: 0; right: 0;
+                top: 104px;
+                left: 0;
+                right: 0;
                 background: rgba(250, 247, 242, 0.98);
                 flex-direction: column;
                 padding: 24px;
@@ -972,33 +1208,90 @@ html_content = '''<!DOCTYPE html>
                 transform: translateY(-150%);
                 transition: transform 0.3s ease;
             }
-            .nav-links.active { transform: translateY(0); }
-            .section { padding: 60px 20px; }
-            .hero { padding: 100px 20px 40px; }
-            .hero-images { grid-template-columns: 1fr; }
-            .hero-img:nth-child(2), .hero-img:nth-child(3) { margin-top: 0; }
-            .menu-grid { grid-template-columns: 1fr; }
-            .about-section { padding: 60px 20px; }
-            .about-stats { flex-direction: column; gap: 24px; }
-            .footer-container { grid-template-columns: 1fr; }
-            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-            .cart-sidebar { width: 100%; }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .hero {
+                padding: 130px 20px 40px;
+            }
+
+            .hero-images {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-img:nth-child(2),
+            .hero-img:nth-child(3) {
+                margin-top: 0;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-section {
+                padding: 60px 20px;
+            }
+
+            .about-stats {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+            }
+
+            .marquee-track span {
+                font-size: 10px;
+            }
         }
 
         /* ===== ANIMATIONS ===== */
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .animate-in {
             animation: fadeInUp 0.6s ease forwards;
         }
 
-        .hidden { display: none !important; }
+        .hidden {
+            display: none !important;
+        }
     </style>
+<base target="_blank">
 </head>
+
 <body>
+    <!-- Limited Edition Marquee -->
+    <div class="top-marquee">
+        <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
+
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <a href="#home" class="logo">
@@ -1028,11 +1321,13 @@ html_content = '''<!DOCTYPE html>
     <!-- Hero -->
     <section class="hero" id="home">
         <div class="hero-bg-pattern"></div>
+        <canvas id="sparkle-canvas"></canvas>
         <div class="hero-content">
             <div class="hero-text">
-                <div class="hero-badge">✨ Sejak 2015</div>
+                <div class="hero-badge"><span class="diamond">◆</span> Limited Edition · Sejak 2018 <span class="diamond">◆</span></div>
                 <h1>Cita Rasa <span>Nusantara</span> yang Autentik</h1>
-                <p class="hero-desc">Nikmati kelezatan masakan tradisional Indonesia dengan sentuhan modern. Dari Nasi Goreng hingga Rendang, setiap hidangan dibuat dengan cinta dan bahan-bahan pilihan.</p>
+                <p class="hero-desc">Nikmati kelezatan masakan tradisional Indonesia dengan sentuhan modern. Dari Nasi
+                    Goreng hingga Rendang, setiap hidangan dibuat dengan cinta dan bahan-bahan pilihan.</p>
                 <div class="hero-buttons">
                     <a href="#menu" class="btn-primary">📖 Lihat Menu</a>
                     <a href="#about" class="btn-secondary">ℹ️ Tentang Kami</a>
@@ -1040,16 +1335,20 @@ html_content = '''<!DOCTYPE html>
             </div>
             <div class="hero-images">
                 <div class="hero-img animate-in">
-                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg" alt="Nasi Goreng">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/cd04cb8651d830bff9e634f621085ebf2cab0217.jpg"
+                        alt="Nasi Goreng">
                 </div>
                 <div class="hero-img animate-in" style="animation-delay: 0.15s">
-                    <img src="https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg" alt="Rendang">
+                    <img src="https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg"
+                        alt="Rendang">
                 </div>
                 <div class="hero-img animate-in" style="animation-delay: 0.3s">
-                    <img src="https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg" alt="Sate Ayam">
+                    <img src="https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/409d592dfffb3b2d2ab2e06dbbf11c2b7bb3b7f6.jpg"
+                        alt="Sate Ayam">
                 </div>
                 <div class="hero-img animate-in" style="animation-delay: 0.45s">
-                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg" alt="Gado-Gado">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.recipetineats.com/20cb2b0747eb0a80e74602652992034d12b7e76c.jpg"
+                        alt="Gado-Gado">
                 </div>
             </div>
         </div>
@@ -1060,7 +1359,9 @@ html_content = '''<!DOCTYPE html>
         <div class="section-header">
             <div class="section-tag">Menu Kami</div>
             <h2 class="section-title">Pilihan Hidangan Lezat</h2>
-            <p class="section-desc">Dari makanan berat hingga camilan dan minuman segar, semua dibuat dengan bahan-bahan segar dan berkualitas.</p>
+            <div class="gold-divider"></div>
+            <p class="section-desc">Dari makanan berat hingga camilan dan minuman segar, semua dibuat dengan bahan-bahan
+                segar dan berkualitas.</p>
         </div>
 
         <div class="menu-tabs">
@@ -1077,13 +1378,19 @@ html_content = '''<!DOCTYPE html>
     <section class="about-section" id="about">
         <div class="about-container">
             <div class="about-img">
-                <img src="https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg" alt="Warung Satria">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/bcf64dbce489b9ca25ea5bb7825023208b7aceb6.jpg"
+                    alt="Warung Satria">
             </div>
             <div class="about-text">
                 <div class="section-tag">Tentang Kami</div>
                 <h2 class="section-title">Kisah Warung Satria</h2>
-                <p>Warung Satria didirikan pada tahun 2015 dengan misi sederhana: menyajikan masakan Indonesia yang autentik dengan harga terjangkau. Berawal dari sebuah warung kecil di pinggir jalan, kini kami telah menjadi destinasi kuliner favorit bagi pecinta makanan Nusantara.</p>
-                <p>Setiap hidangan kami dibuat menggunakan resep turun-temurun yang telah disempurnakan selama bertahun-tahun. Kami hanya menggunakan bahan-bahan segar dan rempah-rempah pilihan untuk memastikan setiap suapan memberikan pengalaman rasa yang tak terlupakan.</p>
+                <div class="gold-divider"></div>
+                <p>Warung Satria didirikan pada tahun 2018 dengan misi sederhana: menyajikan masakan Indonesia yang
+                    autentik dengan harga terjangkau. Berawal dari sebuah warung kecil di pinggir jalan, kini kami telah
+                    menjadi destinasi kuliner favorit bagi pecinta makanan Nusantara.</p>
+                <p>Setiap hidangan kami dibuat menggunakan resep turun-temurun yang telah disempurnakan selama
+                    bertahun-tahun. Kami hanya menggunakan bahan-bahan segar dan rempah-rempah pilihan untuk memastikan
+                    setiap suapan memberikan pengalaman rasa yang tak terlupakan.</p>
                 <div class="about-stats">
                     <div class="about-stat">
                         <h4>9+</h4>
@@ -1107,12 +1414,15 @@ html_content = '''<!DOCTYPE html>
         <div class="section-header">
             <div class="section-tag">Testimoni</div>
             <h2 class="section-title">Apa Kata Mereka?</h2>
+            <div class="gold-divider"></div>
             <p class="section-desc">Ulasan jujur dari pelanggan setia Warung Satria.</p>
         </div>
         <div class="testimonials-grid">
             <div class="testimonial-card animate-in">
                 <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Nasi Goreng Satria jadi favorit saya! Rasa kecap manisnya pas, ayamnya empuk, dan porsinya sangat mengenyangkan. Harganya juga sangat terjangkau untuk kualitas sebaik ini."</p>
+                <p class="testimonial-text">"Nasi Goreng Satria jadi favorit saya! Rasa kecap manisnya pas, ayamnya
+                    empuk, dan porsinya sangat mengenyangkan. Harganya juga sangat terjangkau untuk kualitas sebaik
+                    ini."</p>
                 <div class="testimonial-author">
                     <div class="testimonial-avatar">👨</div>
                     <div>
@@ -1123,7 +1433,8 @@ html_content = '''<!DOCTYPE html>
             </div>
             <div class="testimonial-card animate-in" style="animation-delay: 0.1s">
                 <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Rendangnya bener-bener autentik! Dagingnya empuk dan bumbunya meresap sempurna. Saya yang asli Padang aja bilang ini enak banget. Recommended!"</p>
+                <p class="testimonial-text">"Rendangnya bener-bener autentik! Dagingnya empuk dan bumbunya meresap
+                    sempurna. Saya yang asli Padang aja bilang ini enak banget. Recommended!"</p>
                 <div class="testimonial-author">
                     <div class="testimonial-avatar">👩</div>
                     <div>
@@ -1134,7 +1445,8 @@ html_content = '''<!DOCTYPE html>
             </div>
             <div class="testimonial-card animate-in" style="animation-delay: 0.2s">
                 <div class="testimonial-stars">★★★★★</div>
-                <p class="testimonial-text">"Es Cendolnya segar banget! Cocok buat diminum siang-siang. Pelayanannya juga cepat dan ramah. Warung Satria memang juara!"</p>
+                <p class="testimonial-text">"Es Cendolnya segar banget! Cocok buat diminum siang-siang. Pelayanannya
+                    juga cepat dan ramah. Warung Satria memang juara!"</p>
                 <div class="testimonial-author">
                     <div class="testimonial-avatar">👨</div>
                     <div>
@@ -1154,7 +1466,8 @@ html_content = '''<!DOCTYPE html>
                     <div class="logo-icon">🍽️</div>
                     Warung Satria
                 </a>
-                <p>Menyajikan kelezatan masakan Nusantara dengan cinta dan dedikasi sejak 2015. Setiap hidangan adalah perjalanan rasa yang tak terlupakan.</p>
+                <p>Menyajikan kelezatan masakan Nusantara dengan cinta dan dedikasi sejak 2015. Setiap hidangan adalah
+                    perjalanan rasa yang tak terlupakan.</p>
             </div>
             <div>
                 <h4 class="footer-title">Menu</h4>
@@ -1224,6 +1537,46 @@ html_content = '''<!DOCTYPE html>
     </div>
 
     <script>
+        // ===== MARQUEE TEXT =====
+        (function () {
+            var msgs = ['✦ EDISI TERBATAS', 'RESEP RAHASIA SEJAK 2015', 'BAHAN PILIHAN PREMIUM', 'RESERVASI VIP TERSEDIA', '50.000+ PELANGGAN PUAS ✦'];
+            var html = msgs.concat(msgs).concat(msgs).map(function (t) { return '<span>' + t + '</span>'; }).join('');
+            document.getElementById('marqueeTrack').innerHTML = html;
+        })();
+
+        // ===== SPARKLE CANVAS (hero) =====
+        (function () {
+            var cv = document.getElementById('sparkle-canvas'), cx = cv.getContext('2d');
+            var hero = document.querySelector('.hero');
+            function resize() { cv.width = hero.offsetWidth; cv.height = hero.offsetHeight; }
+            resize(); window.addEventListener('resize', resize);
+            var dots = [];
+            for (var i = 0; i < 30; i++) {
+                dots.push({
+                    x: Math.random() * cv.width,
+                    y: Math.random() * cv.height,
+                    r: Math.random() * 1.4 + .4,
+                    vy: -(Math.random() * .25 + .05),
+                    a: Math.random() * .5 + .15
+                });
+            }
+            function draw() {
+                cx.clearRect(0, 0, cv.width, cv.height);
+                dots.forEach(function (d) {
+                    d.y += d.vy;
+                    if (d.y < -10) { d.y = cv.height + 10; d.x = Math.random() * cv.width; }
+                    cx.beginPath();
+                    cx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                    cx.fillStyle = 'rgba(201,162,39,' + d.a + ')';
+                    cx.shadowBlur = 5;
+                    cx.shadowColor = 'rgba(201,162,39,0.7)';
+                    cx.fill();
+                });
+                requestAnimationFrame(draw);
+            }
+            draw();
+        })();
+
         // ===== MENU DATA =====
         const menuItems = [
             {
@@ -1245,8 +1598,8 @@ html_content = '''<!DOCTYPE html>
                 price: 35000,
                 category: "makanan",
                 image: "https://kimi-web-img.moonshot.cn/img/soyummyrecipes.com/c2710a6b79fb3416080abe349932bef67ae9f2ee.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
+                badge: "limited",
+                badgeText: "✦ Limited",
                 rating: 4.9,
                 reviews: 256
             },
@@ -1341,8 +1694,8 @@ html_content = '''<!DOCTYPE html>
                 price: 15000,
                 category: "minuman",
                 image: "https://kimi-web-img.moonshot.cn/img/whattocooktoday.com/55dd2a7af458cf14364b1dc95fc0af053748faae.jpg",
-                badge: "bestseller",
-                badgeText: "Best Seller",
+                badge: "limited",
+                badgeText: "✦ Limited",
                 rating: 4.9,
                 reviews: 345
             },
@@ -1405,6 +1758,354 @@ html_content = '''<!DOCTYPE html>
                 badgeText: "",
                 rating: 4.7,
                 reviews: 145
+            },
+            {
+                id: 16,
+                name: "Nasi Padang Komplit",
+                desc: "Nasi dengan rendang, gulai nangka, sambal ijo, dan kerupuk. Cita rasa Padang yang otentik.",
+                price: 32000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/6d244e2311bd1d319bc9b2d0735b6fe2e84201c2.png",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.8,
+                reviews: 201
+            },
+            {
+                id: 17,
+                name: "Ayam Bakar Taliwang",
+                desc: "Ayam bakar khas Lombok dengan bumbu pedas manis dan sambal terasi mentah yang menggugah selera.",
+                price: 30000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/0bebca21085bc621e85a635b4f0b01e69b54a90e.jpg",
+                badge: "limited",
+                badgeText: "✦ Limited",
+                rating: 4.9,
+                reviews: 176
+            },
+            {
+                id: 18,
+                name: "Nasi Liwet Solo",
+                desc: "Nasi gurih santan dengan suwiran ayam, telur pindang, dan sayur labu siam khas Solo.",
+                price: 24000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/239665644b7b9e096117f1ad0555e7fd8d180d48.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 88
+            },
+            {
+                id: 19,
+                name: "Nasi Campur Bali",
+                desc: "Nasi dengan sate lilit, ayam sisit, lawar, dan sambal matah khas Bali. Kaya rempah dan segar.",
+                price: 29000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/f2a7496fb1d3f535c474d0979e9258b7f6e37fbd.jpg",
+                badge: "new",
+                badgeText: "Baru",
+                rating: 4.8,
+                reviews: 112
+            },
+            {
+                id: 20,
+                name: "Gudeg Yogya",
+                desc: "Gudeg nangka muda manis dengan krecek pedas, telur, dan ayam kampung. Resep asli Yogyakarta.",
+                price: 26000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/upload.wikimedia.org/c322a66c539f486db78813f182e5389769e7c1f1.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 134
+            },
+            {
+                id: 21,
+                name: "Rawon Daging",
+                desc: "Sup daging hitam khas Jawa Timur dengan kluwek, disajikan dengan tauge dan sambal.",
+                price: 27000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/cdn1-production-images-kly.akamaized.net/58dba6896eaab539f83ca7559f47768359d1c0ca.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 121
+            },
+            {
+                id: 22,
+                name: "Soto Betawi",
+                desc: "Soto daging dengan kuah santan kental, kentang, dan tomat. Gurih dan creamy khas Betawi.",
+                price: 26000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/www.chocolatesandchai.com/5184068a209fcce1ca4a760ef003ee221077fdf7.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.8,
+                reviews: 187
+            },
+            {
+                id: 23,
+                name: "Pecel Lele",
+                desc: "Lele goreng renyah dengan sambal bawang pedas, lalapan segar, dan nasi hangat.",
+                price: 19000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/517bff91de1c6e50c0578531825f70136213a68b.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 143
+            },
+            {
+                id: 24,
+                name: "Ikan Bakar Kecap",
+                desc: "Ikan gurame bakar bumbu kecap manis dengan lalapan dan sambal dabu-dabu segar.",
+                price: 33000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/3ddd1d9eead93055fb2208e74cd9af3e4e99a890.jpg",
+                badge: "limited",
+                badgeText: "✦ Limited",
+                rating: 4.9,
+                reviews: 97
+            },
+            {
+                id: 25,
+                name: "Nasi Kuning Komplit",
+                desc: "Nasi kuning gurih dengan ayam suwir, telur, orek tempe, dan kering kentang.",
+                price: 24000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/6d244e2311bd1d319bc9b2d0735b6fe2e84201c2.png",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 76
+            },
+            {
+                id: 26,
+                name: "Sop Buntut",
+                desc: "Sop buntut sapi dengan kuah bening kaya rempah, wortel, dan kentang. Empuk dan gurih.",
+                price: 38000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/www.cookmeindonesian.com/69586b12ed15b0cd059ab9110eaef6fd73e68448.jpg",
+                badge: "new",
+                badgeText: "Baru",
+                rating: 4.9,
+                reviews: 65
+            },
+            {
+                id: 27,
+                name: "Bebek Goreng Sambal Korek",
+                desc: "Bebek goreng renyah dengan sambal korek super pedas dan lalapan segar.",
+                price: 34000,
+                category: "makanan",
+                image: "https://kimi-web-img.moonshot.cn/img/asset.kompas.com/0f84682776e3132e40dbcd18e63a68d782409c5c.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 103
+            },
+            {
+                id: 28,
+                name: "Es Teh Tawar",
+                desc: "Teh hitam segar tanpa gula, cocok untuk yang suka minuman ringan dan sehat.",
+                price: 6000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/www.nadiftourbatam.com/7241ecfda167f0c9c01d76dcdf9e82755c3139f6.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.5,
+                reviews: 87
+            },
+            {
+                id: 29,
+                name: "Jus Alpukat",
+                desc: "Jus alpukat kental dengan susu kental manis dan sedikit coklat. Creamy dan mengenyangkan.",
+                price: 16000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/www.seriouseats.com/09a4d50369ccd2a9c22f15c7949da324305e4695.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.8,
+                reviews: 223
+            },
+            {
+                id: 30,
+                name: "Jus Mangga",
+                desc: "Jus mangga segar dari mangga harum manis pilihan, tanpa bahan pengawet.",
+                price: 15000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/d1vbn70lmn1nqe.cloudfront.net/2690613d221e34a6c5c0ca93e2342becc40f6dec.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 132
+            },
+            {
+                id: 31,
+                name: "Wedang Jahe",
+                desc: "Minuman jahe hangat dengan gula merah dan serai. Cocok untuk menghangatkan badan.",
+                price: 10000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/images.alodokter.com/4fb04900eb1d1bd88b978755932d6d633168a981.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 94
+            },
+            {
+                id: 32,
+                name: "Bandrek Susu",
+                desc: "Wedang bandrek khas Sunda dengan tambahan susu, rempah hangat, dan gula aren.",
+                price: 13000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/awsimages.detik.net.id/3d56c89c1144e017007c81733a601da459e490f2.jpeg",
+                badge: "new",
+                badgeText: "Baru",
+                rating: 4.7,
+                reviews: 58
+            },
+            {
+                id: 33,
+                name: "Es Timun Serut",
+                desc: "Timun serut dengan sirup dan perasan jeruk nipis. Sangat segar untuk cuaca panas.",
+                price: 11000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/i0.wp.com/3ce60dbb06ba78056568dd795032292da87d5e53.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 71
+            },
+            {
+                id: 34,
+                name: "Teh Tarik",
+                desc: "Teh susu ala Malaysia yang ditarik hingga berbusa lembut. Manis dan creamy.",
+                price: 14000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/www.tripsavvy.com/0f303158cece634f71a4d30f6eb01b969118b2e5.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.8,
+                reviews: 165
+            },
+            {
+                id: 35,
+                name: "STMJ (Susu Telur Madu Jahe)",
+                desc: "Minuman tradisional penambah stamina, hangat dan menyehatkan.",
+                price: 15000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/cdn.hellosehat.com/4b2769a9a8174488ec4078d8df84cd530c627445.jpg",
+                badge: "limited",
+                badgeText: "✦ Limited",
+                rating: 4.7,
+                reviews: 44
+            },
+            {
+                id: 36,
+                name: "Es Doger",
+                desc: "Es campur khas Sunda dengan tape, ketan hitam, alpukat, dan susu kental manis.",
+                price: 17000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/www.gastronomiac.com/0b817352d8dc1be1a6dcfe4a96e64929c4fda02e.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 118
+            },
+            {
+                id: 37,
+                name: "Kelapa Muda Segar",
+                desc: "Air kelapa muda asli dengan daging kelapa dan sirup gula aren.",
+                price: 15000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/cdn.hellosehat.com/b5089b9fcbdbe37b66c74905e23db1e3daa12a67.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.8,
+                reviews: 152
+            },
+            {
+                id: 38,
+                name: "Kopi Hitam Tubruk",
+                desc: "Kopi robusta pilihan diseduh cara tradisional, kental dan aromatik.",
+                price: 10000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/www.static-src.com/2dedf5a461bb424a5b61243adae9b82579e25f72.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 99
+            },
+            {
+                id: 39,
+                name: "Milkshake Coklat",
+                desc: "Milkshake coklat creamy dengan whipped cream dan choco chips di atasnya.",
+                price: 20000,
+                category: "minuman",
+                image: "https://kimi-web-img.moonshot.cn/img/iambaker.net/82990b408b3b2568475ec13dd8f5308920006cf7.jpg",
+                badge: "new",
+                badgeText: "Baru",
+                rating: 4.8,
+                reviews: 76
+            },
+            {
+                id: 40,
+                name: "Tahu Isi Sayur",
+                desc: "Tahu goreng isi sayuran renyah dengan cabai rawit segar. Camilan favorit sore hari.",
+                price: 9000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/b9155f7fb96d2fafb5487cca6d5e3638b8c4f9f5.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.6,
+                reviews: 88
+            },
+            {
+                id: 41,
+                name: "Tempe Mendoan",
+                desc: "Tempe goreng tepung khas Banyumas, tebal dan gurih, disajikan dengan sambal kecap.",
+                price: 10000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/451af45f31abde1e38a6b467d5f27de11665e48a.jpg",
+                badge: "bestseller",
+                badgeText: "Best Seller",
+                rating: 4.8,
+                reviews: 176
+            },
+            {
+                id: 42,
+                name: "Risoles Ragout",
+                desc: "Risoles isi ragout ayam dan sayuran, dibalut tepung roti renyah. 3 pcs per porsi.",
+                price: 13000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/monicaisinthekitchen.wordpress.com/f82f8f52b46e112993419f777650b78973637d55.jpg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 92
+            },
+            {
+                id: 43,
+                name: "Lumpia Semarang",
+                desc: "Lumpia basah khas Semarang isi rebung dan ayam, digoreng renyah sempurna.",
+                price: 14000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/img-global.cpcdn.com/bafc46000a86741b58ce0f37ab59e47578d1f7b4.jpg",
+                badge: "limited",
+                badgeText: "✦ Limited",
+                rating: 4.9,
+                reviews: 67
+            },
+            {
+                id: 44,
+                name: "Klepon",
+                desc: "Kue tradisional isi gula merah cair berbalut kelapa parut. Manis legit khas Nusantara.",
+                price: 8000,
+                category: "camilan",
+                image: "https://kimi-web-img.moonshot.cn/img/static.uc.ac.id/39e7f171013c31868aa036ce06454af6ed808828.jpeg",
+                badge: "",
+                badgeText: "",
+                rating: 4.7,
+                reviews: 105
             }
         ];
 
@@ -1422,8 +2123,8 @@ html_content = '''<!DOCTYPE html>
             const grid = document.getElementById('menuGrid');
             grid.innerHTML = '';
 
-            const filtered = category === 'all' 
-                ? menuItems 
+            const filtered = category === 'all'
+                ? menuItems
                 : menuItems.filter(item => item.category === category);
 
             filtered.forEach((item, index) => {
@@ -1432,8 +2133,8 @@ html_content = '''<!DOCTYPE html>
                 card.style.animationDelay = `${index * 0.06}s`;
                 card.dataset.category = item.category;
 
-                const badgeHtml = item.badge 
-                    ? `<div class="menu-card-badge ${item.badge}">${item.badgeText}</div>` 
+                const badgeHtml = item.badge
+                    ? `<div class="menu-card-badge ${item.badge}">${item.badgeText}</div>`
                     : '';
 
                 card.innerHTML = `
@@ -1466,8 +2167,7 @@ html_content = '''<!DOCTYPE html>
         // ===== FILTER MENU =====
         function filterMenu(category) {
             currentCategory = category;
-            
-            // Update tab active state
+
             document.querySelectorAll('.menu-tab').forEach(tab => {
                 tab.classList.toggle('active', tab.dataset.category === category);
             });
@@ -1490,7 +2190,6 @@ html_content = '''<!DOCTYPE html>
             updateCart();
             showToast(`✅ ${item.name} ditambahkan!`);
 
-            // Button feedback
             const btn = document.getElementById(`btn-${itemId}`);
             if (btn) {
                 btn.classList.add('added');
@@ -1510,7 +2209,7 @@ html_content = '''<!DOCTYPE html>
         function updateQty(itemId, delta) {
             const item = cart.find(c => c.id === itemId);
             if (!item) return;
-            
+
             item.qty += delta;
             if (item.qty <= 0) {
                 removeFromCart(itemId);
@@ -1539,10 +2238,10 @@ html_content = '''<!DOCTYPE html>
             }
 
             cartFooter.style.display = 'block';
-            
+
             let html = '';
             let subtotal = 0;
-            
+
             cart.forEach(item => {
                 subtotal += item.price * item.qty;
                 html += `
@@ -1580,12 +2279,12 @@ html_content = '''<!DOCTYPE html>
 
         function checkout() {
             if (cart.length === 0) return;
-            
+
             const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
             const tax = Math.round(total * 0.1);
             const grandTotal = total + tax;
-            
-            showToast(`🎉 Pesanan berhasil! Total: ${formatPrice(grandTotal)}`);
+
+            showToast(` Pesanan berhasil! Total: ${formatPrice(grandTotal)}`);
             cart = [];
             updateCart();
             setTimeout(toggleCart, 1500);
@@ -1609,10 +2308,9 @@ html_content = '''<!DOCTYPE html>
             const navbar = document.getElementById('navbar');
             navbar.classList.toggle('scrolled', window.scrollY > 50);
 
-            // Active nav link
             const sections = ['home', 'menu', 'about', 'testimonials', 'contact'];
             const scrollPos = window.scrollY + 100;
-            
+
             sections.forEach(id => {
                 const section = document.getElementById(id);
                 const link = document.querySelector(`a[href="#${id}"]`);
@@ -1627,7 +2325,6 @@ html_content = '''<!DOCTYPE html>
             });
         });
 
-        // Close mobile menu on link click
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 document.getElementById('navLinks').classList.remove('active');
@@ -1638,10 +2335,5 @@ html_content = '''<!DOCTYPE html>
         renderMenu();
     </script>
 </body>
-</html>'''
 
-with open('/mnt/agents/output/warung_satria.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-print(f"✅ File saved! Size: {len(html_content):,} chars")
-print("Warung Satria restaurant website is ready!")
+</html>
