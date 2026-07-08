@@ -1,353 +1,633 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Satria Clouds — Menu</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0f0b1e;
-    --ink: #f4f0ff;
-    --yellow: #ffcf5c;
-    --yellow2: #ff9f5c;
-    --pink: #ff8fc4;
-    --pink2: #ff5c8a;
-    --blue: #7cc9ff;
-    --blue2: #5c8aff;
-    --green: #8ff0c0;
-    --green2: #4cd9a0;
-    --purple: #c9a8ff;
-    --purple2: #9d6bff;
-    --orange: #ffb37c;
-    --orange2: #ff8a5c;
-    --muted: #a89ec9;
-    --gold: #f0c862;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { height: 100%; }
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    background-image:
-      radial-gradient(ellipse at 20% 10%, rgba(157,107,255,0.14) 0%, transparent 55%),
-      radial-gradient(ellipse at 85% 90%, rgba(92,138,255,0.12) 0%, transparent 55%);
-    color: var(--ink);
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 44px 20px 60px;
-    overflow-x: hidden;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SATRIA://TERMINAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #020503;
+      --bg-2: #040a06;
+      --panel: #06120a;
+      --green: #3dff7a;
+      --green-dim: #1f8f47;
+      --green-glow: rgba(61, 255, 122, 0.45);
+      --amber: #ffb000;
+      --red: #ff3b3b;
+      --ink: #cdffd8;
+      --muted: #3f7050;
+      --pixel: 'Press Start 2P', monospace;
+      --mono: 'JetBrains Mono', monospace;
+    }
 
-  /* soft floating blobs in background */
-  .blob {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: .28;
-    z-index: 0;
-    animation: blobFloat 14s ease-in-out infinite;
-  }
-  .blob.b1 { width: 320px; height: 320px; background: linear-gradient(135deg, var(--pink), var(--purple)); top: -80px; left: -80px; }
-  .blob.b2 { width: 300px; height: 300px; background: linear-gradient(135deg, var(--blue), var(--green)); bottom: -80px; right: -60px; animation-delay: -5s; }
-  .blob.b3 { width: 240px; height: 240px; background: linear-gradient(135deg, var(--yellow), var(--orange)); top: 42%; right: 8%; animation-delay: -9s; }
-  @keyframes blobFloat {
-    0%, 100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(20px,-20px) scale(1.08); }
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  .head { position: relative; z-index: 2; text-align: center; margin-bottom: 32px; }
+    html,
+    body {
+      height: 100%;
+    }
 
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    background: rgba(28, 22, 48, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(240,200,98,0.35);
-    border-radius: 99px;
-    padding: 8px 18px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--ink);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-    margin-bottom: 14px;
-  }
-  .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green2); box-shadow: 0 0 8px var(--green2); }
-  .badge .sparkle { color: var(--gold); animation: sparkleTwinkle 1.8s ease-in-out infinite; }
-  @keyframes sparkleTwinkle { 0%,100%{opacity:1; transform:scale(1)} 50%{opacity:.4; transform:scale(.8)} }
+    body {
+      font-family: var(--mono);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-  .edition-line {
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--gold);
-    margin-top: 6px;
-    text-transform: uppercase;
-  }
-  .edition-line b { color: var(--ink); font-weight: 800; }
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
 
-  h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(32px, 6vw, 54px);
-    font-weight: 800;
-    letter-spacing: -1px;
-    line-height: 1.05;
-  }
+    ::selection {
+      background: var(--green);
+      color: #020503;
+    }
 
-  h1 .hl {
-    background: linear-gradient(120deg, var(--pink2), var(--purple2), var(--gold), var(--pink2));
-    background-size: 300% auto;
-    padding: 3px 16px;
-    border-radius: 20px;
-    display: inline-block;
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(157,107,255,0.35);
-    animation: hlShimmer 5s linear infinite;
-  }
-  @keyframes hlShimmer { to { background-position: 300% center; } }
+    /* ===== CRT SCREEN LAYER ===== */
+    .crt-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 900;
+      pointer-events: none;
+      background: radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.65) 100%);
+    }
 
-  .sub { font-size: 13.5px; font-weight: 500; margin-top: 16px; color: var(--muted); }
+    .crt-scan {
+      position: fixed;
+      inset: 0;
+      z-index: 901;
+      pointer-events: none;
+      background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 1px, rgba(0, 0, 0, 0.25) 2px, rgba(0, 0, 0, 0) 3px);
+      mix-blend-mode: multiply;
+      opacity: 0.5;
+    }
 
-  /* ===== MENU GRID ===== */
-  .menu-grid {
-    position: relative; z-index: 2;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    max-width: 640px;
-    width: 100%;
-    margin-top: 8px;
-  }
+    .crt-flicker {
+      position: fixed;
+      inset: 0;
+      z-index: 902;
+      pointer-events: none;
+      background: rgba(61, 255, 122, 0.02);
+      animation: flicker 6s infinite;
+    }
 
-  a.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    padding: 24px 22px;
-    background: linear-gradient(165deg, #1c1730, #16122a);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 26px;
-    text-decoration: none;
-    color: var(--ink);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.35);
-    transition: transform .3s cubic-bezier(.34,1.5,.64,1), box-shadow .3s ease;
-    overflow: hidden;
-  }
+    @keyframes flicker {
 
-  a.card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -60%;
-    width: 40%; height: 100%;
-    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), rgba(224,184,77,0.35), rgba(255,143,196,0.35), transparent);
-    transform: skewX(-16deg);
-    transition: left .6s ease;
-  }
+      0%,
+      100% {
+        opacity: 0;
+      }
 
-  a.card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 14px; right: 14px;
-    height: 2px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, transparent, rgba(224,184,77,0.6), transparent);
-  }
+      92% {
+        opacity: 0;
+      }
 
-  a.card:hover::before { left: 130%; }
+      93% {
+        opacity: 1;
+      }
 
-  a.card:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 24px 44px rgba(0,0,0,0.5), var(--glow, 0 0 0 transparent);
-  }
+      94% {
+        opacity: 0;
+      }
 
-  a.card:active { transform: translateY(-3px) scale(0.98); }
+      96% {
+        opacity: 0.6;
+      }
 
-  a.card:nth-child(1) { --glow: 0 16px 34px rgba(255,159,92,0.28); }
-  a.card:nth-child(2) { --glow: 0 16px 34px rgba(255,92,138,0.28); }
-  a.card:nth-child(3) { --glow: 0 16px 34px rgba(92,138,255,0.28); }
-  a.card:nth-child(4) { --glow: 0 16px 34px rgba(76,217,160,0.28); }
-  a.card:nth-child(5) { --glow: 0 16px 34px rgba(157,107,255,0.28); }
-  a.card:nth-child(6) { --glow: 0 16px 34px rgba(255,138,92,0.28); }
-  a.card:nth-child(7) { --glow: 0 16px 34px rgba(255,207,92,0.28); }
+      97% {
+        opacity: 0;
+      }
+    }
 
-  .card-icon {
-    position: relative; z-index: 1;
-    width: 52px; height: 52px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 23px;
-    border-radius: 16px;
-    box-shadow: inset 0 -3px 6px rgba(0,0,0,0.08), 0 6px 14px rgba(0,0,0,0.1);
-  }
+    .glow-field {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
 
-  a.card:nth-child(1) .card-icon { background: linear-gradient(150deg, var(--yellow), var(--orange2)); }
-  a.card:nth-child(2) .card-icon { background: linear-gradient(150deg, var(--pink), var(--pink2)); }
-  a.card:nth-child(3) .card-icon { background: linear-gradient(150deg, var(--blue), var(--blue2)); }
-  a.card:nth-child(4) .card-icon { background: linear-gradient(150deg, var(--green), var(--green2)); }
-  a.card:nth-child(5) .card-icon { background: linear-gradient(150deg, var(--purple), var(--purple2)); }
-  a.card:nth-child(6) .card-icon { background: linear-gradient(150deg, var(--orange), var(--orange2)); }
-  a.card:nth-child(7) .card-icon { background: linear-gradient(150deg, var(--yellow), var(--pink2)); }
+    .glow-field .g {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.16;
+      background: var(--green);
+    }
 
-  .card-name {
-    position: relative; z-index: 1;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-  }
+    .glow-field .g1 {
+      width: 480px;
+      height: 480px;
+      top: -160px;
+      left: -140px;
+    }
 
-  .card-desc {
-    position: relative; z-index: 1;
-    font-size: 11.5px;
-    font-weight: 500;
-    color: var(--muted);
-    line-height: 1.4;
-  }
+    .glow-field .g2 {
+      width: 420px;
+      height: 420px;
+      bottom: -160px;
+      right: -120px;
+      background: var(--amber);
+      opacity: 0.08;
+    }
 
-  .card-num {
-    position: absolute;
-    top: 18px; right: 20px;
-    z-index: 1;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 10.5px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: .5px;
-  }
+    /* ===== BOOT SCREEN ===== */
+    #boot {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: var(--bg);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 8vh 20px;
+      transition: opacity .5s ease, visibility .5s ease;
+    }
 
-  a.card.wide {
-    grid-column: span 2;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px;
-  }
-  a.card.wide .card-text { display: flex; flex-direction: column; gap: 4px; }
+    #boot.out {
+      opacity: 0;
+      visibility: hidden;
+    }
 
-  footer {
-    position: relative; z-index: 2;
-    margin-top: 36px;
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(28, 22, 48, 0.7);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.08);
-    color: var(--muted);
-    padding: 9px 20px;
-    border-radius: 99px;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-weight: 700;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  }
-  footer .dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--green2);
-    box-shadow: 0 0 8px var(--green2);
-    animation: pulse 1.6s ease infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .boot-term {
+      width: 100%;
+      max-width: 640px;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--green);
+      text-shadow: 0 0 6px var(--green-glow);
+      white-space: pre-wrap;
+    }
 
-  @media (max-width: 560px) {
-    .menu-grid { grid-template-columns: 1fr; }
-    a.card.wide { grid-column: span 1; flex-direction: column; align-items: flex-start; }
-    h1 { font-size: 30px; }
-  }
-</style>
+    .boot-term .dim {
+      color: var(--muted);
+    }
+
+    .boot-term .amber {
+      color: var(--amber);
+    }
+
+    .boot-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green-glow);
+      animation: cursorblink 1s step-end infinite;
+      vertical-align: text-bottom;
+      margin-left: 2px;
+    }
+
+    @keyframes cursorblink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* ===== TOP BAR ===== */
+    .topbar {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 20px 0;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .topbar .tb-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .topbar .tb-left i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green-glow);
+      animation: blink 1.6s ease infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .3;
+      }
+    }
+
+    .topbar .tb-right {
+      display: flex;
+      gap: 18px;
+    }
+
+    .topbar .tb-right span {
+      color: var(--green-dim);
+    }
+
+    /* ===== MAIN ===== */
+    main {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 20px 20px 60px;
+    }
+
+    .header-block {
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed var(--green-dim);
+    }
+
+    .header-block .pixel-logo {
+      font-family: var(--pixel);
+      font-size: clamp(16px, 3.4vw, 26px);
+      color: var(--green);
+      text-shadow: 0 0 10px var(--green-glow), 2px 0 0 rgba(255, 59, 59, 0.35), -2px 0 0 rgba(0, 180, 255, 0.25);
+      letter-spacing: 2px;
+      line-height: 1.5;
+    }
+
+    .header-block .path {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .header-block .path b {
+      color: var(--amber);
+    }
+
+    /* ===== DIRECTORY MENU ===== */
+    .dir-head {
+      display: grid;
+      grid-template-columns: 44px 1fr 90px 34px;
+      gap: 14px;
+      padding: 0 16px 10px;
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--green-dim);
+      margin-bottom: 6px;
+    }
+
+    @media(max-width:600px) {
+      .dir-head {
+        display: none;
+      }
+    }
+
+    .dir-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    a.dir-row {
+      display: grid;
+      grid-template-columns: 44px 1fr 90px 34px;
+      gap: 14px;
+      align-items: center;
+      text-decoration: none;
+      color: var(--ink);
+      padding: 16px;
+      border-bottom: 1px solid rgba(61, 255, 122, 0.12);
+      position: relative;
+      transition: background .2s, padding-left .2s;
+    }
+
+    a.dir-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--green);
+      transform: scaleY(0);
+      transition: transform .25s;
+      transform-origin: center;
+    }
+
+    a.dir-row:hover {
+      background: rgba(61, 255, 122, 0.06);
+      padding-left: 20px;
+    }
+
+    a.dir-row:hover::before {
+      transform: scaleY(1);
+    }
+
+    .dir-no {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--green-dim);
+    }
+
+    a.dir-row:hover .dir-no {
+      color: var(--green);
+      text-shadow: 0 0 6px var(--green-glow);
+    }
+
+    .dir-name-block .dir-name {
+      font-family: var(--mono);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      color: var(--ink);
+    }
+
+    .dir-name-block .dir-desc {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .dir-status {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--green-dim);
+      text-align: right;
+    }
+
+    a.dir-row:hover .dir-status {
+      color: var(--green);
+    }
+
+    .dir-arrow {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      transition: transform .25s, color .25s;
+    }
+
+    a.dir-row:hover .dir-arrow {
+      color: var(--green);
+      transform: translateX(4px);
+    }
+
+    @media(max-width:600px) {
+      a.dir-row {
+        grid-template-columns: 34px 1fr 22px;
+        grid-template-areas: "no name arrow" "no status arrow";
+      }
+
+      .dir-no {
+        grid-area: no;
+      }
+
+      .dir-name-block {
+        grid-area: name;
+      }
+
+      .dir-status {
+        grid-area: status;
+        text-align: left;
+      }
+
+      .dir-arrow {
+        grid-area: arrow;
+      }
+    }
+
+    /* ===== FOOTER PROMPT ===== */
+    .prompt-line {
+      margin-top: 26px;
+      padding-top: 18px;
+      border-top: 1px dashed var(--green-dim);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--green-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .prompt-line b {
+      color: var(--green);
+    }
+
+    .blink-caret {
+      display: inline-block;
+      width: 7px;
+      height: 13px;
+      background: var(--green);
+      animation: cursorblink 1s step-end infinite;
+      box-shadow: 0 0 6px var(--green-glow);
+    }
+
+    .sys-footer {
+      margin-top: 34px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .sys-footer span b {
+      color: var(--green-dim);
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="blob b1"></div>
-<div class="blob b2"></div>
-<div class="blob b3"></div>
+  <div class="glow-field">
+    <div class="g g1"></div>
+    <div class="g g2"></div>
+  </div>
+  <div class="crt-vignette"></div>
+  <div class="crt-scan"></div>
+  <div class="crt-flicker"></div>
 
-<div class="head">
-  <div class="badge"><span class="sparkle">✦</span>Limited Edition · Satria Network<span class="sparkle">✦</span></div>
-  <h1>SATXX<span class="hl">CLOUDS</span></h1>
-  <div class="sub">Pilih Menu Di Bawah</div>
-  <div class="edition-line">Edition N°· Exclusive Access</div>
-</div>
+  <div id="boot">
+    <div class="boot-term" id="bootTerm"></div>
+  </div>
 
-<div class="menu-grid">
-  <a class="card" href="index.html">
-    <span class="card-num">01</span>
-    <span class="card-icon">🛒</span>
-    <span class="card-name">Store</span>
-    <span class="card-desc">Belanja layanan digital</span>
-  </a>
-  <a class="card" href="ai.html">
-    <span class="card-num">02</span>
-    <span class="card-icon">🤖</span>
-    <span class="card-name">SatzAI</span>
-    <span class="card-desc">Chat dengan asisten AI</span>
-  </a>
-  <a class="card" href="pc.html">
-    <span class="card-num">03</span>
-    <span class="card-icon">🎮</span>
-    <span class="card-name">PC Gaming</span>
-    <span class="card-desc">Premium builds & custom</span>
-  </a>
-  <a class="card" href="qr.html">
-    <span class="card-num">04</span>
-    <span class="card-icon">📱</span>
-    <span class="card-name">QR Studio</span>
-    <span class="card-desc">Generate & scan QR code</span>
-  </a>
-  <a class="card" href="music.html">
-    <span class="card-num">05</span>
-    <span class="card-icon">🎵</span>
-    <span class="card-name">Now Playing</span>
-    <span class="card-desc">Audio visualizer & player</span>
-  </a>
-  <a class="card" href="komponen.html">
-    <span class="card-num">06</span>
-    <span class="card-icon">🧩</span>
-    <span class="card-name">Komponen</span>
-    <span class="card-desc">Dokumentasi PC</span>
-  </a>
-  <a class="card wide" href="kuliner.html">
-    <span class="card-num">07</span>
-    <span class="card-icon">🍽️</span>
-    <span class="card-text">
-      <span class="card-name">Restaurant</span>
-      <span class="card-desc">Warung Satria</span>
-    </span>
-  </a>
-  <a class="card wide" href="ssm.html">
-    <span class="card-num">08</span>
-    <span class="card-icon">📊</span>
-    <span class="card-text">
-      <span class="card-name">Suntik all Sosmed</span>
-      <span class="card-desc">Via Website</span>
-    </span>
-  </a>
-</div>
+  <div class="topbar">
+    <div class="tb-left"><i></i><span>SATRIA-SYS // ONLINE</span></div>
+    <div class="tb-right">
+      <span id="tbDate">--</span>
+      <span id="tbTime">--:--:--</span>
+    </div>
+  </div>
 
-<footer><span class="dot"></span>Satria System · Online</footer>
+  <main>
+    <div class="header-block">
+      <div class="pixel-logo">SATRIA://MENU</div>
+      <div class="path">PILIH<b>MENU</b>DIBAWAH</div>
+    </div>
 
-<audio id="bgm" src="satria.mp3" loop></audio>
+    <div class="dir-head">
+      <span>No</span><span>Modul</span><span>Status</span><span></span>
+    </div>
 
-<script>
-  var bgm = document.getElementById('bgm');
-  bgm.volume = 0.4;
-  bgm.play().catch(function () {
-    function unlockAudio() {
-      bgm.play();
-      document.removeEventListener('click', unlockAudio);
-      document.removeEventListener('touchstart', unlockAudio);
-    }
-    document.addEventListener('click', unlockAudio);
-    document.addEventListener('touchstart', unlockAudio);
-  });
-  document.querySelectorAll('.card').forEach(function (btn) {
-    btn.addEventListener('click', function () { bgm.pause(); });
-  });
-</script>
+    <div class="dir-list" id="dirList">
+      <a class="dir-row" href="index.html">
+        <span class="dir-no">01</span>
+        <span class="dir-name-block"><span class="dir-name">STORE</span><span class="dir-desc">Belanja layanan
+            digital</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+      </a>
+      <a class="dir-row" href="ai.html">
+        <span class="dir-no">02</span>
+        <span class="dir-name-block"><span class="dir-name">SATZ_AI</span><span class="dir-desc">Asisten chat
+            AI</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+      </a>
+      <a class="dir-row" href="pc.html">
+        <span class="dir-no">03</span>
+        <span class="dir-name-block"><span class="dir-name">PC_GAMING</span><span class="dir-desc">Premium builds &amp;
+            custom</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+      </a>
+      <a class="dir-row" href="qr.html">
+        <span class="dir-no">04</span>
+        <span class="dir-name-block"><span class="dir-name">QR_STUDIO</span><span class="dir-desc">Generate &amp; scan
+            QR code</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+      </a>
+      <a class="dir-row" href="music.html">
+        <span class="dir-no">05</span>
+        <span class="dir-name-block"><span class="dir-name">NOW_PLAYING</span><span class="dir-desc">Audio visualizer
+            &amp; player</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+      </a>
+      <a class="dir-row" href="komponen.html">
+        <span class="dir-no">06</span>
+        <span class="dir-name-block"><span class="dir-name">KOMPONEN</span><span class="dir-desc">Dokumentasi
+            PC</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+      </a>
+      <a class="dir-row" href="kuliner.html">
+        <span class="dir-no">07</span>
+        <span class="dir-name-block"><span class="dir-name">WARUNG_SATRIA</span><span class="dir-desc">Menu
+            restoran</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+      </a>
+      <a class="dir-row" href="ssm.html">
+        <span class="dir-no">08</span>
+        <span class="dir-name-block"><span class="dir-name">Suntik All Sosmed</span><span class="dir-desc">Via
+            Web</span></span>
+        <span class="dir-status">READY</span>
+        <span class="dir-arrow">&gt;</span>
+        <audio id="bgm" src="satria.mp3" loop></audio>
 
+        <script>
+          // ===== BOOT SEQUENCE (typed terminal lines) =====
+          var bootLines = [
+            { t: "SATRIA SYSTEMS — BIOS v3.02", cls: "" },
+            { t: "(C) 2026 Satria Corp. All rights reserved.", cls: "dim" },
+            { t: "", cls: "" },
+            { t: "Memeriksa memori........................ 65536K OK", cls: "" },
+            { t: "Mendeteksi modul terpasang:", cls: "" },
+            { t: "  [x] STORE            ........... OK", cls: "dim" },
+            { t: "  [x] SATZ_AI           ........... OK", cls: "dim" },
+            { t: "  [x] PC_GAMING         ........... OK", cls: "dim" },
+            { t: "  [x] QR_STUDIO         ........... OK", cls: "dim" },
+            { t: "  [x] NOW_PLAYING       ........... OK", cls: "dim" },
+            { t: "  [x] KOMPONEN          ........... OK", cls: "dim" },
+            { t: "  [x] WARUNG_SATRIA     ........... OK", cls: "dim" },
+            { t: "  [x] Suntik All Sosmed ........... OK", cls: "dim" },
+            { t: "", cls: "" },
+            { t: "8 modul ditemukan. Memuat shell...", cls: "amber" }
+          ];
+
+          var term = document.getElementById('bootTerm');
+          var li = 0;
+          function typeLine() {
+            if (li >= bootLines.length) {
+              setTimeout(function () {
+                document.getElementById('boot').classList.add('out');
+              }, 500);
+              return;
+            }
+            var line = bootLines[li];
+            var span = document.createElement('div');
+            span.className = line.cls;
+            span.textContent = line.t;
+            term.appendChild(span);
+            li++;
+            setTimeout(typeLine, line.t === "" ? 90 : 130);
+          }
+          setTimeout(typeLine, 250);
+
+          // ===== LIVE CLOCK / UPTIME =====
+          var startTime = Date.now();
+          function fmt(n) { return String(n).padStart(2, '0'); }
+          function tick() {
+            var d = new Date();
+            document.getElementById('tbDate').textContent = fmt(d.getDate()) + '/' + fmt(d.getMonth() + 1) + '/' + d.getFullYear();
+            document.getElementById('tbTime').textContent = d.toTimeString().slice(0, 8);
+
+            var up = Math.floor((Date.now() - startTime) / 1000);
+            var h = Math.floor(up / 3600), m = Math.floor((up % 3600) / 60), s = up % 60;
+            document.getElementById('upt').textContent = fmt(h) + ':' + fmt(m) + ':' + fmt(s);
+          }
+          setInterval(tick, 1000); tick();
+
+          // ===== AUDIO =====
+          var bgm = document.getElementById('bgm');
+          bgm.volume = 0.35;
+          bgm.play().catch(function () {
+            function unlockAudio() {
+              bgm.play();
+              document.removeEventListener('click', unlockAudio);
+              document.removeEventListener('touchstart', unlockAudio);
+            }
+            document.addEventListener('click', unlockAudio);
+            document.addEventListener('touchstart', unlockAudio);
+          });
+          document.querySelectorAll('.dir-row').forEach(function (row) {
+            row.addEventListener('click', function () { bgm.pause(); });
+          });
+        </script>
 </body>
+
 </html>
