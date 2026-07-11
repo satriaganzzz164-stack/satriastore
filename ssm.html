@@ -1,2748 +1,779 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ViralUp — Jasa Boost Sosmed #1</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    :root {
-      --bg: #07050e;
-      --bg2: #0c0917;
-      --card: #100d1c;
-      --card2: #150f26;
-      --purple: #7c3aed;
-      --purple2: #5b21b6;
-      --gold: #eab308;
-      --gold2: #ca8a04;
-      --amber: #f59e0b;
-      --violet: #a78bfa;
-      --pink: #ec4899;
-      --rose: #f43f5e;
-      --text: #f1eeff;
-      --muted: #6b5f8a;
-      --r: 20px;
-      --glow-p: 0 0 60px rgba(124, 58, 237, .25);
-      --glow-g: 0 0 60px rgba(234, 179, 8, .2);
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0
-    }
-
-    html {
-      scroll-behavior: smooth
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden
-    }
-
-    ::-webkit-scrollbar {
-      width: 3px
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg)
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(var(--purple), var(--gold));
-      border-radius: 2px
-    }
-
-    /* LOADER */
-    #ld {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 32px;
-      transition: opacity .9s, visibility .9s
-    }
-
-    #ld.out {
-      opacity: 0;
-      visibility: hidden
-    }
-
-    .ld-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 64px;
-      letter-spacing: 12px;
-      background: linear-gradient(135deg, var(--gold), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: ldPulse 1.5s ease-in-out infinite
-    }
-
-    @keyframes ldPulse {
-
-      0%,
-      100% {
-        opacity: 1;
-        transform: scale(1)
-      }
-
-      50% {
-        opacity: .7;
-        transform: scale(.97)
-      }
-    }
-
-    .ld-bars {
-      display: flex;
-      gap: 6px;
-      align-items: flex-end;
-      height: 40px
-    }
-
-    .ld-bar {
-      width: 5px;
-      border-radius: 3px;
-      background: linear-gradient(to top, var(--purple), var(--gold));
-      animation: ldBar 1s ease-in-out infinite
-    }
-
-    .ld-bar:nth-child(1) {
-      animation-delay: 0s;
-      height: 20px
-    }
-
-    .ld-bar:nth-child(2) {
-      animation-delay: .15s;
-      height: 32px
-    }
-
-    .ld-bar:nth-child(3) {
-      animation-delay: .3s;
-      height: 40px
-    }
-
-    .ld-bar:nth-child(4) {
-      animation-delay: .45s;
-      height: 28px
-    }
-
-    .ld-bar:nth-child(5) {
-      animation-delay: .6s;
-      height: 16px
-    }
-
-    @keyframes ldBar {
-
-      0%,
-      100% {
-        transform: scaleY(.4);
-        opacity: .4
-      }
-
-      50% {
-        transform: scaleY(1);
-        opacity: 1
-      }
-    }
-
-    .ld-txt {
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 500;
-      transition: all .5s
-    }
-
-    nav.on {
-      background: rgba(7, 5, 14, .9);
-      backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(124, 58, 237, .12)
-    }
-
-    .nav-inner {
-      max-width: 1300px;
-      margin: 0 auto;
-      padding: 22px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between
-    }
-
-    nav.on .nav-inner {
-      padding: 15px 40px
-    }
-
-    .nlogo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none
-    }
-
-    .nlogo-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--purple), var(--gold2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      box-shadow: var(--glow-p)
-    }
-
-    .nlogo-text {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px;
-      letter-spacing: 4px;
-      background: linear-gradient(135deg, var(--gold), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .nlinks {
-      display: flex;
-      gap: 36px;
-      list-style: none
-    }
-
-    .nlinks a {
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: .5px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: all .3s;
-      position: relative
-    }
-
-    .nlinks a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 1.5px;
-      background: linear-gradient(90deg, var(--purple), var(--gold));
-      transition: width .35s
-    }
-
-    .nlinks a:hover {
-      color: var(--gold)
-    }
-
-    .nlinks a:hover::after {
-      width: 100%
-    }
-
-    .nordbtn {
-      font-size: 13px;
-      font-weight: 700;
-      padding: 12px 28px;
-      background: linear-gradient(135deg, var(--purple), var(--gold2));
-      border: none;
-      border-radius: 99px;
-      color: #fff;
-      cursor: pointer;
-      transition: all .3s;
-      letter-spacing: .5px;
-      position: relative;
-      overflow: hidden
-    }
-
-    .nordbtn::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--gold2), var(--purple));
-      opacity: 0;
-      transition: opacity .3s
-    }
-
-    .nordbtn:hover::before {
-      opacity: 1
-    }
-
-    .nordbtn span {
-      position: relative;
-      z-index: 1
-    }
-
-    .nordbtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(124, 58, 237, .4)
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      padding: 100px 5% 60px;
-      gap: 60px;
-      max-width: 1300px;
-      margin: 0 auto;
-      position: relative
-    }
-
-    .hero-decor {
-      position: fixed;
-      pointer-events: none;
-      z-index: 0
-    }
-
-    .hero-decor-1 {
-      top: -200px;
-      left: -200px;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(124, 58, 237, .15) 0%, transparent 70%);
-      animation: floatDecor 8s ease-in-out infinite
-    }
-
-    .hero-decor-2 {
-      bottom: -200px;
-      right: -100px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(234, 179, 8, .1) 0%, transparent 70%);
-      animation: floatDecor 10s ease-in-out infinite reverse
-    }
-
-    @keyframes floatDecor {
-
-      0%,
-      100% {
-        transform: translate(0, 0)
-      }
-
-      50% {
-        transform: translate(30px, -30px)
-      }
-    }
-
-    .hero-left {
-      position: relative;
-      z-index: 2
-    }
-
-    .hero-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 20px;
-      background: rgba(124, 58, 237, .1);
-      border: 1px solid rgba(124, 58, 237, .25);
-      border-radius: 99px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--violet);
-      margin-bottom: 28px
-    }
-
-    .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #22c55e;
-      animation: pulse-dot 1.5s infinite
-    }
-
-    @keyframes pulse-dot {
-
-      0%,
-      100% {
-        box-shadow: 0 0 0 0 rgba(34, 197, 94, .5)
-      }
-
-      50% {
-        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0)
-      }
-    }
-
-    .hero-h1 {
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: clamp(46px, 5.5vw, 78px);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: -2px;
-      margin-bottom: 22px
-    }
-
-    .hero-h1 .line-gold {
-      background: linear-gradient(135deg, var(--gold), var(--amber));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .hero-h1 .line-purple {
-      background: linear-gradient(135deg, var(--violet), var(--pink));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .hero-desc {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.85;
-      max-width: 440px;
-      margin-bottom: 40px
-    }
-
-    .hero-btns {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      margin-bottom: 52px
-    }
-
-    .hbtn-main {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 16px 36px;
-      background: linear-gradient(135deg, var(--gold), var(--gold2));
-      color: var(--bg);
-      border: none;
-      border-radius: 99px;
-      cursor: pointer;
-      transition: all .35s;
-      letter-spacing: .3px;
-      text-decoration: none
-    }
-
-    .hbtn-main:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 40px rgba(234, 179, 8, .35)
-    }
-
-    .hbtn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 16px 36px;
-      background: rgba(255, 255, 255, .05);
-      color: var(--text);
-      border: 1.5px solid rgba(255, 255, 255, .1);
-      border-radius: 99px;
-      cursor: pointer;
-      transition: all .35s;
-      letter-spacing: .3px;
-      text-decoration: none;
-      backdrop-filter: blur(8px)
-    }
-
-    .hbtn-ghost:hover {
-      border-color: rgba(124, 58, 237, .5);
-      color: var(--violet);
-      transform: translateY(-3px)
-    }
-
-    .hero-proof {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      flex-wrap: wrap
-    }
-
-    .proof-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      color: var(--muted)
-    }
-
-    .proof-item i {
-      color: var(--gold);
-      font-size: 14px
-    }
-
-    .proof-divider {
-      width: 1px;
-      height: 16px;
-      background: rgba(255, 255, 255, .08)
-    }
-
-    /* HERO RIGHT - CARD STACK */
-    .hero-right {
-      position: relative;
-      z-index: 2;
-      height: 560px
-    }
-
-    .hero-main-card {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(160deg, var(--card2), var(--card));
-      border: 1px solid rgba(124, 58, 237, .2);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: var(--glow-p)
-    }
-
-    .hmc-top {
-      background: linear-gradient(135deg, rgba(124, 58, 237, .2), rgba(234, 179, 8, .08));
-      padding: 28px;
-      border-bottom: 1px solid rgba(255, 255, 255, .06)
-    }
-
-    .hmc-logo-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px
-    }
-
-    .hmc-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, var(--purple), var(--gold2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px
-    }
-
-    .hmc-info h4 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 2px
-    }
-
-    .hmc-info span {
-      font-size: 12px;
-      color: var(--muted)
-    }
-
-    .hmc-status {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #22c55e;
-      margin-left: auto;
-      letter-spacing: 1px;
-      text-transform: uppercase
-    }
-
-    .hmc-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px
-    }
-
-    .hmcs {
-      text-align: center;
-      padding: 14px;
-      background: rgba(255, 255, 255, .04);
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, .06)
-    }
-
-    .hmcs-val {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px;
-      letter-spacing: 1px;
-      background: linear-gradient(135deg, var(--gold), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .hmcs-lbl {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 3px
-    }
-
-    .hmc-body {
-      padding: 24px
-    }
-
-    .hmc-platform-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px
-    }
-
-    .hmc-platforms {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-bottom: 22px
-    }
-
-    .hmp {
-      padding: 12px 8px;
-      background: rgba(255, 255, 255, .03);
-      border: 1px solid rgba(255, 255, 255, .06);
-      border-radius: 12px;
-      text-align: center;
-      cursor: pointer;
-      transition: all .25s
-    }
-
-    .hmp:hover,
-    .hmp.sel {
-      background: rgba(124, 58, 237, .12);
-      border-color: rgba(124, 58, 237, .3)
-    }
-
-    .hmp i {
-      font-size: 20px;
-      display: block;
-      margin-bottom: 4px
-    }
-
-    .hmp span {
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .5px;
-      color: var(--muted);
-      text-transform: uppercase
-    }
-
-    .hmc-qty-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 18px
-    }
-
-    .hqb {
-      padding: 10px 6px;
-      background: rgba(255, 255, 255, .03);
-      border: 1px solid rgba(255, 255, 255, .06);
-      border-radius: 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: all .25s
-    }
-
-    .hqb:hover,
-    .hqb.sel {
-      background: rgba(234, 179, 8, .1);
-      border-color: rgba(234, 179, 8, .3)
-    }
-
-    .hqb-qty {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
-      letter-spacing: 1px;
-      color: var(--gold)
-    }
-
-    .hqb-price {
-      font-size: 10px;
-      color: var(--muted)
-    }
-
-    .hmc-total {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 0;
-      border-top: 1px solid rgba(255, 255, 255, .06);
-      margin-bottom: 14px
-    }
-
-    .hmt-label {
-      font-size: 12px;
-      color: var(--muted)
-    }
-
-    .hmt-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 1px;
-      background: linear-gradient(135deg, var(--gold), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .hmc-orderbtn {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, var(--purple), var(--gold2));
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .3s;
-      letter-spacing: .5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px
-    }
-
-    .hmc-orderbtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 36px rgba(124, 58, 237, .4)
-    }
-
-    /* floating cards */
-    .hero-float-card {
-      position: absolute;
-      backdrop-filter: blur(12px);
-      border-radius: 16px;
-      padding: 14px 18px;
-      border: 1px solid rgba(234, 179, 8, .15);
-      animation: cardFloat 4s ease-in-out infinite
-    }
-
-    .hfc1 {
-      bottom: 30px;
-      left: -20px;
-      background: rgba(12, 9, 23, .85);
-      animation-delay: 0s
-    }
-
-    .hfc2 {
-      top: 80px;
-      right: -16px;
-      background: rgba(12, 9, 23, .85);
-      animation-delay: 2s
-    }
-
-    @keyframes cardFloat {
-
-      0%,
-      100% {
-        transform: translateY(0)
-      }
-
-      50% {
-        transform: translateY(-10px)
-      }
-    }
-
-    .hfc-icon {
-      font-size: 22px;
-      margin-bottom: 6px
-    }
-
-    .hfc-val {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px;
-      letter-spacing: 1px;
-      color: var(--gold)
-    }
-
-    .hfc-lbl {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--muted)
-    }
-
-    /* TICKER */
-    .ticker-wrap {
-      overflow: hidden;
-      background: linear-gradient(135deg, var(--purple2), var(--gold2));
-      padding: 0;
-      position: relative
-    }
-
-    .ticker-track {
-      display: flex;
-      animation: tickMove 20s linear infinite;
-      white-space: nowrap;
-      padding: 14px 0
-    }
-
-    .tick-it {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 16px;
-      letter-spacing: 3px;
-      color: rgba(255, 255, 255, .8);
-      padding: 0 32px;
-      display: flex;
-      align-items: center;
-      gap: 14px
-    }
-
-    .tick-sep {
-      color: rgba(255, 255, 255, .3);
-      font-size: 10px
-    }
-
-    @keyframes tickMove {
-      from {
-        transform: translateX(0)
-      }
-
-      to {
-        transform: translateX(-50%)
-      }
-    }
-
-    /* SECTIONS */
-    section {
-      padding: 120px 5%
-    }
-
-    .sw {
-      max-width: 1300px;
-      margin: 0 auto
-    }
-
-    .s-eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 14px
-    }
-
-    .s-eyebrow::before {
-      content: '';
-      width: 30px;
-      height: 1.5px;
-      background: linear-gradient(90deg, var(--gold), var(--violet))
-    }
-
-    .s-h2 {
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: clamp(36px, 4vw, 58px);
-      font-weight: 900;
-      letter-spacing: -1.5px;
-      line-height: 1;
-      margin-bottom: 16px
-    }
-
-    .s-sub {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.85;
-      max-width: 480px
-    }
-
-    /* PLATFORMS SECTION */
-    .plat-sec {
-      background: var(--bg2)
-    }
-
-    .plat-tabs-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 52px
-    }
-
-    .ptab {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 22px;
-      background: rgba(255, 255, 255, .04);
-      border: 1px solid rgba(255, 255, 255, .07);
-      border-radius: 99px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all .3s;
-      color: var(--muted)
-    }
-
-    .ptab i {
-      font-size: 15px
-    }
-
-    .ptab.on,
-    .ptab:hover {
-      background: rgba(124, 58, 237, .12);
-      border-color: rgba(124, 58, 237, .3);
-      color: var(--violet)
-    }
-
-    /* SERVICES - BENTO GRID */
-    .bento {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: auto;
-      gap: 16px
-    }
-
-    .bento-card {
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, .06);
-      border-radius: 20px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-      transition: all .4s cubic-bezier(.22, 1, .36, 1);
-      cursor: pointer
-    }
-
-    .bento-card:hover {
-      border-color: rgba(124, 58, 237, .3);
-      transform: translateY(-6px);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .5)
-    }
-
-    .bento-card.wide {
-      grid-column: span 2
-    }
-
-    .bento-card.tall {
-      grid-row: span 2
-    }
-
-    .bc-glow {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      opacity: 0;
-      transition: opacity .4s;
-      pointer-events: none
-    }
-
-    .bento-card:hover .bc-glow {
-      opacity: .15
-    }
-
-    .bc-badge {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 6px
-    }
-
-    .badge-hot {
-      background: var(--rose);
-      color: #fff
-    }
-
-    .badge-new {
-      background: var(--purple);
-      color: #fff
-    }
-
-    .badge-fast {
-      background: var(--gold2);
-      color: var(--bg)
-    }
-
-    .bc-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      margin-bottom: 18px;
-      transition: transform .3s
-    }
-
-    .bento-card:hover .bc-icon {
-      transform: scale(1.1) rotate(-5deg)
-    }
-
-    .bc-name {
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 7px
-    }
-
-    .bc-desc {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 18px
-    }
-
-    .bc-bottom {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between
-    }
-
-    .bc-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 24px;
-      letter-spacing: 1px;
-      color: var(--gold)
-    }
-
-    .bc-per {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--muted);
-      margin-left: 3px
-    }
-
-    .bc-arrow {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(124, 58, 237, .12);
-      border: 1px solid rgba(124, 58, 237, .2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: var(--violet);
-      transition: all .3s
-    }
-
-    .bento-card:hover .bc-arrow {
-      background: var(--purple);
-      border-color: var(--purple);
-      color: #fff;
-      transform: translate(2px, -2px)
-    }
-
-    /* HOW IT WORKS */
-    .how-sec {
-      background: var(--bg);
-      position: relative;
-      overflow: hidden
-    }
-
-    .how-sec::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 800px;
-      height: 400px;
-      background: radial-gradient(ellipse, rgba(124, 58, 237, .07) 0%, transparent 70%);
-      pointer-events: none
-    }
-
-    .how-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      position: relative;
-      z-index: 1
-    }
-
-    .how-connector {
-      position: absolute;
-      top: 50px;
-      left: calc(25% / 2);
-      right: calc(25% / 2);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--purple), var(--gold), var(--purple), transparent);
-      z-index: 0;
-      animation: connAnim 3s ease-in-out infinite
-    }
-
-    @keyframes connAnim {
-
-      0%,
-      100% {
-        opacity: .3
-      }
-
-      50% {
-        opacity: .8
-      }
-    }
-
-    .how-card {
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, .06);
-      border-radius: 24px;
-      padding: 32px 24px;
-      text-align: center;
-      position: relative;
-      z-index: 1;
-      transition: all .4s
-    }
-
-    .how-card:hover {
-      border-color: rgba(234, 179, 8, .25);
-      transform: translateY(-6px);
-      box-shadow: 0 20px 56px rgba(0, 0, 0, .4)
-    }
-
-    .how-num {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple), var(--gold2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px;
-      letter-spacing: 2px;
-      color: #fff;
-      margin: 0 auto 22px;
-      box-shadow: 0 0 0 6px var(--card), 0 0 0 8px rgba(124, 58, 237, .2);
-      transition: all .4s
-    }
-
-    .how-card:hover .how-num {
-      box-shadow: 0 0 0 6px var(--card), 0 0 0 10px rgba(234, 179, 8, .3);
-      transform: scale(1.05)
-    }
-
-    .how-title {
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 10px
-    }
-
-    .how-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7
-    }
-
-    /* PRICING */
-    .price-sec {
-      background: var(--bg2)
-    }
-
-    .price-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      align-items: start
-    }
-
-    .pcard {
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, .07);
-      border-radius: 28px;
-      padding: 36px 30px;
-      position: relative;
-      overflow: hidden;
-      transition: all .4s
-    }
-
-    .pcard:hover {
-      transform: translateY(-8px)
-    }
-
-    .pcard.feat {
-      background: linear-gradient(160deg, rgba(124, 58, 237, .15), rgba(234, 179, 8, .05) 80%);
-      border-color: rgba(124, 58, 237, .3);
-      box-shadow: var(--glow-p)
-    }
-
-    .pcard-popular {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--gold), var(--gold2));
-      color: var(--bg);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 7px 22px;
-      border-radius: 0 0 14px 14px
-    }
-
-    .pcard-tier {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 8px;
-      margin-top: 10px
-    }
-
-    .pcard-name {
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: 24px;
-      font-weight: 900;
-      margin-bottom: 8px
-    }
-
-    .pcard-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 28px
-    }
-
-    .pcard-price-wrap {
-      padding: 22px 0;
-      border-top: 1px solid rgba(255, 255, 255, .06);
-      border-bottom: 1px solid rgba(255, 255, 255, .06);
-      margin-bottom: 28px
-    }
-
-    .pcard-price {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 56px;
-      letter-spacing: 2px;
-      line-height: 1;
-      background: linear-gradient(135deg, var(--gold), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .pcard-period {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: 4px
-    }
-
-    .pcard-features {
-      list-style: none;
-      margin-bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px
-    }
-
-    .pcard-features li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 13px;
-      line-height: 1.5
-    }
-
-    .pcard-features li i {
-      color: var(--gold);
-      font-size: 12px;
-      margin-top: 3px;
-      flex-shrink: 0
-    }
-
-    .pcard-features li .off {
-      color: var(--muted)
-    }
-
-    .pcard-btn {
-      width: 100%;
-      padding: 16px;
-      border-radius: 14px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .35s;
-      border: none;
-      letter-spacing: .5px
-    }
-
-    .pcard-btn-main {
-      background: linear-gradient(135deg, var(--purple), var(--gold2));
-      color: #fff
-    }
-
-    .pcard-btn-main:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(124, 58, 237, .4)
-    }
-
-    .pcard-btn-out {
-      background: transparent;
-      color: var(--gold);
-      border: 1.5px solid rgba(234, 179, 8, .25)
-    }
-
-    .pcard-btn-out:hover {
-      background: rgba(234, 179, 8, .08);
-      transform: translateY(-2px)
-    }
-
-    /* STATS BAND */
-    .stats-band {
-      padding: 80px 5%;
-      background: linear-gradient(135deg, rgba(124, 58, 237, .12), rgba(234, 179, 8, .06));
-      position: relative;
-      overflow: hidden
-    }
-
-    .stats-band::before,
-    .stats-band::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 1px
-    }
-
-    .stats-band::before {
-      top: 0;
-      background: linear-gradient(90deg, transparent, var(--purple), var(--gold), transparent)
-    }
-
-    .stats-band::after {
-      bottom: 0;
-      background: linear-gradient(90deg, transparent, var(--gold), var(--purple), transparent)
-    }
-
-    .stats-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      text-align: center
-    }
-
-    .stat-it {
-      padding: 20px;
-      border-right: 1px solid rgba(124, 58, 237, .1)
-    }
-
-    .stat-it:last-child {
-      border-right: none
-    }
-
-    .stat-val {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 64px;
-      line-height: 1;
-      letter-spacing: 2px;
-      background: linear-gradient(135deg, var(--gold), var(--amber));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 6px
-    }
-
-    .stat-lbl {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(234, 179, 8, .45)
-    }
-
-    /* TESTIMONIALS - MASONRY STYLE */
-    .testi-sec {
-      background: var(--bg)
-    }
-
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px
-    }
-
-    .tc {
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, .06);
-      border-radius: 20px;
-      padding: 28px;
-      transition: all .4s;
-      position: relative;
-      overflow: hidden
-    }
-
-    .tc:hover {
-      border-color: rgba(124, 58, 237, .25);
-      transform: translateY(-5px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, .4)
-    }
-
-    .tc-plat-icon {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      font-size: 20px;
-      opacity: .6
-    }
-
-    .tc-stars {
-      display: flex;
-      gap: 3px;
-      font-size: 12px;
-      color: var(--gold);
-      margin-bottom: 14px
-    }
-
-    .tc-quote {
-      font-size: 36px;
-      font-family: 'Bebas Neue', sans-serif;
-      color: rgba(124, 58, 237, .12);
-      line-height: 1;
-      margin-bottom: 6px
-    }
-
-    .tc-text {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 22px
-    }
-
-    .tc-author {
-      display: flex;
-      align-items: center;
-      gap: 12px
-    }
-
-    .tc-av {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--purple), var(--gold2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 16px;
-      color: #fff;
-      flex-shrink: 0
-    }
-
-    .tc-name {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 2px
-    }
-
-    .tc-role {
-      font-size: 11px;
-      color: var(--muted)
-    }
-
-    .tc-feat {
-      background: linear-gradient(160deg, rgba(124, 58, 237, .1), rgba(234, 179, 8, .05));
-      border-color: rgba(124, 58, 237, .2)
-    }
-
-    .tc-feat .tc-text {
-      font-size: 15px;
-      font-weight: 500;
-      color: var(--text)
-    }
-
-    /* FAQ */
-    .faq-sec {
-      background: var(--bg2)
-    }
-
-    .faq-two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: start
-    }
-
-    .faq-left h3 {
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: clamp(28px, 3vw, 46px);
-      font-weight: 900;
-      letter-spacing: -1px;
-      line-height: 1.1;
-      margin-bottom: 18px
-    }
-
-    .faq-left p {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 28px
-    }
-
-    .faq-contact-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      padding: 14px 30px;
-      background: rgba(124, 58, 237, .12);
-      border: 1px solid rgba(124, 58, 237, .25);
-      border-radius: 99px;
-      color: var(--violet);
-      cursor: pointer;
-      transition: all .3s;
-      text-decoration: none
-    }
-
-    .faq-contact-btn:hover {
-      background: rgba(124, 58, 237, .22);
-      transform: translateY(-2px)
-    }
-
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px
-    }
-
-    .faq-item {
-      background: var(--card);
-      border: 1px solid rgba(255, 255, 255, .06);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: all .3s
-    }
-
-    .faq-item.open {
-      border-color: rgba(234, 179, 8, .2)
-    }
-
-    .faq-q {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 24px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: color .25s;
-      gap: 16px
-    }
-
-    .faq-q:hover {
-      color: var(--gold)
-    }
-
-    .faq-ic {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, .1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      color: var(--muted);
-      flex-shrink: 0;
-      transition: all .35s
-    }
-
-    .faq-item.open .faq-ic {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--bg);
-      transform: rotate(45deg)
-    }
-
-    .faq-a {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height .45s ease, padding .3s
-    }
-
-    .faq-item.open .faq-a {
-      max-height: 180px;
-      padding: 0 24px 22px
-    }
-
-    .faq-a p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.8
-    }
-
-    /* CTA */
-    .cta-sec {
-      background: var(--bg);
-      padding: 130px 5%;
-      text-align: center;
-      position: relative;
-      overflow: hidden
-    }
-
-    .cta-bg {
-      position: absolute;
-      inset: 0;
-      pointer-events: none
-    }
-
-    .cta-orb1 {
-      position: absolute;
-      top: -100px;
-      left: -100px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(124, 58, 237, .12) 0%, transparent 70%);
-      animation: orbMove 8s ease-in-out infinite
-    }
-
-    .cta-orb2 {
-      position: absolute;
-      bottom: -100px;
-      right: -100px;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(234, 179, 8, .1) 0%, transparent 70%);
-      animation: orbMove 10s ease-in-out infinite reverse
-    }
-
-    @keyframes orbMove {
-
-      0%,
-      100% {
-        transform: translate(0, 0) scale(1)
-      }
-
-      50% {
-        transform: translate(40px, -40px) scale(1.05)
-      }
-    }
-
-    .cta-h {
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-size: clamp(44px, 6vw, 88px);
-      font-weight: 900;
-      letter-spacing: -3px;
-      line-height: .95;
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1
-    }
-
-    .cta-h span {
-      background: linear-gradient(135deg, var(--gold), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    .cta-desc {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 460px;
-      margin: 0 auto 44px;
-      line-height: 1.8;
-      position: relative;
-      z-index: 1
-    }
-
-    .cta-btns {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1
-    }
-
-    /* FOOTER */
-    footer {
-      background: var(--bg2);
-      padding: 80px 5% 30px;
-      border-top: 1px solid rgba(124, 58, 237, .1)
-    }
-
-    .ft-inner {
-      max-width: 1300px;
-      margin: 0 auto
-    }
-
-    .ft-top {
-      display: grid;
-      grid-template-columns: 2.5fr 1fr 1fr 1fr;
-      gap: 60px;
-      margin-bottom: 60px
-    }
-
-    .ft-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 30px;
-      letter-spacing: 6px;
-      background: linear-gradient(135deg, var(--gold), var(--violet));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 14px
-    }
-
-    .ft-desc {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 24px;
-      max-width: 260px
-    }
-
-    .ft-soc {
-      display: flex;
-      gap: 8px
-    }
-
-    .fts {
-      width: 38px;
-      height: 38px;
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      transition: all .3s
-    }
-
-    .fts:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      transform: translateY(-3px)
-    }
-
-    .ft-col h5 {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: 20px
-    }
-
-    .ft-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px
-    }
-
-    .ft-col ul li a {
-      font-size: 13px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: all .25s;
-      display: inline-block
-    }
-
-    .ft-col ul li a:hover {
-      color: var(--gold);
-      transform: translateX(5px)
-    }
-
-    .ft-bottom {
-      border-top: 1px solid rgba(255, 255, 255, .05);
-      padding-top: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 13px;
-      color: var(--muted);
-      flex-wrap: wrap;
-      gap: 12px
-    }
-
-    .ft-bottom span {
-      color: var(--gold)
-    }
-
-    /* WA FLOAT */
-    .wa-float {
-      position: fixed;
-      bottom: 32px;
-      right: 32px;
-      z-index: 999;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #25d366, #128c7e);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      color: #fff;
-      text-decoration: none;
-      box-shadow: 0 8px 28px rgba(37, 211, 102, .45);
-      transition: all .3s;
-      animation: waBounce 3s ease-in-out infinite
-    }
-
-    .wa-float:hover {
-      transform: scale(1.12);
-      box-shadow: 0 12px 40px rgba(37, 211, 102, .6)
-    }
-
-    @keyframes waBounce {
-
-      0%,
-      100% {
-        transform: translateY(0)
-      }
-
-      50% {
-        transform: translateY(-8px)
-      }
-    }
-
-    /* REVEAL ANIMATIONS */
-    .rv {
-      opacity: 0;
-      transform: translateY(48px);
-      transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    .rv.show {
-      opacity: 1;
-      transform: translateY(0)
-    }
-
-    .rv-l {
-      opacity: 0;
-      transform: translateX(-48px);
-      transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    .rv-l.show {
-      opacity: 1;
-      transform: translateX(0)
-    }
-
-    .rv-r {
-      opacity: 0;
-      transform: translateX(48px);
-      transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    .rv-r.show {
-      opacity: 1;
-      transform: translateX(0)
-    }
-
-    .rv-scale {
-      opacity: 0;
-      transform: scale(.9);
-      transition: opacity .7s cubic-bezier(.22, 1, .36, 1), transform .7s cubic-bezier(.22, 1, .36, 1)
-    }
-
-    .rv-scale.show {
-      opacity: 1;
-      transform: scale(1)
-    }
-
-    /* RESPONSIVE */
-    @media(max-width:1100px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
-      .hero-right {
-        display: none
-      }
-
-      .bento {
-        grid-template-columns: repeat(2, 1fr)
-      }
-
-      .bento-card.wide {
-        grid-column: span 1
-      }
-
-      .price-grid {
-        grid-template-columns: 1fr
-      }
-
-      .ft-top {
-        grid-template-columns: 1fr 1fr;
-        gap: 40px
-      }
-
-      .stats-inner {
-        grid-template-columns: repeat(2, 1fr)
-      }
-
-      .testi-grid {
-        grid-template-columns: repeat(2, 1fr)
-      }
-
-      .how-grid {
-        grid-template-columns: repeat(2, 1fr)
-      }
-
-      .how-connector {
-        display: none
-      }
-
-      .faq-two-col {
-        grid-template-columns: 1fr
-      }
-    }
-
-    @media(max-width:700px) {
-      .nlinks {
-        display: none
-      }
-
-      section {
-        padding: 80px 5%
-      }
-
-      .bento {
-        grid-template-columns: 1fr
-      }
-
-      .testi-grid {
-        grid-template-columns: 1fr
-      }
-
-      .stats-inner {
-        grid-template-columns: 1fr
-      }
-
-      .ft-top {
-        grid-template-columns: 1fr
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowthLab — Social Media Growth Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ════ ROOT ══════════════════════════════════════════════ */
+:root{
+  --w:#f7f5f0;--w2:#edeae3;--w3:#e2ddd6;
+  --ink:#0a0908;--ink2:#141210;
+  --olive:#2d4a2d;--sage:#4a7c4a;
+  --lime:#b8ff00;--lime2:#9fd900;
+  --coral:#ff6b47;--teal:#00d4aa;
+  --amber:#ffb703;--sky:#0ea5e9;
+  --card:#fff;--cardg:rgba(255,255,255,.7);
+  --border:rgba(10,9,8,.08);--borderD:rgba(10,9,8,.14);
+  --txt:#0a0908;--muted:#7a756e;--light:#b0aa9f;
+  --r:20px;--r2:28px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'DM Sans',sans-serif;background:var(--w);color:var(--txt);overflow-x:hidden;cursor:none}
+
+/* ════ CURSOR ════════════════════════════════════════════ */
+#cur-dot{position:fixed;width:10px;height:10px;background:var(--lime);border-radius:50%;z-index:99999;pointer-events:none;transform:translate(-50%,-50%);mix-blend-mode:multiply;transition:transform .1s,background .3s}
+#cur-ring{position:fixed;width:40px;height:40px;border:1.5px solid rgba(10,9,8,.25);border-radius:50%;z-index:99998;pointer-events:none;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .35s}
+body:has(a:hover,button:hover,.cl:hover) #cur-ring{width:58px;height:58px;border-color:rgba(10,9,8,.12)}
+body:has(a:hover,button:hover,.cl:hover) #cur-dot{background:var(--coral);transform:translate(-50%,-50%) scale(1.4)}
+
+/* ════ SCROLL BAR ════════════════════════════════════════ */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--w)}
+::-webkit-scrollbar-thumb{background:var(--olive);border-radius:2px}
+
+/* ════ PROGRESS ══════════════════════════════════════════ */
+#prg{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--lime),var(--teal),var(--coral));z-index:9999;width:0;box-shadow:0 0 10px rgba(184,255,0,.5)}
+
+/* ════ LOADER ════════════════════════════════════════════ */
+#ldr{position:fixed;inset:0;background:var(--ink);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;transition:opacity 1s,visibility 1s}
+#ldr.out{opacity:0;visibility:hidden}
+.ldr-g{width:80px;height:80px;border-radius:50%;border:2px solid rgba(255,255,255,.08);border-top-color:var(--lime);animation:lspin 1.2s linear infinite}
+@keyframes lspin{to{transform:rotate(360deg)}}
+.ldr-txt{color:var(--lime);font-family:'Space Mono',monospace;font-size:13px;letter-spacing:3px}
+.ldr-sub{color:rgba(255,255,255,.25);font-size:11px;letter-spacing:5px;text-transform:uppercase}
+
+/* ════ NAV ═══════════════════════════════════════════════ */
+nav{position:fixed;top:0;left:0;width:100%;z-index:500;padding:20px 5%;display:flex;align-items:center;justify-content:space-between;transition:all .5s}
+nav.on{background:rgba(247,245,240,.92);backdrop-filter:blur(24px);padding:14px 5%;border-bottom:1px solid var(--border)}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-icon{width:36px;height:36px;background:var(--olive);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.nav-name{font-family:'Instrument Serif',serif;font-size:22px;color:var(--ink)}
+.nav-name em{font-style:italic;color:var(--sage)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:13px;font-weight:500;color:var(--muted);text-decoration:none;transition:color .25s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{font-size:13px;font-weight:700;padding:11px 26px;background:var(--ink);color:var(--lime);border:none;border-radius:99px;cursor:none;transition:all .3s;letter-spacing:.3px}
+.nav-cta:hover{background:var(--olive);transform:translateY(-2px);box-shadow:0 10px 28px rgba(45,74,45,.3)}
+
+/* ════ HERO ══════════════════════════════════════════════ */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 5% 64px;background:var(--w);position:relative;overflow:hidden}
+.hero-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Instrument Serif',serif;font-size:clamp(120px,18vw,280px);color:rgba(10,9,8,.03);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-8px;font-weight:400;line-height:1}
+.hero-orbs{position:absolute;inset:0;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(60px);animation:orbFloat 10s ease-in-out infinite}
+.orb1{width:400px;height:400px;background:rgba(184,255,0,.12);top:-100px;right:-80px}
+.orb2{width:300px;height:300px;background:rgba(0,212,170,.1);bottom:50px;left:-60px;animation-delay:5s}
+.orb3{width:250px;height:250px;background:rgba(255,107,71,.08);top:30%;right:20%;animation-delay:2.5s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0)}33%{transform:translate(20px,-30px)}66%{transform:translate(-15px,15px)}}
+.hero-inner{max-width:1300px;margin:0 auto;width:100%;position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;background:var(--ink);border-radius:99px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:28px}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--lime);animation:hblink 1.5s infinite}
+@keyframes hblink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-h1{font-family:'Instrument Serif',serif;font-size:clamp(56px,7.5vw,120px);line-height:.93;letter-spacing:-3px;margin-bottom:32px;color:var(--ink)}
+.hero-h1 em{font-style:italic;color:var(--sage)}
+.hero-h1 .stroke{-webkit-text-stroke:1.5px var(--ink);color:transparent}
+.hero-row{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:32px}
+.hero-desc{font-size:17px;color:var(--muted);line-height:1.8;max-width:420px}
+.hero-actions{display:flex;flex-direction:column;gap:16px;align-items:flex-end}
+.hero-btns{display:flex;gap:12px}
+.btn-dark{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:700;padding:16px 36px;background:var(--ink);color:var(--lime);border:none;border-radius:99px;cursor:none;transition:all .4s;text-decoration:none}
+.btn-dark:hover{background:var(--olive);transform:translateY(-3px);box-shadow:0 16px 40px rgba(45,74,45,.3)}
+.btn-light{display:inline-flex;align-items:center;gap:9px;font-size:14px;font-weight:700;padding:16px 36px;background:transparent;color:var(--ink);border:1.5px solid var(--borderD);border-radius:99px;cursor:none;transition:all .4s;text-decoration:none}
+.btn-light:hover{background:var(--ink);color:var(--w);transform:translateY(-3px)}
+.hero-trust{display:flex;gap:16px;flex-wrap:wrap;justify-content:flex-end}
+.htrust{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:var(--muted)}
+.htrust i{color:var(--sage);font-size:13px}
+/* HERO STATS STRIP */
+.hero-stats{margin-top:60px;padding-top:40px;border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.hs{text-align:center;padding:20px;border-right:1px solid var(--border)}
+.hs:last-child{border-right:none}
+.hs-num{font-family:'Instrument Serif',serif;font-size:48px;color:var(--ink);letter-spacing:-2px;line-height:1}
+.hs-lbl{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--light);margin-top:6px}
+
+/* ════ TICKER ════════════════════════════════════════════ */
+.ticker{background:var(--olive);padding:13px 0;overflow:hidden;position:relative}
+.tick-track{display:flex;animation:tickRun 22s linear infinite;white-space:nowrap}
+.tick-it{font-family:'Space Mono',monospace;font-size:13px;letter-spacing:2px;color:rgba(255,255,255,.7);padding:0 32px;display:flex;align-items:center;gap:14px}
+.tick-star{color:var(--lime);font-size:9px}
+@keyframes tickRun{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ════ SECTION BASE ══════════════════════════════════════ */
+section{padding:100px 5%;position:relative}
+.sw{max-width:1300px;margin:0 auto}
+.s-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--sage);margin-bottom:16px;padding:6px 14px;border:1px solid rgba(74,124,74,.25);border-radius:99px}
+.s-h2{font-family:'Instrument Serif',serif;font-size:clamp(36px,4.5vw,66px);letter-spacing:-2px;line-height:.95;color:var(--ink);margin-bottom:16px}
+.s-h2 em{font-style:italic;color:var(--sage)}
+.s-sub{font-size:15px;color:var(--muted);line-height:1.85;max-width:480px}
+
+/* ════ PLATFORM SECTION ══════════════════════════════════ */
+.plat-sec{background:var(--ink);color:var(--w)}
+.plat-sec .s-tag{border-color:rgba(184,255,0,.2);color:var(--lime)}
+.plat-sec .s-h2{color:var(--w)}
+.plat-sec .s-sub{color:rgba(247,245,240,.45)}
+.plat-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;margin-bottom:48px}
+/* Platform pill tabs */
+.ptabs{display:flex;gap:8px;flex-wrap:wrap}
+.ptab{display:flex;align-items:center;gap:8px;padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:99px;font-size:13px;font-weight:600;color:rgba(247,245,240,.45);cursor:none;transition:all .3s}
+.ptab i{font-size:14px}
+.ptab:hover,.ptab.on{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+/* MASONRY-LIKE GRID */
+.svc-masonry{columns:4;column-gap:14px}
+.svc-card{break-inside:avoid;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--r);padding:22px;margin-bottom:14px;position:relative;overflow:hidden;transition:all .4s cubic-bezier(.22,1,.36,1);cursor:none;display:block}
+.svc-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .4s}
+.svc-card:hover::before{opacity:1}
+.svc-card:hover{border-color:rgba(184,255,0,.2);transform:translateY(-5px);box-shadow:0 20px 56px rgba(0,0,0,.5)}
+.svc-glow{position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:0;transition:opacity .4s}
+.svc-card:hover .svc-glow{opacity:.2}
+.svc-bdg{position:absolute;top:14px;right:14px;font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:4px}
+.bdg-hot{background:var(--coral);color:#fff}
+.bdg-new{background:var(--lime);color:var(--ink)}
+.bdg-fast{background:var(--teal);color:var(--ink)}
+.svc-ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px;transition:transform .4s}
+.svc-card:hover .svc-ico{transform:scale(1.1) rotate(-8deg)}
+.svc-name{font-size:15px;font-weight:700;color:var(--w);margin-bottom:5px}
+.svc-desc{font-size:12px;color:rgba(247,245,240,.4);line-height:1.6;margin-bottom:14px}
+.svc-price{font-family:'Space Mono',monospace;font-size:18px;color:var(--lime);font-weight:700}
+.svc-unit{font-size:10px;color:rgba(247,245,240,.3)}
+.svc-cta{margin-top:14px;width:100%;padding:10px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:rgba(247,245,240,.6);font-size:12px;font-weight:700;cursor:none;transition:all .3s;text-align:center}
+.svc-card:hover .svc-cta{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+
+/* ════ HOW IT WORKS ══════════════════════════════════════ */
+.how-sec{background:var(--w2)}
+.how-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.how-steps{margin-top:40px;display:flex;flex-direction:column;gap:0}
+.how-step{display:grid;grid-template-columns:56px 1fr;gap:18px;padding:24px 0;border-bottom:1px solid var(--border);transition:all .35s}
+.how-step:last-child{border-bottom:none}
+.how-step:hover{padding-left:12px}
+.how-n{width:56px;height:56px;border-radius:16px;background:var(--ink);color:var(--lime);font-family:'Space Mono',monospace;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .35s;box-shadow:0 6px 20px rgba(10,9,8,.15)}
+.how-step:hover .how-n{background:var(--sage);box-shadow:0 10px 30px rgba(74,124,74,.35);transform:rotate(-5deg) scale(1.05)}
+.how-h{font-size:15px;font-weight:700;margin-bottom:6px;transition:color .3s}
+.how-step:hover .how-h{color:var(--sage)}
+.how-d{font-size:13px;color:var(--muted);line-height:1.7}
+/* RIGHT PANEL */
+.how-right{position:relative}
+.order-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;box-shadow:0 24px 80px rgba(10,9,8,.1)}
+.op-head{background:var(--ink);padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
+.op-title{font-size:14px;font-weight:700;color:var(--lime);display:flex;align-items:center;gap:8px}
+.op-live{display:flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal)}
+.op-live-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:opLive 1.5s infinite}
+@keyframes opLive{0%,100%{box-shadow:0 0 0 0 rgba(0,212,170,.5)}70%{box-shadow:0 0 0 7px rgba(0,212,170,0)}}
+.op-orders{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:10px}
+.op-order{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--w);border-radius:12px;border:1px solid var(--border);transition:border-color .3s}
+.op-order:hover{border-color:rgba(74,124,74,.25)}
+.op-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.op-info{flex:1}
+.op-name{font-size:13px;font-weight:700;margin-bottom:2px}
+.op-time{font-size:11px;color:var(--muted)}
+.op-status{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;padding:4px 10px;border-radius:6px}
+.op-done{background:rgba(74,124,74,.1);color:var(--sage)}
+.op-proc{background:rgba(255,183,3,.1);color:var(--amber);animation:procBlink .9s infinite}
+@keyframes procBlink{0%,100%{opacity:1}50%{opacity:.4}}
+.op-quick{padding:20px 24px}
+.op-q-label{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--light);margin-bottom:10px}
+.op-qty-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.oqb{padding:10px 6px;background:var(--w2);border:1px solid var(--border);border-radius:10px;text-align:center;cursor:none;transition:all .3s}
+.oqb:hover,.oqb.on{background:var(--ink);border-color:var(--ink)}
+.oqb:hover .oqb-q,.oqb.on .oqb-q{color:var(--lime)}
+.oqb:hover .oqb-p,.oqb.on .oqb-p{color:rgba(247,245,240,.4)}
+.oqb-q{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:var(--ink)}
+.oqb-p{font-size:10px;color:var(--muted)}
+.op-total-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--border);margin-bottom:14px}
+.op-tl{font-size:12px;color:var(--muted)}
+.op-tv{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--ink)}
+.op-btn{width:100%;padding:15px;background:var(--ink);border:none;border-radius:12px;color:var(--lime);font-size:14px;font-weight:700;cursor:none;transition:all .35s;display:flex;align-items:center;justify-content:center;gap:8px}
+.op-btn:hover{background:var(--olive);transform:translateY(-2px);box-shadow:0 12px 32px rgba(45,74,45,.3)}
+
+/* ════ PRICING ═══════════════════════════════════════════ */
+.price-sec{background:var(--w)}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pc{background:var(--card);border:2px solid var(--border);border-radius:var(--r2);padding:36px 30px;position:relative;overflow:hidden;transition:all .45s cubic-bezier(.22,1,.36,1)}
+.pc:hover{border-color:var(--sage);transform:translateY(-8px);box-shadow:0 32px 80px rgba(45,74,45,.12)}
+.pc.feat{background:var(--ink);border-color:var(--lime);color:var(--w)}
+.pc.feat:hover{box-shadow:0 32px 80px rgba(10,9,8,.4)}
+.pc-best{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--lime);color:var(--ink);font-family:'Space Mono',monospace;font-size:9px;font-weight:700;letter-spacing:2px;padding:6px 18px;border-radius:0 0 12px 12px}
+.pc-tier{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--light);margin-bottom:8px;margin-top:4px}
+.pc.feat .pc-tier{color:rgba(247,245,240,.35)}
+.pc-name{font-family:'Instrument Serif',serif;font-size:28px;letter-spacing:-1px;margin-bottom:8px}
+.pc.feat .pc-name{color:var(--w)}
+.pc-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:26px}
+.pc.feat .pc-desc{color:rgba(247,245,240,.45)}
+.pc-price-block{padding:22px 0;border-top:2px solid var(--border);border-bottom:2px solid var(--border);margin-bottom:26px}
+.pc.feat .pc-price-block{border-color:rgba(255,255,255,.08)}
+.pc-price{font-family:'Instrument Serif',serif;font-size:56px;letter-spacing:-3px;line-height:1}
+.pc.feat .pc-price{color:var(--lime)}
+.pc-per{font-size:13px;color:var(--muted);margin-top:4px}
+.pc.feat .pc-per{color:rgba(247,245,240,.35)}
+.pc-feats{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.pc-feats li{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5}
+.pc-feats li .fic{width:20px;height:20px;border-radius:6px;background:rgba(74,124,74,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pc-feats li .fic i{color:var(--sage);font-size:9px}
+.pc.feat .pc-feats li .fic{background:rgba(184,255,0,.1)}
+.pc.feat .pc-feats li .fic i{color:var(--lime)}
+.pc-feats li.off .fic{background:rgba(10,9,8,.04)}
+.pc-feats li.off .fic i{color:var(--light)}
+.pc-feats li.off span{color:var(--light)}
+.pc-feats li.off .pc.feat{color:rgba(247,245,240,.3)}
+.pc-btn{width:100%;padding:16px;border-radius:14px;font-size:14px;font-weight:700;cursor:none;transition:all .35s;border:none;letter-spacing:.3px}
+.pc-btn-main{background:var(--ink);color:var(--lime)}
+.pc-btn-main:hover{background:var(--olive);transform:translateY(-2px);box-shadow:0 12px 32px rgba(45,74,45,.3)}
+.pc-btn-out{background:transparent;color:var(--ink);border:2px solid var(--borderD)}
+.pc-btn-out:hover{background:var(--ink);color:var(--lime);transform:translateY(-2px)}
+.pc-btn-lime{background:var(--lime);color:var(--ink)}
+.pc-btn-lime:hover{background:var(--lime2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(184,255,0,.3)}
+
+/* ════ COUNTER BAND ══════════════════════════════════════ */
+.count-band{background:var(--lime);padding:64px 5%}
+.count-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);text-align:center}
+.cnt{padding:16px;border-right:1px solid rgba(10,9,8,.12)}
+.cnt:last-child{border-right:none}
+.cnt-val{font-family:'Instrument Serif',serif;font-size:62px;letter-spacing:-3px;color:var(--ink);line-height:1;margin-bottom:6px}
+.cnt-lbl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(10,9,8,.45)}
+
+/* ════ TESTIMONIALS ══════════════════════════════════════ */
+.testi-sec{background:var(--w2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tc{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:28px;position:relative;overflow:hidden;transition:all .45s cubic-bezier(.22,1,.36,1)}
+.tc:hover{border-color:rgba(74,124,74,.3);transform:translateY(-6px);box-shadow:0 20px 52px rgba(10,9,8,.08)}
+.tc.feat{background:var(--ink);border-color:rgba(184,255,0,.2)}
+.tc-plat{position:absolute;top:16px;right:16px;font-size:19px;opacity:.5}
+.tc-stars{display:flex;gap:3px;color:var(--amber);font-size:12px;margin-bottom:14px}
+.tc-mark{font-family:'Instrument Serif',serif;font-size:52px;color:var(--sage);line-height:.9;margin-bottom:6px;opacity:.3}
+.tc.feat .tc-mark{color:var(--lime)}
+.tc-txt{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:22px}
+.tc.feat .tc-txt{font-size:15px;color:rgba(247,245,240,.75);font-weight:500}
+.tc-au{display:flex;align-items:center;gap:12px}
+.tc-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--olive),var(--sage));display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:14px;color:var(--lime);flex-shrink:0;font-weight:700}
+.tc-name{font-size:14px;font-weight:700;margin-bottom:2px}
+.tc.feat .tc-name{color:var(--w)}
+.tc-role{font-size:11px;color:var(--light)}
+
+/* ════ FAQ ════════════════════════════════════════════════ */
+.faq-sec{background:var(--w)}
+.faq-layout{display:grid;grid-template-columns:2fr 3fr;gap:72px;align-items:start}
+.faq-left h2{margin-bottom:18px}
+.faq-left p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:28px}
+.faq-wa-btn{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:700;padding:14px 28px;background:var(--ink);color:var(--lime);border-radius:99px;text-decoration:none;cursor:none;transition:all .3s}
+.faq-wa-btn:hover{background:var(--olive);transform:translateY(-2px)}
+.faq-items{display:flex;flex-direction:column;gap:10px}
+.fi{background:var(--w2);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;transition:all .3s}
+.fi.open{border-color:rgba(74,124,74,.3);background:var(--card)}
+.fi-q{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;cursor:none;font-size:14px;font-weight:600;transition:color .25s;gap:16px}
+.fi-q:hover{color:var(--sage)}
+.fi-ic{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--borderD);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--muted);flex-shrink:0;transition:all .4s}
+.fi.open .fi-ic{background:var(--olive);border-color:var(--olive);color:var(--lime);transform:rotate(45deg)}
+.fi-a{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.22,1,.36,1),padding .3s}
+.fi.open .fi-a{max-height:200px;padding:0 24px 20px}
+.fi-a p{font-size:13px;color:var(--muted);line-height:1.8}
+
+/* ════ CTA ════════════════════════════════════════════════ */
+.cta-sec{background:var(--ink);padding:130px 5%;position:relative;overflow:hidden}
+.cta-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(184,255,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(184,255,0,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 70%)}
+.cta-inner{max-width:1000px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.cta-tag{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border:1px solid rgba(184,255,0,.2);border-radius:99px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--lime);margin-bottom:28px}
+.cta-h{font-family:'Instrument Serif',serif;font-size:clamp(48px,7vw,96px);letter-spacing:-3px;line-height:.93;color:var(--w);margin-bottom:20px}
+.cta-h em{font-style:italic;color:var(--lime)}
+.cta-desc{font-size:16px;color:rgba(247,245,240,.45);max-width:460px;margin:0 auto 44px;line-height:1.8}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ════ FOOTER ════════════════════════════════════════════ */
+footer{background:var(--ink);padding:72px 5% 28px;border-top:1px solid rgba(255,255,255,.06)}
+.ft-inner{max-width:1300px;margin:0 auto}
+.ft-top{display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:56px;margin-bottom:52px}
+.ft-logo{font-family:'Instrument Serif',serif;font-size:28px;color:var(--lime);letter-spacing:-1px;margin-bottom:14px}
+.ft-desc{font-size:14px;color:rgba(247,245,240,.35);line-height:1.8;margin-bottom:22px;max-width:260px}
+.ft-soc{display:flex;gap:8px}
+.fts{width:38px;height:38px;border:1px solid rgba(255,255,255,.08);border-radius:9px;display:flex;align-items:center;justify-content:center;color:rgba(247,245,240,.35);text-decoration:none;font-size:13px;transition:all .3s;cursor:none}
+.fts:hover{border-color:var(--lime);color:var(--lime);transform:translateY(-3px)}
+.ft-col h5{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(247,245,240,.25);margin-bottom:20px}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-col ul li a{font-size:13px;color:rgba(247,245,240,.35);text-decoration:none;transition:all .25s;display:inline-block}
+.ft-col ul li a:hover{color:var(--lime);transform:translateX(5px)}
+.ft-bot{border-top:1px solid rgba(255,255,255,.05);padding-top:22px;display:flex;justify-content:space-between;font-size:12px;color:rgba(247,245,240,.2);flex-wrap:wrap;gap:10px}
+.ft-bot b{color:var(--lime)}
+
+/* WA BTN */
+.wa-float{position:fixed;bottom:28px;right:28px;z-index:999;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#25d366,#128c7e);display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;text-decoration:none;box-shadow:0 8px 28px rgba(37,211,102,.4);transition:all .3s;cursor:none;animation:waPop 3s ease-in-out infinite}
+.wa-float:hover{transform:scale(1.12);box-shadow:0 14px 40px rgba(37,211,102,.55)}
+@keyframes waPop{0%,100%{transform:translateY(0)}45%{transform:translateY(-10px)}65%{transform:translateY(-5px)}}
+
+/* ════ REVEAL ════════════════════════════════════════════ */
+.rv{opacity:0;transform:translateY(50px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
+.rv.in{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-50px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
+.rv-l.in{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(50px);transition:opacity .85s cubic-bezier(.22,1,.36,1),transform .85s cubic-bezier(.22,1,.36,1)}
+.rv-r.in{opacity:1;transform:translateX(0)}
+.rv-s{opacity:0;transform:scale(.9);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1)}
+.rv-s.in{opacity:1;transform:scale(1)}
+
+/* ════ RESPONSIVE ════════════════════════════════════════ */
+@media(max-width:1100px){.svc-masonry{columns:2}.price-grid{grid-template-columns:1fr}.how-layout{grid-template-columns:1fr}.how-right{display:none}.testi-grid{grid-template-columns:repeat(2,1fr)}.hero-stats{grid-template-columns:repeat(2,1fr)}.ft-top{grid-template-columns:1fr 1fr;gap:40px}.faq-layout{grid-template-columns:1fr}.count-inner{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.nav-links{display:none}section{padding:72px 5%}.svc-masonry{columns:1}.testi-grid{grid-template-columns:1fr}.hero-h1{letter-spacing:-2px}.hero-stats{grid-template-columns:1fr 1fr}.ft-top{grid-template-columns:1fr}.count-inner{grid-template-columns:1fr}.hero-actions{align-items:flex-start}}
+</style>
 </head>
-
 <body>
 
-  <!-- LOADER -->
-  <div id="ld">
-    <div class="ld-logo">SAtClouds</div>
-    <div class="ld-bars">
-      <div class="ld-bar"></div>
-      <div class="ld-bar"></div>
-      <div class="ld-bar"></div>
-      <div class="ld-bar"></div>
-      <div class="ld-bar"></div>
-    </div>
-    <div class="ld-txt">Memuat Pengalaman Premium...</div>
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+<div id="prg"></div>
+<a href="https://wa.me/6281234567890" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<!-- LOADER -->
+<div id="ldr">
+  <div class="ldr-g"></div>
+  <div class="ldr-txt">GrowthLab</div>
+  <div class="ldr-sub">Loading Experience</div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-brand" href="#">
+    <div class="nav-icon">🌱</div>
+    <div class="nav-name">Growth<em>Lab</em></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#layanan">Layanan</a></li>
+    <li><a href="#cara">Cara Kerja</a></li>
+    <li><a href="#harga">Harga</a></li>
+    <li><a href="#testi">Testimoni</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <button class="nav-cta" onclick="window.open('https://wa.me/6281234567890','_blank')">⚡ Order Sekarang</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="hero-bg-text">GROW</div>
+  <div class="hero-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
   </div>
-
-  <!-- WA FLOAT -->
-  <a href="https://wa.me/6281340514077" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-
-  <!-- NAV -->
-  <nav id="nav">
-    <div class="nav-inner">
-      <a class="nlogo" href="#">
-        <div class="nlogo-icon">🚀</div>
-        <div class="nlogo-text">SAtClouds</div>
-      </a>
-      <ul class="nlinks">
-        <li><a href="#layanan">Layanan</a></li>
-        <li><a href="#cara">Cara Order</a></li>
-        <li><a href="#harga">Harga</a></li>
-        <li><a href="#testi">Testimoni</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-      <button class="nordbtn" onclick="window.open('https://wa.me/6281340514077','_blank')"><span>⚡ Order
-          Sekarang</span></button>
-    </div>
-  </nav>
-
-  <!-- HERO -->
-  <div class="hero-decor hero-decor-1"></div>
-  <div class="hero-decor hero-decor-2"></div>
-  <div class="hero" id="home">
-    <div class="hero-left">
-      <div class="hero-eyebrow"><span class="live-dot"></span>Terpercaya Sejak 2019</div>
-      <h1 class="hero-h1">
-        Buat Sosmed<br>
-        <span class="line-gold">Kamu Viral</span><br>
-        <span class="line-purple">Sekarang Juga</span>
-      </h1>
-      <p class="hero-desc">Tingkatkan followers, likes, views & engagement di semua platform sosial media. Real, aman,
-        proses cepat. Ribuan pelanggan puas!</p>
-      <div class="hero-btns">
-        <a href="#layanan" class="hbtn-main"><i class="fas fa-rocket"></i> Mulai Boost</a>
-        <a href="#cara" class="hbtn-ghost"><i class="fas fa-play-circle"></i> Cara Kerja</a>
-      </div>
-      <div class="hero-proof">
-        <div class="proof-item"><i class="fas fa-check-circle"></i> 100% Real & Aman</div>
-        <div class="proof-divider"></div>
-        <div class="proof-item"><i class="fas fa-bolt"></i> Proses Instan</div>
-        <div class="proof-divider"></div>
-        <div class="proof-item"><i class="fas fa-shield-alt"></i> Garansi Refill</div>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="hero-float-card hfc1">
-        <div class="hfc-icon">📈</div>
-        <div class="hfc-val">+50K</div>
-        <div class="hfc-lbl">Order Hari Ini</div>
-      </div>
-      <div class="hero-main-card">
-        <div class="hmc-top">
-          <div class="hmc-logo-row">
-            <div class="hmc-avatar">⚡</div>
-            <div class="hmc-info">
-              <h4>Quick Order Panel</h4><span>Pilih & order sekarang</span>
-            </div>
-            <div class="hmc-status"><span class="live-dot"></span>Live</div>
-          </div>
-          <div class="hmc-stats">
-            <div class="hmcs">
-              <div class="hmcs-val">50K+</div>
-              <div class="hmcs-lbl">Order Selesai</div>
-            </div>
-            <div class="hmcs">
-              <div class="hmcs-val">99%</div>
-              <div class="hmcs-lbl">Kepuasan</div>
-            </div>
-            <div class="hmcs">
-              <div class="hmcs-val">7</div>
-              <div class="hmcs-lbl">Platform</div>
-            </div>
-          </div>
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="hero-dot"></span> #1 Social Media Growth Studio Indonesia</div>
+    <h1 class="hero-h1">
+      Sosmed Kamu<br>
+      <em>Viral</em> Dengan<br>
+      Cara <span class="stroke">Tepat</span>
+    </h1>
+    <div class="hero-row">
+      <p class="hero-desc">Tingkatkan followers, likes, views & engagement di semua platform. Real, aman, proses instan. Dipercaya 12.000+ pelanggan aktif!</p>
+      <div class="hero-actions">
+        <div class="hero-btns">
+          <a href="#layanan" class="btn-dark"><i class="fas fa-rocket"></i> Mulai Sekarang</a>
+          <a href="#cara" class="btn-light"><i class="fas fa-play-circle"></i> Cara Kerja</a>
         </div>
-        <div class="hmc-body">
-          <div class="hmc-platform-label">Pilih Platform</div>
-          <div class="hmc-platforms">
-            <div class="hmp sel"><i class="fab fa-instagram" style="color:#e1306c"></i><span>IG</span></div>
-            <div class="hmp"><i class="fab fa-tiktok" style="color:#fff"></i><span>TikTok</span></div>
-            <div class="hmp"><i class="fab fa-youtube" style="color:#ff0000"></i><span>YT</span></div>
-            <div class="hmp"><i class="fab fa-twitter" style="color:#1da1f2"></i><span>X</span></div>
-          </div>
-          <div class="hmc-qty-grid" id="hero-qty">
-            <div class="hqb sel" data-p="5000" onclick="pickQty(this)">
-              <div class="hqb-qty">1K</div>
-              <div class="hqb-price">Rp 5.000</div>
-            </div>
-            <h1 class="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
-                𝗕𝗢𝗢𝗦𝗧 <span class="gradient-text">𝗬𝗢𝗨𝗥 𝗦𝗢𝗖𝗜𝗔𝗟</span> 𝗠𝗘𝗗𝗜𝗔
-            </h1>
-            <p class="text-lg text-white/70 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Jasa suntik followers, likes, views, dan komentar untuk Instagram, TikTok, YouTube, dan semua platform media sosial. Cepat, aman, dan bergaransi.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <button onclick="scrollToSection('pesan')" class="btn-primary px-8 py-4 rounded-2xl text-lg font-bold">
-                    Mulai Pesan
-                </button>
-                <button onclick="scrollToSection('layanan')" class="glass px-8 py-4 rounded-2xl text-lg font-bold hover:bg-white/10 transition">
-                    Lihat Layanan
-                </button>
-            <div class="hqb" data-p="20000" onclick="pickQty(this)">
-              <div class="hqb-qty">5K</div>
-              <div class="hqb-price">Rp 20.000</div>
-            </div>
-            <div class="hqb" data-p="35000" onclick="pickQty(this)">
-              <div class="hqb-qty">10K</div>
-              <div class="hqb-price">Rp 35.000</div>
-            </div>
-            <div class="hqb" data-p="75000" onclick="pickQty(this)">
-              <div class="hqb-qty">25K</div>
-              <div class="hqb-price">Rp 75.000</div>
-            </div>
-            <div class="hqb" data-p="120000" onclick="pickQty(this)">
-              <div class="hqb-qty">50K</div>
-              <div class="hqb-price">Rp 120.000</div>
-            </div>
-            <div class="hqb" data-p="200000" onclick="pickQty(this)">
-              <div class="hqb-qty">100K</div>
-              <div class="hqb-price">Rp 200.000</div>
-            </div>
-          </div>
-          <div class="hmc-total">
-            <div class="hmt-label">Total Bayar</div>
-            <div class="hmt-price" id="hero-total">Rp 5.000</div>
-          </div>
-          <button class="hmc-orderbtn" onclick="window.open('https://wa.me/6281340514077','_blank')"><i
-              class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+        <div class="hero-trust">
+          <div class="htrust"><i class="fas fa-check-circle"></i> 100% Real</div>
+          <div class="htrust"><i class="fas fa-bolt"></i> Proses Instan</div>
+          <div class="htrust"><i class="fas fa-shield-alt"></i> Garansi Refill</div>
         </div>
       </div>
-      <div class="hero-float-card hfc2">
-        <div class="hfc-icon">⭐</div>
-        <div class="hfc-val">4.9/5</div>
-        <div class="hfc-lbl">Rating Pelanggan</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-num">50K+</div><div class="hs-lbl">Order Selesai</div></div>
+      <div class="hs"><div class="hs-num">12K+</div><div class="hs-lbl">Pelanggan Aktif</div></div>
+      <div class="hs"><div class="hs-num">99%</div><div class="hs-lbl">Kepuasan</div></div>
+      <div class="hs"><div class="hs-num">7</div><div class="hs-lbl">Platform</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="tick-track" id="tick"></div>
+</div>
+
+<!-- LAYANAN -->
+<section class="plat-sec" id="layanan">
+  <div class="sw">
+    <div class="plat-head">
+      <div class="rv">
+        <div class="s-tag">Layanan</div>
+        <h2 class="s-h2" style="color:var(--w)">Semua Platform,<br><em>Semua Layanan</em></h2>
+        <p class="s-sub" style="color:rgba(247,245,240,.45)">Pilih sesuai kebutuhan. Harga terjangkau, kualitas terjamin.</p>
+      </div>
+      <div class="ptabs rv" id="ptabs">
+        <div class="ptab on" data-p="instagram"><i class="fab fa-instagram" style="color:#e1306c"></i>Instagram</div>
+        <div class="ptab" data-p="tiktok"><i class="fab fa-tiktok"></i>TikTok</div>
+        <div class="ptab" data-p="youtube"><i class="fab fa-youtube" style="color:#ff0000"></i>YouTube</div>
+        <div class="ptab" data-p="twitter"><i class="fab fa-twitter" style="color:#1da1f2"></i>Twitter/X</div>
+        <div class="ptab" data-p="facebook"><i class="fab fa-facebook-f" style="color:#1877f2"></i>Facebook</div>
+        <div class="ptab" data-p="spotify"><i class="fab fa-spotify" style="color:#1db954"></i>Spotify</div>
+        <div class="ptab" data-p="linkedin"><i class="fab fa-linkedin-in" style="color:#0077b5"></i>LinkedIn</div>
+      </div>
+    </div>
+    <div class="svc-masonry" id="svc-grid"></div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how-sec" id="cara">
+  <div class="sw">
+    <div class="how-layout">
+      <div>
+        <div class="rv"><div class="s-tag">Cara Kerja</div><h2 class="s-h2">Semudah<br><em>4 Langkah</em></h2><p class="s-sub">Tidak perlu teknis, tidak perlu ribet. Order dan hasilnya langsung terasa dalam hitungan menit!</p></div>
+        <div class="how-steps">
+          <div class="how-step rv"><div class="how-n">01</div><div><div class="how-h">Pilih Layanan</div><div class="how-d">Pilih platform dan jenis layanan yang kamu butuhkan dari panel lengkap kami.</div></div></div>
+          <div class="how-step rv"><div class="how-n">02</div><div><div class="how-h">Isi Username / Link</div><div class="how-d">Masukkan username atau link postingan yang ingin ditingkatkan engagementnya.</div></div></div>
+          <div class="how-step rv"><div class="how-n">03</div><div><div class="how-h">Bayar Mudah</div><div class="how-d">Transfer bank, e-wallet (GoPay, OVO, Dana), atau QRIS. Semua metode tersedia.</div></div></div>
+          <div class="how-step rv"><div class="how-n">04</div><div><div class="how-h">Langsung Naik!</div><div class="how-d">Proses otomatis. Followers/likes/views langsung bertambah dalam hitungan menit.</div></div></div>
+        </div>
+      </div>
+      <div class="how-right rv-r">
+        <div class="order-panel">
+          <div class="op-head">
+            <div class="op-title">🌱 Live Orders</div>
+            <div class="op-live"><span class="op-live-dot"></span>Real-time</div>
+          </div>
+          <div class="op-orders">
+            <div class="op-order"><div class="op-ico" style="background:rgba(225,48,108,.1)"><i class="fab fa-instagram" style="color:#e1306c"></i></div><div class="op-info"><div class="op-name">10K Followers Instagram</div><div class="op-time">2 menit lalu</div></div><span class="op-status op-done">✓ Selesai</span></div>
+            <div class="op-order"><div class="op-ico" style="background:rgba(255,255,255,.06)"><i class="fab fa-tiktok"></i></div><div class="op-info"><div class="op-name">50K Views TikTok</div><div class="op-time">5 menit lalu</div></div><span class="op-status op-done">✓ Selesai</span></div>
+            <div class="op-order"><div class="op-ico" style="background:rgba(255,0,0,.1)"><i class="fab fa-youtube" style="color:#ff0000"></i></div><div class="op-info"><div class="op-name">5K Subscribers YouTube</div><div class="op-time">Sedang proses...</div></div><span class="op-status op-proc">⏳ Proses</span></div>
+            <div class="op-order"><div class="op-ico" style="background:rgba(29,161,242,.1)"><i class="fab fa-twitter" style="color:#1da1f2"></i></div><div class="op-info"><div class="op-name">25K Likes Twitter/X</div><div class="op-time">12 menit lalu</div></div><span class="op-status op-done">✓ Selesai</span></div>
+          </div>
+          <div class="op-quick">
+            <div class="op-q-label">Quick Order — Pilih Jumlah</div>
+            <div class="op-qty-grid">
+              <div class="oqb on" data-p="5000" onclick="qPick(this)"><div class="oqb-q">1K</div><div class="oqb-p">Rp 5.000</div></div>
+              <div class="oqb" data-p="20000" onclick="qPick(this)"><div class="oqb-q">5K</div><div class="oqb-p">Rp 20.000</div></div>
+              <div class="oqb" data-p="35000" onclick="qPick(this)"><div class="oqb-q">10K</div><div class="oqb-p">Rp 35.000</div></div>
+              <div class="oqb" data-p="75000" onclick="qPick(this)"><div class="oqb-q">25K</div><div class="oqb-p">Rp 75.000</div></div>
+              <div class="oqb" data-p="120000" onclick="qPick(this)"><div class="oqb-q">50K</div><div class="oqb-p">Rp 120.000</div></div>
+              <div class="oqb" data-p="200000" onclick="qPick(this)"><div class="oqb-q">100K</div><div class="oqb-p">Rp 200.000</div></div>
+            </div>
+            <div class="op-total-row">
+              <div class="op-tl">Total Bayar</div>
+              <div class="op-tv" id="op-total">Rp 5.000</div>
+            </div>
+            <button class="op-btn" onclick="window.open('https://wa.me/6281234567890','_blank')"><i class="fab fa-whatsapp"></i> Order via WhatsApp</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- TICKER -->
-  <div class="ticker-wrap">
-    <div class="ticker-track" id="tick"></div>
-  </div>
-
-  <!-- LAYANAN -->
-  <section class="plat-sec" id="layanan">
-    <div class="sw">
-      <div
-        style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:24px;margin-bottom:52px">
-        <div class="rv">
-          <div class="s-eyebrow">Layanan Kami</div>
-          <h2 class="s-h2">Semua Platform,<br><span style="color:var(--gold)">Semua Layanan</span></h2>
-          <p class="s-sub">Pilih platform dan layanan sesuai kebutuhan kamu. Harga terbaik, kualitas terjamin.</p>
-        </div>
-        <div class="plat-tabs-row rv" id="plat-tabs">
-          <div class="ptab on" data-p="instagram"><i class="fab fa-instagram" style="color:#e1306c"></i>Instagram</div>
-          <div class="ptab" data-p="tiktok"><i class="fab fa-tiktok"></i>TikTok</div>
-          <div class="ptab" data-p="youtube"><i class="fab fa-youtube" style="color:#ff0000"></i>YouTube</div>
-          <div class="ptab" data-p="twitter"><i class="fab fa-twitter" style="color:#1da1f2"></i>Twitter/X</div>
-          <div class="ptab" data-p="facebook"><i class="fab fa-facebook-f" style="color:#1877f2"></i>Facebook</div>
-          <div class="ptab" data-p="spotify"><i class="fab fa-spotify" style="color:#1db954"></i>Spotify</div>
-          <div class="ptab" data-p="linkedin"><i class="fab fa-linkedin-in" style="color:#0077b5"></i>LinkedIn</div>
-        </div>
-      </div>
-      <div class="bento" id="bento-grid"></div>
+<!-- PRICING -->
+<section class="price-sec" id="harga">
+  <div class="sw">
+    <div class="rv" style="text-align:center;max-width:520px;margin:0 auto 60px">
+      <div class="s-tag" style="margin:0 auto 16px">Paket Harga</div>
+      <h2 class="s-h2">Harga Transparan,<br><em>Tanpa Hidden Fee</em></h2>
     </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="how-sec" id="cara">
-    <div class="sw">
-      <div class="rv" style="text-align:center;max-width:520px;margin:0 auto 72px">
-        <div class="s-eyebrow" style="justify-content:center">Cara Order</div>
-        <h2 class="s-h2">Semudah<br><span style="color:var(--gold)">4 Langkah</span></h2>
-        <p class="s-sub" style="margin:0 auto">Tidak perlu teknis, tidak perlu ribet. Order dalam hitungan menit!</p>
+    <div class="price-grid">
+      <div class="pc rv">
+        <div class="pc-tier">Starter</div>
+        <div class="pc-name">Paket Pemula</div>
+        <div class="pc-desc">Untuk yang baru mulai membangun kehadiran di sosial media.</div>
+        <div class="pc-price-block"><div class="pc-price">Rp 25K</div><div class="pc-per">per layanan · mulai dari</div></div>
+        <ul class="pc-feats">
+          <li><div class="fic"><i class="fas fa-check"></i></div>1.000 – 5.000 unit</li>
+          <li><div class="fic"><i class="fas fa-check"></i></div>Semua 7 platform</li>
+          <li><div class="fic"><i class="fas fa-check"></i></div>Proses 0–30 menit</li>
+          <li class="off"><div class="fic"><i class="fas fa-check"></i></div><span>Garansi refill 7 hari</span></li>
+          <li class="off"><div class="fic"><i class="fas fa-check"></i></div><span>Support via WhatsApp</span></li>
+        </ul>
+        <button class="pc-btn pc-btn-out" onclick="window.open('https://wa.me/6281234567890','_blank')">Order Sekarang →</button>
       </div>
-      <div class="how-grid" style="position:relative">
-        <div class="how-connector"></div>
-        <div class="how-card rv-scale">
-          <div class="how-num">01</div>
-          <h3 class="how-title">Pilih Layanan</h3>
-          <p class="how-desc">Pilih platform dan jenis layanan yang kamu butuhkan dari panel kami.</p>
-        </div>
-        <div class="how-card rv-scale" style="transition-delay:.1s">
-          <div class="how-num">02</div>
-          <h3 class="how-title">Isi Username</h3>
-          <p class="how-desc">Masukkan username atau link postingan target yang ingin di-boost.</p>
-        </div>
-        <div class="how-card rv-scale" style="transition-delay:.2s">
-          <div class="how-num">03</div>
-          <h3 class="how-title">Bayar Mudah</h3>
-          <p class="how-desc">Transfer bank, e-wallet, atau QRIS. Semua metode pembayaran tersedia.</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="kontak" class="border-t border-white/10 py-12 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <div>
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center text-sm font-bold">S</div>
-                        <span class="text-lg font-bold">SuntikSosmed</span>
-                    </div>
-                    <p class="text-white/50 text-sm leading-relaxed">Layanan peningkatan engagement media sosial terpercaya dengan proses cepat dan bergaransi.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">Kontak Kami</h4>
-                    <div class="space-y-2 text-sm text-white/60">
-                        <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.744 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.975 12-11.111C24 4.975 18.627 0 12 0z"/></svg>
-                            <span>WhatsApp: 0813-4051-4077</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 4.975 0 11.111c0 3.497 1.744 6.616 4.472 8.652V24l4.086-2.242c1.09.301 2.246.464 3.442.464 6.627 0 12-4.975 12-11.111C24 4.975 18.627 0 12 0z"/></svg>
-                            <span>Telegram: @suntiksosmed</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                            <span>Email: halo@suntiksosmed.id</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="font-bold mb-4">Jam Operasional</h4>
-                    <div class="text-sm text-white/60 space-y-1">
-                        <p>Senin - Minggu</p>
-                        <p class="text-white font-semibold">24 Jam Nonstop</p>
-                        <p class="text-xs text-white/40 mt-2">Pesanan diproses otomatis kapan saja</p>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-white/10 pt-8 text-center text-sm text-white/40">
-                <p>&copy; 2026 SuntikSosmed. All rights reserved.</p>
-            </div>
-        <div class="how-card rv-scale" style="transition-delay:.3s">
-          <div class="how-num">04</div>
-          <h3 class="how-title">Langsung Naik!</h3>
-          <p class="how-desc">Order diproses otomatis. Hasilnya langsung terasa dalam hitungan menit.</p>
-        </div>
+      <div class="pc feat rv" style="transition-delay:.15s">
+        <div class="pc-best">✦ TERPOPULER</div>
+        <div class="pc-tier">Pro</div>
+        <div class="pc-name" style="color:var(--w)">Paket Pro</div>
+        <div class="pc-desc">Untuk influencer dan content creator yang ingin berkembang pesat.</div>
+        <div class="pc-price-block"><div class="pc-price">Rp 75K</div><div class="pc-per">per layanan · mulai dari</div></div>
+        <ul class="pc-feats">
+          <li><div class="fic"><i class="fas fa-check"></i></div><span style="color:var(--w)">10.000 – 50.000 unit</span></li>
+          <li><div class="fic"><i class="fas fa-check"></i></div><span style="color:var(--w)">Semua platform + Story Views</span></li>
+          <li><div class="fic"><i class="fas fa-check"></i></div><span style="color:var(--w)">Proses 0–15 menit</span></li>
+          <li><div class="fic"><i class="fas fa-check"></i></div><span style="color:var(--w)">Garansi refill 30 hari</span></li>
+          <li><div class="fic"><i class="fas fa-check"></i></div><span style="color:var(--w)">Support prioritas 24/7</span></li>
+        </ul>
+        <button class="pc-btn pc-btn-lime" onclick="window.open('https://wa.me/6281234567890','_blank')">Order Sekarang →</button>
       </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="price-sec" id="harga">
-    <div class="sw">
-      <div class="rv" style="text-align:center;max-width:520px;margin:0 auto 64px">
-        <div class="s-eyebrow" style="justify-content:center">Paket Harga</div>
-        <h2 class="s-h2">Transparan,<br><span style="color:var(--gold)">Tanpa Biaya Tersembunyi</span></h2>
-      </div>
-      <div class="price-grid">
-        <div class="pcard rv">
-          <div class="pcard-tier">Starter</div>
-          <div class="pcard-name">Paket Pemula</div>
-          <div class="pcard-desc">Cocok untuk yang baru mulai membangun kehadiran di sosial media.</div>
-          <div class="pcard-price-wrap">
-            <div class="pcard-price">Rp 25K</div>
-            <div class="pcard-period">per layanan · mulai dari</div>
-          </div>
-          <ul class="pcard-features">
-            <li><i class="fas fa-check"></i>1.000 – 5.000 followers/likes</li>
-            <li><i class="fas fa-check"></i>Semua 7 platform tersedia</li>
-            <li><i class="fas fa-check"></i>Proses 0–30 menit</li>
-            <li><i class="fas fa-check"></i><span class="off">Garansi refill 7 hari</span></li>
-            <li><i class="fas fa-check"></i><span class="off">Support via WhatsApp</span></li>
-          </ul>
-          <button class="pcard-btn pcard-btn-out" onclick="window.open('https://wa.me/6281340514077','_blank')">Order
-            Sekarang</button>
-        </div>
-        <div class="pcard feat rv" style="transition-delay:.15s">
-          <div class="pcard-popular">⭐ Terpopuler</div>
-          <div class="pcard-tier">Pro</div>
-          <div class="pcard-name">Paket Profesional</div>
-          <div class="pcard-desc">Pilihan terbaik untuk influencer dan content creator yang ingin berkembang pesat.
-          </div>
-          <div class="pcard-price-wrap">
-            <div class="pcard-price">Rp 75K</div>
-            <div class="pcard-period">per layanan · mulai dari</div>
-          </div>
-          <ul class="pcard-features">
-            <li><i class="fas fa-check"></i>10.000 – 50.000 followers/likes</li>
-            <li><i class="fas fa-check"></i>Semua platform + Story Views</li>
-            <li><i class="fas fa-check"></i>Proses 0–15 menit</li>
-            <li><i class="fas fa-check"></i>Garansi refill 30 hari</li>
-            <li><i class="fas fa-check"></i>Support prioritas 24/7</li>
-          </ul>
-          <button class="pcard-btn pcard-btn-main" onclick="window.open('https://wa.me/6281340514077','_blank')">Order
-            Sekarang</button>
-        </div>
-        <div class="pcard rv" style="transition-delay:.3s">
-          <div class="pcard-tier">Elite</div>
-          <div class="pcard-name">Paket Bisnis</div>
-          <div class="pcard-desc">Untuk brand, agensi, dan bisnis yang butuh volume tinggi dan konsisten.</div>
-          <div class="pcard-price-wrap">
-            <div class="pcard-price">Rp 200K</div>
-            <div class="pcard-period">per layanan · mulai dari</div>
-          </div>
-          <ul class="pcard-features">
-            <li><i class="fas fa-check"></i>100.000+ followers/likes</li>
-            <li><i class="fas fa-check"></i>Semua layanan + Custom</li>
-            <li><i class="fas fa-check"></i>Proses instan</li>
-            <li><i class="fas fa-check"></i>Garansi refill 90 hari</li>
-            <li><i class="fas fa-check"></i>Account manager dedicated</li>
-          </ul>
-          <button class="pcard-btn pcard-btn-out" onclick="window.open('https://wa.me/6281340514077','_blank')">Hubungi
-            Kami</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <div class="stats-band">
-    <div class="stats-inner">
-      <div class="stat-it">
-        <div class="stat-val" data-c="50000">0</div>
-        <div class="stat-lbl">Order Selesai</div>
-      </div>
-      <div class="stat-it">
-        <div class="stat-val" data-c="12000">0</div>
-        <div class="stat-lbl">Pelanggan Aktif</div>
-      </div>
-      <div class="stat-it">
-        <div class="stat-val" data-c="99">0</div>
-        <div class="stat-lbl">% Kepuasan</div>
-      </div>
-      <div class="stat-it">
-        <div class="stat-val" data-c="7">0</div>
-        <div class="stat-lbl">Platform</div>
+      <div class="pc rv" style="transition-delay:.3s">
+        <div class="pc-tier">Elite</div>
+        <div class="pc-name">Paket Bisnis</div>
+        <div class="pc-desc">Untuk brand, agensi, dan bisnis yang butuh volume tinggi secara konsisten.</div>
+        <div class="pc-price-block"><div class="pc-price">Rp 200K</div><div class="pc-per">per layanan · mulai dari</div></div>
+        <ul class="pc-feats">
+          <li><div class="fic"><i class="fas fa-check"></i></div>100.000+ unit</li>
+          <li><div class="fic"><i class="fas fa-check"></i></div>Semua layanan + Custom</li>
+          <li><div class="fic"><i class="fas fa-check"></i></div>Proses hampir instan</li>
+          <li><div class="fic"><i class="fas fa-check"></i></div>Garansi refill 90 hari</li>
+          <li><div class="fic"><i class="fas fa-check"></i></div>Account manager dedicated</li>
+        </ul>
+        <button class="pc-btn pc-btn-main" onclick="window.open('https://wa.me/6281234567890','_blank')">Hubungi Kami →</button>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- TESTIMONI -->
-  <section class="testi-sec" id="testi">
-    <div class="sw">
-      <div class="rv" style="text-align:center;max-width:500px;margin:0 auto 64px">
-        <div class="s-eyebrow" style="justify-content:center">Testimoni</div>
-        <h2 class="s-h2">Ribuan Pelanggan<br><span style="color:var(--gold)">Sudah Puas</span></h2>
+<!-- COUNTER BAND -->
+<div class="count-band">
+  <div class="count-inner">
+    <div class="cnt"><div class="cnt-val" data-c="50000">0</div><div class="cnt-lbl">Order Selesai</div></div>
+    <div class="cnt"><div class="cnt-val" data-c="12000">0</div><div class="cnt-lbl">Pelanggan Aktif</div></div>
+    <div class="cnt"><div class="cnt-val" data-c="99">0</div><div class="cnt-lbl">% Kepuasan</div></div>
+    <div class="cnt"><div class="cnt-val" data-c="7">0</div><div class="cnt-lbl">Platform</div></div>
+  </div>
+</div>
+
+<!-- TESTIMONI -->
+<section class="testi-sec" id="testi">
+  <div class="sw">
+    <div class="rv" style="text-align:center;max-width:500px;margin:0 auto 56px">
+      <div class="s-tag" style="margin:0 auto 16px">Testimoni</div>
+      <h2 class="s-h2">Sudah Dipercaya<br><em>Ribuan Pelanggan</em></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="tc feat rv"><div class="tc-plat"><i class="fab fa-instagram" style="color:#e1306c"></i></div><div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="tc-mark">"</div><p class="tc-txt">Beli 10K followers Instagram, datang dalam 20 menit. Akun aman dan engagement ikut naik. Sudah langganan 6 bulan dan tidak pernah kecewa!</p><div class="tc-au"><div class="tc-av">RD</div><div><div class="tc-name">Rina Dewi</div><div class="tc-role">Beauty Influencer · 150K followers</div></div></div></div>
+      <div class="tc rv"><div class="tc-plat"><i class="fab fa-tiktok"></i></div><div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="tc-mark">"</div><p class="tc-txt">Views TikTok meledak setelah order di sini. Video yang stuck di 500 views, sekarang 2 juta! Gila hasilnya.</p><div class="tc-au"><div class="tc-av">BK</div><div><div class="tc-name">Bima Kusuma</div><div class="tc-role">TikToker · 500K followers</div></div></div></div>
+      <div class="tc rv"><div class="tc-plat"><i class="fab fa-youtube" style="color:#ff0000"></i></div><div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="tc-mark">"</div><p class="tc-txt">YouTube dapat 50K subs dalam seminggu. CS responsif dan ramah. Auto recommended untuk semua creator!</p><div class="tc-au"><div class="tc-av">AS</div><div><div class="tc-name">Andra Setiawan</div><div class="tc-role">YouTuber · Gaming Channel</div></div></div></div>
+      <div class="tc rv"><div class="tc-plat"><i class="fab fa-twitter" style="color:#1da1f2"></i></div><div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="tc-mark">"</div><p class="tc-txt">Followers Twitter naik drastis, harga paling murah dibanding tempat lain. Kualitasnya tetap top!</p><div class="tc-au"><div class="tc-av">LH</div><div><div class="tc-name">Laila Hasanah</div><div class="tc-role">Digital Marketer</div></div></div></div>
+      <div class="tc feat rv"><div class="tc-plat"><i class="fab fa-instagram" style="color:#e1306c"></i></div><div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="tc-mark">"</div><p class="tc-txt">Buat bisnis online, likes dan followers sangat membantu kepercayaan customer. Sudah order 20+ kali!</p><div class="tc-au"><div class="tc-av">FN</div><div><div class="tc-name">Fajar Nugroho</div><div class="tc-role">Online Seller · UMKM</div></div></div></div>
+      <div class="tc rv"><div class="tc-plat"><i class="fab fa-facebook-f" style="color:#1877f2"></i></div><div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><div class="tc-mark">"</div><p class="tc-txt">Page Facebook dapat 25K likes dalam 2 hari. CS super responsif. Auto langganan bulanan dari sekarang!</p><div class="tc-au"><div class="tc-av">DW</div><div><div class="tc-name">Dewi Wulandari</div><div class="tc-role">Brand Owner</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-sec" id="faq">
+  <div class="sw">
+    <div class="faq-layout">
+      <div class="rv-l">
+        <div class="s-tag">FAQ</div>
+        <h2 class="s-h2">Ada<br><em>Pertanyaan?</em></h2>
+        <p>Kami siap membantu 24 jam, 7 hari seminggu. Chat langsung via WhatsApp untuk respon super cepat.</p>
+        <a href="https://wa.me/6281234567890" class="faq-wa-btn" target="_blank"><i class="fab fa-whatsapp"></i> Chat Sekarang</a>
       </div>
-      <div class="testi-grid">
-        <div class="tc tc-feat rv">
-          <div class="tc-plat-icon"><i class="fab fa-instagram" style="color:#e1306c"></i></div>
-          <div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-              class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="tc-quote">"</div>
-          <p class="tc-text">Beli 10K followers Instagram, datang dalam 20 menit. Akun aman dan engagement ikut naik.
-            Sudah langganan 6 bulan dan tidak pernah kecewa!</p>
-          <div class="tc-author">
-            <div class="tc-av">RD</div>
-            <div>
-              <div class="tc-name">Rina Dewi</div>
-              <div class="tc-role">Beauty Influencer · 150K followers</div>
-            </div>
-          </div>
-        </div>
-        <div class="tc rv">
-          <div class="tc-plat-icon"><i class="fab fa-tiktok"></i></div>
-          <div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-              class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="tc-quote">"</div>
-          <p class="tc-text">Views TikTok saya meledak setelah order di sini. Video yang stuck di 500 views, sekarang
-            sudah 2 juta! Gila banget hasilnya.</p>
-          <div class="tc-author">
-            <div class="tc-av">BK</div>
-            <div>
-              <div class="tc-name">Bima Kusuma</div>
-              <div class="tc-role">TikToker · 500K followers</div>
-            </div>
-          </div>
-        </div>
-        <div class="tc rv">
-          <div class="tc-plat-icon"><i class="fab fa-youtube" style="color:#ff0000"></i></div>
-          <div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-              class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="tc-quote">"</div>
-          <p class="tc-text">Channel YouTube saya dapat 50K subscribers dalam seminggu. CS-nya responsif dan ramah. Auto
-            recommended!</p>
-          <div class="tc-author">
-            <div class="tc-av">AS</div>
-            <div>
-              <div class="tc-name">Andra Setiawan</div>
-              <div class="tc-role">YouTuber · Gaming Channel</div>
-            </div>
-          </div>
-        </div>
-        <div class="tc rv">
-          <div class="tc-plat-icon"><i class="fab fa-twitter" style="color:#1da1f2"></i></div>
-          <div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-              class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="tc-quote">"</div>
-          <p class="tc-text">Twitter jadi viral karena followers naik drastis. Harga paling murah dibanding tempat lain,
-            kualitasnya tetap top!</p>
-          <div class="tc-author">
-            <div class="tc-av">LH</div>
-            <div>
-              <div class="tc-name">Laila Hasanah</div>
-              <div class="tc-role">Digital Marketer</div>
-            </div>
-          </div>
-        </div>
-        <div class="tc tc-feat rv">
-          <div class="tc-plat-icon"><i class="fab fa-instagram" style="color:#e1306c"></i></div>
-          <div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-              class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="tc-quote">"</div>
-          <p class="tc-text">Buat bisnis online saya, like dan followers sangat membantu kepercayaan customer. Sudah
-            order 20+ kali dan selalu puas!</p>
-          <div class="tc-author">
-            <div class="tc-av">FN</div>
-            <div>
-              <div class="tc-name">Fajar Nugroho</div>
-              <div class="tc-role">Online Seller · UMKM</div>
-            </div>
-          </div>
-        </div>
-        <div class="tc rv">
-          <div class="tc-plat-icon"><i class="fab fa-facebook-f" style="color:#1877f2"></i></div>
-          <div class="tc-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-              class="fas fa-star"></i><i class="fas fa-star"></i></div>
-          <div class="tc-quote">"</div>
-          <p class="tc-text">Page Facebook bisnis dapat 25K likes dalam 2 hari. CS super responsif. Auto langganan
-            bulanan dari sekarang!</p>
-          <div class="tc-author">
-            <div class="tc-av">DW</div>
-            <div>
-              <div class="tc-name">Dewi Wulandari</div>
-              <div class="tc-role">Brand Owner</div>
-            </div>
-          </div>
-        </div>
+      <div class="faq-items rv-r">
+        <div class="fi"><div class="fi-q" onclick="fiT(this)">Apakah followers yang diberikan real?<div class="fi-ic"><i class="fas fa-plus"></i></div></div><div class="fi-a"><p>Ya! Semua menggunakan akun real dan aktif — bukan bot. Aman untuk akun kamu dan tidak berisiko kena banned di platform manapun.</p></div></div>
+        <div class="fi"><div class="fi-q" onclick="fiT(this)">Berapa lama proses setelah order?<div class="fi-ic"><i class="fas fa-plus"></i></div></div><div class="fi-a"><p>Rata-rata 0–30 menit (Starter), 0–15 menit (Pro), hampir instan (Elite). Bergantung volume dan platform yang dipilih.</p></div></div>
+        <div class="fi"><div class="fi-q" onclick="fiT(this)">Apakah akun saya bisa kena banned?<div class="fi-ic"><i class="fas fa-plus"></i></div></div><div class="fi-a"><p>Tidak. Kami menggunakan metode aman sesuai TOS masing-masing platform. Ribuan pelanggan sudah membuktikan selama bertahun-tahun.</p></div></div>
+        <div class="fi"><div class="fi-q" onclick="fiT(this)">Metode pembayaran apa yang tersedia?<div class="fi-ic"><i class="fas fa-plus"></i></div></div><div class="fi-a"><p>Transfer bank (BCA, Mandiri, BNI, BRI), e-wallet (GoPay, OVO, Dana, ShopeePay), dan QRIS untuk kemudahan kamu.</p></div></div>
+        <div class="fi"><div class="fi-q" onclick="fiT(this)">Bagaimana jika followers berkurang?<div class="fi-ic"><i class="fas fa-plus"></i></div></div><div class="fi-a"><p>Ada garansi refill sesuai paket (7/30/90 hari). Jika ada penurunan dalam masa garansi, kami isi ulang gratis tanpa biaya tambahan.</p></div></div>
+        <div class="fi"><div class="fi-q" onclick="fiT(this)">Apakah akun harus public?<div class="fi-ic"><i class="fas fa-plus"></i></div></div><div class="fi-a"><p>Untuk followers, akun harus public selama proses. Untuk likes/views postingan tertentu, postingan harus bisa diakses publik.</p></div></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FAQ -->
-  <section class="faq-sec" id="faq">
-    <div class="sw">
-      <div class="faq-two-col">
-        <div class="rv-l">
-          <div class="s-eyebrow">FAQ</div>
-          <h3>Masih ada<br>pertanyaan?</h3>
-          <p>Kami siap membantu 24 jam sehari, 7 hari seminggu. Hubungi kami via WhatsApp untuk konsultasi gratis.</p>
-          <a href="https://wa.me/6281340514077" class="faq-contact-btn" target="_blank"><i class="fab fa-whatsapp"></i>
-            Chat WhatsApp</a>
-        </div>
-        <div class="faq-list rv-r">
-          <div class="faq-item">
-            <div class="faq-q" onclick="faqToggle(this)">Apakah followers yang diberikan real?<div class="faq-ic"><i
-                  class="fas fa-plus"></i></div>
-            </div>
-            <div class="faq-a">
-              <p>Ya! Semua layanan kami menggunakan akun real dan aktif. Tidak ada bot, sehingga aman untuk akun kamu
-                dan tidak berisiko kena banned oleh platform manapun.</p>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="faqToggle(this)">Berapa lama proses setelah order?<div class="faq-ic"><i
-                  class="fas fa-plus"></i></div>
-            </div>
-            <div class="faq-a">
-              <p>Rata-rata 0–30 menit untuk paket Starter, 0–15 menit untuk paket Pro, dan hampir instan untuk paket
-                Elite. Tergantung volume dan platform yang dipilih.</p>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="faqToggle(this)">Apakah akun saya bisa kena banned?<div class="faq-ic"><i
-                  class="fas fa-plus"></i></div>
-            </div>
-            <div class="faq-a">
-              <p>Tidak. Kami menggunakan metode yang aman dan sesuai dengan kebijakan masing-masing platform. Ribuan
-                pelanggan kami sudah membuktikannya selama bertahun-tahun.</p>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="faqToggle(this)">Apa saja metode pembayaran yang tersedia?<div class="faq-ic"><i
-                  class="fas fa-plus"></i></div>
-            </div>
-            <div class="faq-a">
-              <p>Kami menerima transfer bank (BCA, Mandiri, BNI, BRI), e-wallet (GoPay, OVO, Dana, ShopeePay), dan QRIS
-                untuk kemudahan pembayaran kamu.</p>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="faqToggle(this)">Bagaimana jika followers berkurang?<div class="faq-ic"><i
-                  class="fas fa-plus"></i></div>
-            </div>
-            <div class="faq-a">
-              <p>Kami menyediakan garansi refill. Jika ada penurunan dalam masa garansi (7/30/90 hari sesuai paket),
-                kami akan mengisi ulang secara gratis tanpa biaya tambahan.</p>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="faqToggle(this)">Apakah akun harus public?<div class="faq-ic"><i
-                  class="fas fa-plus"></i></div>
-            </div>
-            <div class="faq-a">
-              <p>Untuk layanan followers, akun harus public selama proses berlangsung. Untuk likes/views pada postingan
-                tertentu, postingan tersebut harus bisa diakses publik.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-sec">
-    <div class="cta-bg">
-      <div class="cta-orb1"></div>
-      <div class="cta-orb2"></div>
-    </div>
-    <h2 class="cta-h rv">Siap Viral<br><span>Sekarang?</span></h2>
-    <p class="cta-desc rv">Bergabung dengan ribuan kreator dan bisnis yang sudah merasakan pertumbuhan nyata bersama
-      ViralUp!</p>
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="cta-grid-bg"></div>
+  <div class="cta-inner">
+    <div class="cta-tag rv">🌱 Bergabung dengan 12.000+ pelanggan aktif</div>
+    <h2 class="cta-h rv">Siap <em>Tumbuh</em><br>Bersama Kami?</h2>
+    <p class="cta-desc rv">Jangan tunda lagi. Ribuan kreator dan bisnis sudah merasakan pertumbuhan nyata. Giliran kamu!</p>
     <div class="cta-btns rv">
-      <a href="https://wa.me/6281340514077" class="hbtn-main" target="_blank"><i class="fab fa-whatsapp"></i> Order via
-        WhatsApp</a>
-      <a href="#layanan" class="hbtn-ghost"><i class="fas fa-th-large"></i> Lihat Semua Layanan</a>
+      <a href="https://wa.me/6281234567890" class="btn-dark" target="_blank"><i class="fab fa-whatsapp"></i> Order via WhatsApp</a>
+      <a href="#layanan" class="btn-light" style="color:var(--w);border-color:rgba(247,245,240,.15)"><i class="fas fa-th-large"></i> Lihat Semua Layanan</a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="ft-inner">
-      <div class="ft-top">
-        <div class="ft-brand">
-          <div class="ft-logo">ViralUp</div>
-          <p class="ft-desc">Jasa suntik sosmed terpercaya #1 Indonesia. Real, aman, dan cepat untuk semua platform
-            sosial media.</p>
-          <div class="ft-soc">
-            <a href="#" class="fts"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="fts"><i class="fab fa-tiktok"></i></a>
-            <a href="#" class="fts"><i class="fab fa-youtube"></i></a>
-            <a href="#" class="fts"><i class="fab fa-whatsapp"></i></a>
-            <a href="#" class="fts"><i class="fab fa-telegram"></i></a>
-          </div>
-        </div>
-        <div class="ft-col">
-          <h5>Layanan</h5>
-          <ul>
-            <li><a href="#">Instagram Boost</a></li>
-            <li><a href="#">TikTok Boost</a></li>
-            <li><a href="#">YouTube Boost</a></li>
-            <li><a href="#">Twitter/X Boost</a></li>
-            <li><a href="#">Facebook Boost</a></li>
-            <li><a href="#">Spotify Boost</a></li>
-          </ul>
-        </div>
-        <div class="ft-col">
-          <h5>Info</h5>
-          <ul>
-            <li><a href="#">Cara Order</a></li>
-            <li><a href="#">Cek Status Order</a></li>
-            <li><a href="#">Kebijakan Refund</a></li>
-            <li><a href="#">Syarat & Ketentuan</a></li>
-            <li><a href="#">Privasi</a></li>
-          </ul>
-        </div>
-        <div class="ft-col">
-          <h5>Kontak</h5>
-          <ul>
-            <li><a href="https://wa.me/6281340514077" target="_blank"><i class="fab fa-whatsapp" style="margin-right:6px;color:var(--gold)"></i>+62
-                813-4051-4077</a></li>
-            <li><a href="mailto:cs@viralup.id"><i class="fas fa-envelope" style="margin-right:6px;color:var(--gold)"></i>cs@viralup.id</a>
-            </li>
-            <li><a href="#"><i class="fas fa-clock" style="margin-right:6px;color:var(--gold)"></i>24 Jam / 7 Hari</a>
-            </li>
-            <li><a href="#"><i class="fas fa-map-marker-alt"
-                  style="margin-right:6px;color:var(--gold)"></i>Indonesia</a></li>
-          </ul>
+<!-- FOOTER -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <div class="ft-logo">Growth<em style="font-family:'Instrument Serif',serif;font-style:italic">Lab</em> 🌱</div>
+        <p class="ft-desc">Jasa boost sosmed terpercaya #1 Indonesia. Real, aman, dan cepat untuk semua platform sosial media.</p>
+        <div class="ft-soc">
+          <a href="#" class="fts"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="fts"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="fts"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="fts"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="fts"><i class="fab fa-telegram"></i></a>
         </div>
       </div>
-      <div class="ft-bottom">
-        <span>&copy; 2026 <span>ViralUp</span>. All Rights Reserved.</span>
-        <span>Made with 💜 for content creators</span>
-      </div>
+      <div class="ft-col"><h5>Layanan</h5><ul><li><a href="#">Instagram</a></li><li><a href="#">TikTok</a></li><li><a href="#">YouTube</a></li><li><a href="#">Twitter/X</a></li><li><a href="#">Facebook</a></li><li><a href="#">Spotify</a></li></ul></div>
+      <div class="ft-col"><h5>Info</h5><ul><li><a href="#">Cara Order</a></li><li><a href="#">Cek Status</a></li><li><a href="#">Refund Policy</a></li><li><a href="#">Syarat & Ketentuan</a></li><li><a href="#">Privasi</a></li></ul></div>
+      <div class="ft-col"><h5>Kontak</h5><ul><li><a href="#"><i class="fab fa-whatsapp" style="color:var(--lime);margin-right:6px"></i>+62 812-3456-7890</a></li><li><a href="#"><i class="fas fa-envelope" style="color:var(--lime);margin-right:6px"></i>cs@growthlab.id</a></li><li><a href="#"><i class="fas fa-clock" style="color:var(--lime);margin-right:6px"></i>24 Jam / 7 Hari</a></li></ul></div>
     </div>
-  </footer>
+    <div class="ft-bot"><span>&copy; 2026 <b>GrowthLab</b>. All Rights Reserved.</span><span>Made with 🌱 for creators</span></div>
+  </div>
+</footer>
 
-  <script>
-    // LOADER
-    var ldPct = 0, ldI = setInterval(function () { ldPct += Math.random() * 5; if (ldPct >= 100) { ldPct = 100; clearInterval(ldI); } }, 80);
-    setTimeout(function () { document.getElementById('ld').classList.add('out'); }, 2600);
+<script>
+/* CURSOR */
+var cd=document.getElementById('cur-dot'),cr=document.getElementById('cur-ring'),mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;cd.style.left=mx+'px';cd.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.16;ry+=(my-ry)*.16;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop);})();
 
-    // NAV
-    window.addEventListener('scroll', function () { document.getElementById('nav').classList.toggle('on', scrollY > 50); });
+/* PROGRESS */
+window.addEventListener('scroll',function(){document.getElementById('prg').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
 
-    // TICKER
-    var tItems = ['Instagram Followers', 'TikTok Views', 'YouTube Subscribers', 'Twitter Followers', 'Facebook Likes', 'Story Views', 'Reels Views', 'Spotify Streams', 'LinkedIn Connections'];
-    var tEl = document.getElementById('tick'), th = '';
-    for (var k = 0; k < 5; k++)tItems.forEach(function (t) { th += '<div class="tick-it"><span class="tick-sep">✦</span>' + t + '</div>'; });
-    tEl.innerHTML = th;
+/* LOADER */
+setTimeout(function(){document.getElementById('ldr').classList.add('out');},2500);
 
-    // QUICK ORDER
-    function pickQty(el) { document.querySelectorAll('.hqb').forEach(function (x) { x.classList.remove('sel'); }); el.classList.add('sel'); document.getElementById('hero-total').textContent = 'Rp ' + parseInt(el.dataset.p).toLocaleString('id-ID'); }
+/* NAV */
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('on',scrollY>60);},{passive:true});
 
-    // SERVICE DATA
-    var SVC = {
-      instagram: [
-        { name: 'Followers', desc: 'Followers real & aktif Instagram.', price: 'Rp 5.000', per: '/ 1.000', icon: 'fas fa-user-plus', bg: 'rgba(225,48,108,.12)', col: '#e1306c', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-        { name: 'Likes', desc: 'Likes foto & video Instagram.', price: 'Rp 3.000', per: '/ 1.000', icon: 'fas fa-heart', bg: 'rgba(225,48,108,.1)', col: '#e1306c', badge: 'badge-fast', bl: 'Cepat', wide: false, tall: false },
-        { name: 'Views Reels', desc: 'Views konten Reels.', price: 'Rp 2.000', per: '/ 1.000', icon: 'fas fa-eye', bg: 'rgba(225,48,108,.08)', col: '#e1306c', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Story Views', desc: 'Views untuk Instagram Story.', price: 'Rp 4.000', per: '/ 1.000', icon: 'fas fa-book-open', bg: 'rgba(225,48,108,.1)', col: '#e1306c', badge: 'badge-new', bl: 'New', wide: false, tall: false },
-        { name: 'Comments', desc: 'Komentar random atau custom.', price: 'Rp 8.000', per: '/ 100', icon: 'fas fa-comment', bg: 'rgba(225,48,108,.08)', col: '#e1306c', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Share & Save', desc: 'Share & save meningkatkan reach.', price: 'Rp 4.500', per: '/ 500', icon: 'fas fa-share', bg: 'rgba(225,48,108,.08)', col: '#e1306c', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Live Views', desc: 'Penonton Instagram Live real.', price: 'Rp 10.000', per: '/ 100 viewer', icon: 'fas fa-video', bg: 'rgba(225,48,108,.12)', col: '#e1306c', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-      ],
-      tiktok: [
-        { name: 'Followers', desc: 'Followers TikTok real & aktif.', price: 'Rp 4.500', per: '/ 1.000', icon: 'fas fa-user-plus', bg: 'rgba(255,255,255,.06)', col: '#fff', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-        { name: 'Likes', desc: 'Likes video TikTok.', price: 'Rp 2.500', per: '/ 1.000', icon: 'fas fa-heart', bg: 'rgba(238,29,82,.1)', col: '#ee1d52', badge: 'badge-fast', bl: 'Cepat', wide: false, tall: false },
-        { name: 'Views', desc: 'Views video TikTok.', price: 'Rp 1.500', per: '/ 1.000', icon: 'fas fa-eye', bg: 'rgba(105,201,208,.1)', col: '#69c9d0', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Share', desc: 'Share video TikTok.', price: 'Rp 3.000', per: '/ 500', icon: 'fas fa-share', bg: 'rgba(255,255,255,.04)', col: '#fff', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Comments', desc: 'Komentar video TikTok.', price: 'Rp 7.000', per: '/ 100', icon: 'fas fa-comment', bg: 'rgba(105,201,208,.1)', col: '#69c9d0', badge: '', bl: '', wide: false, tall: false },
-        { name: 'FYP Boost', desc: 'Boost ke halaman FYP.', price: 'Rp 15.000', per: '/ video', icon: 'fas fa-fire', bg: 'rgba(238,29,82,.12)', col: '#ee1d52', badge: 'badge-new', bl: 'New', wide: false, tall: false },
-        { name: 'Live Views', desc: 'Penonton TikTok Live.', price: 'Rp 9.000', per: '/ 100 viewer', icon: 'fas fa-video', bg: 'rgba(255,255,255,.06)', col: '#fff', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-      ],
-      youtube: [
-        { name: 'Subscribers', desc: 'Subscriber YouTube real.', price: 'Rp 8.000', per: '/ 1.000', icon: 'fas fa-user-plus', bg: 'rgba(255,0,0,.1)', col: '#ff0000', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-        { name: 'Views', desc: 'Views video YouTube.', price: 'Rp 3.000', per: '/ 1.000', icon: 'fas fa-eye', bg: 'rgba(255,0,0,.08)', col: '#ff0000', badge: 'badge-fast', bl: 'Cepat', wide: false, tall: false },
-        { name: 'Likes', desc: 'Likes video YouTube.', price: 'Rp 5.000', per: '/ 1.000', icon: 'fas fa-thumbs-up', bg: 'rgba(255,0,0,.08)', col: '#ff0000', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Comments', desc: 'Komentar video YouTube.', price: 'Rp 10.000', per: '/ 100', icon: 'fas fa-comment', bg: 'rgba(255,0,0,.08)', col: '#ff0000', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Watch Time', desc: 'Jam tayang untuk monetisasi.', price: 'Rp 25.000', per: '/ 100 jam', icon: 'fas fa-clock', bg: 'rgba(255,0,0,.1)', col: '#ff0000', badge: 'badge-new', bl: 'New', wide: false, tall: false },
-        { name: 'Live Views', desc: 'Penonton YouTube Live.', price: 'Rp 12.000', per: '/ 100 viewer', icon: 'fas fa-video', bg: 'rgba(255,0,0,.08)', col: '#ff0000', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Share & Save', desc: 'Share dan simpan video.', price: 'Rp 4.000', per: '/ 500', icon: 'fas fa-share', bg: 'rgba(255,0,0,.08)', col: '#ff0000', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-      ],
-      twitter: [
-        { name: 'Followers', desc: 'Followers Twitter real.', price: 'Rp 5.000', per: '/ 1.000', icon: 'fas fa-user-plus', bg: 'rgba(29,161,242,.1)', col: '#1da1f2', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-        { name: 'Likes', desc: 'Likes tweet kamu.', price: 'Rp 3.000', per: '/ 1.000', icon: 'fas fa-heart', bg: 'rgba(29,161,242,.08)', col: '#1da1f2', badge: 'badge-fast', bl: 'Cepat', wide: false, tall: false },
-        { name: 'Retweets', desc: 'Retweet jangkauan lebih luas.', price: 'Rp 4.000', per: '/ 1.000', icon: 'fas fa-retweet', bg: 'rgba(29,161,242,.08)', col: '#1da1f2', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Replies', desc: 'Reply tweet kamu.', price: 'Rp 8.000', per: '/ 100', icon: 'fas fa-comment', bg: 'rgba(29,161,242,.08)', col: '#1da1f2', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Impressions', desc: 'Impression tweet kamu.', price: 'Rp 2.000', per: '/ 1.000', icon: 'fas fa-eye', bg: 'rgba(29,161,242,.08)', col: '#1da1f2', badge: 'badge-new', bl: 'New', wide: false, tall: false },
-        { name: 'Poll Votes', desc: 'Vote untuk Twitter Poll.', price: 'Rp 5.000', per: '/ 1.000', icon: 'fas fa-poll', bg: 'rgba(29,161,242,.1)', col: '#1da1f2', badge: 'badge-hot', bl: 'Hot', wide: false, tall: false },
-        { name: 'Bookmarks', desc: 'Bookmark tweet kamu.', price: 'Rp 3.500', per: '/ 1.000', icon: 'fas fa-bookmark', bg: 'rgba(29,161,242,.08)', col: '#1da1f2', badge: '', bl: '', wide: true, tall: false },
-      ],
-      facebook: [
-        { name: 'Page Likes', desc: 'Likes halaman Facebook.', price: 'Rp 6.000', per: '/ 1.000', icon: 'fas fa-thumbs-up', bg: 'rgba(24,119,242,.1)', col: '#1877f2', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-        { name: 'Followers', desc: 'Followers profil Facebook.', price: 'Rp 5.000', per: '/ 1.000', icon: 'fas fa-user-plus', bg: 'rgba(24,119,242,.08)', col: '#1877f2', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Post Likes', desc: 'Likes postingan Facebook.', price: 'Rp 3.000', per: '/ 1.000', icon: 'fas fa-heart', bg: 'rgba(24,119,242,.08)', col: '#1877f2', badge: 'badge-fast', bl: 'Cepat', wide: false, tall: false },
-        { name: 'Video Views', desc: 'Views video Facebook.', price: 'Rp 2.500', per: '/ 1.000', icon: 'fas fa-eye', bg: 'rgba(24,119,242,.08)', col: '#1877f2', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Comments', desc: 'Komentar postingan.', price: 'Rp 8.000', per: '/ 100', icon: 'fas fa-comment', bg: 'rgba(24,119,242,.08)', col: '#1877f2', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Shares', desc: 'Share postingan Facebook.', price: 'Rp 4.000', per: '/ 500', icon: 'fas fa-share', bg: 'rgba(24,119,242,.08)', col: '#1877f2', badge: 'badge-new', bl: 'New', wide: false, tall: false },
-        { name: 'Reviews ⭐5', desc: 'Review bintang 5 untuk page.', price: 'Rp 12.000', per: '/ 100', icon: 'fas fa-star', bg: 'rgba(24,119,242,.1)', col: '#1877f2', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-      ],
-      spotify: [
-        { name: 'Streams', desc: 'Stream lagu atau podcast.', price: 'Rp 4.000', per: '/ 1.000', icon: 'fas fa-headphones', bg: 'rgba(30,215,96,.1)', col: '#1db954', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-        { name: 'Followers', desc: 'Followers akun Spotify.', price: 'Rp 6.000', per: '/ 1.000', icon: 'fas fa-user-plus', bg: 'rgba(30,215,96,.08)', col: '#1db954', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Saves', desc: 'Simpan lagu ke library.', price: 'Rp 5.000', per: '/ 1.000', icon: 'fas fa-save', bg: 'rgba(30,215,96,.08)', col: '#1db954', badge: 'badge-fast', bl: 'Cepat', wide: false, tall: false },
-        { name: 'Playlist Followers', desc: 'Followers playlist kamu.', price: 'Rp 5.500', per: '/ 1.000', icon: 'fas fa-list', bg: 'rgba(30,215,96,.08)', col: '#1db954', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Monthly Listeners', desc: 'Pendengar bulanan Spotify.', price: 'Rp 8.000', per: '/ 1.000', icon: 'fas fa-chart-line', bg: 'rgba(30,215,96,.1)', col: '#1db954', badge: 'badge-new', bl: 'New', wide: false, tall: false },
-        { name: 'Podcast Plays', desc: 'Plays episode podcast.', price: 'Rp 3.500', per: '/ 1.000', icon: 'fas fa-podcast', bg: 'rgba(30,215,96,.08)', col: '#1db954', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Likes & Shares', desc: 'Suka dan share lagu/album.', price: 'Rp 4.500', per: '/ 1.000', icon: 'fas fa-heart', bg: 'rgba(30,215,96,.1)', col: '#1db954', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-      ],
-      linkedin: [
-        { name: 'Connections', desc: 'Koneksi LinkedIn profesional.', price: 'Rp 7.000', per: '/ 500', icon: 'fas fa-handshake', bg: 'rgba(0,119,181,.1)', col: '#0077b5', badge: 'badge-hot', bl: 'Hot', wide: true, tall: false },
-        { name: 'Post Likes', desc: 'Likes postingan LinkedIn.', price: 'Rp 4.000', per: '/ 1.000', icon: 'fas fa-thumbs-up', bg: 'rgba(0,119,181,.08)', col: '#0077b5', badge: 'badge-fast', bl: 'Cepat', wide: false, tall: false },
-        { name: 'Profile Views', desc: 'Kunjungan ke profil.', price: 'Rp 5.000', per: '/ 1.000', icon: 'fas fa-eye', bg: 'rgba(0,119,181,.08)', col: '#0077b5', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Followers', desc: 'Followers halaman LinkedIn.', price: 'Rp 6.000', per: '/ 1.000', icon: 'fas fa-user-plus', bg: 'rgba(0,119,181,.08)', col: '#0077b5', badge: 'badge-new', bl: 'New', wide: false, tall: false },
-        { name: 'Comments', desc: 'Komentar konten LinkedIn.', price: 'Rp 9.000', per: '/ 100', icon: 'fas fa-comment', bg: 'rgba(0,119,181,.08)', col: '#0077b5', badge: '', bl: '', wide: false, tall: false },
-        { name: 'Endorsements', desc: 'Endorse skill di profil.', price: 'Rp 8.000', per: '/ 100', icon: 'fas fa-certificate', bg: 'rgba(0,119,181,.1)', col: '#0077b5', badge: 'badge-hot', bl: 'Hot', wide: false, tall: false },
-        { name: 'Shares', desc: 'Share artikel atau postingan.', price: 'Rp 5.000', per: '/ 500', icon: 'fas fa-share', bg: 'rgba(0,119,181,.08)', col: '#0077b5', badge: '', bl: '', wide: true, tall: false },
-      ],
-    };
+/* TICKER */
+var ti=['Instagram Followers','TikTok Views','YouTube Subscribers','Twitter/X Followers','Facebook Likes','Story Views','Reels Views','Spotify Streams','LinkedIn Connections'],th='';
+for(var k=0;k<5;k++)ti.forEach(function(t){th+='<div class="tick-it"><span class="tick-star">✦</span>'+t+'</div>';});
+document.getElementById('tick').innerHTML=th;
 
-    function renderBento(p) {
-      var g = document.getElementById('bento-grid'), h = '';
-      (SVC[p] || []).forEach(function (s) {
-        var glowCol = s.col.replace('#', '');
-        h += '<div class="bento-card rv' + (s.wide ? ' wide' : '') + (s.tall ? ' tall' : '') + '" onclick="window.open(\'https://wa.me/6281340514077\',\'_blank\')" style="--bc:' + (s.col) + '">' +
-          '<div class="bc-glow" style="background:' + s.col + '"></div>' +
-          (s.badge ? '<span class="bc-badge ' + s.badge + '">' + s.bl + '</span>' : '') +
-          '<div class="bc-icon" style="background:' + s.bg + '"><i class="' + s.icon + '" style="color:' + s.col + '"></i></div>' +
-          '<div class="bc-name">' + s.name + '</div>' +
-          '<div class="bc-desc">' + s.desc + '</div>' +
-          '<div class="bc-bottom">' +
-          '<div><div class="bc-price">' + s.price + '</div><span class="bc-per">' + s.per + '</span></div>' +
-          '<div class="bc-arrow"><i class="fas fa-arrow-up-right"></i></div>' +
-          '</div></div>';
-      });
-      g.innerHTML = h;
-      setTimeout(checkRv, 60);
-    }
-    renderBento('instagram');
+/* QUICK ORDER */
+function qPick(el){document.querySelectorAll('.oqb').forEach(function(x){x.classList.remove('on');});el.classList.add('on');document.getElementById('op-total').textContent='Rp '+parseInt(el.dataset.p).toLocaleString('id-ID');}
 
-    document.querySelectorAll('.ptab').forEach(function (t) {
-      t.addEventListener('click', function () {
-        document.querySelectorAll('.ptab').forEach(function (x) { x.classList.remove('on'); });
-        this.classList.add('on');
-        renderBento(this.dataset.p);
-      });
-    });
+/* SERVICE DATA */
+var SVC={
+  instagram:[
+    {n:'Followers',d:'Followers real & aktif Instagram.',p:'Rp 5.000',u:'/ 1.000',ico:'fas fa-user-plus',bg:'rgba(225,48,108,.12)',cl:'#e1306c',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Likes',d:'Likes foto & video Instagram.',p:'Rp 3.000',u:'/ 1.000',ico:'fas fa-heart',bg:'rgba(225,48,108,.1)',cl:'#e1306c',bdg:'bdg-fast',bl:'Fast'},
+    {n:'Views Reels',d:'Views konten Reels kamu.',p:'Rp 2.000',u:'/ 1.000',ico:'fas fa-eye',bg:'rgba(225,48,108,.08)',cl:'#e1306c',bdg:'',bl:''},
+    {n:'Story Views',d:'Views Instagram Story.',p:'Rp 4.000',u:'/ 1.000',ico:'fas fa-book-open',bg:'rgba(225,48,108,.1)',cl:'#e1306c',bdg:'bdg-new',bl:'New'},
+    {n:'Comments',d:'Komentar random atau custom.',p:'Rp 8.000',u:'/ 100',ico:'fas fa-comment',bg:'rgba(225,48,108,.08)',cl:'#e1306c',bdg:'',bl:''},
+    {n:'Share & Save',d:'Share & save meningkatkan reach.',p:'Rp 4.500',u:'/ 500',ico:'fas fa-share',bg:'rgba(225,48,108,.08)',cl:'#e1306c',bdg:'',bl:''},
+    {n:'Live Views',d:'Penonton Instagram Live real.',p:'Rp 10.000',u:'/ 100',ico:'fas fa-video',bg:'rgba(225,48,108,.12)',cl:'#e1306c',bdg:'bdg-hot',bl:'Hot'},
+  ],
+  tiktok:[
+    {n:'Followers',d:'Followers TikTok real & aktif.',p:'Rp 4.500',u:'/ 1.000',ico:'fas fa-user-plus',bg:'rgba(255,255,255,.06)',cl:'#fff',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Likes',d:'Likes video TikTok.',p:'Rp 2.500',u:'/ 1.000',ico:'fas fa-heart',bg:'rgba(238,29,82,.1)',cl:'#ee1d52',bdg:'bdg-fast',bl:'Fast'},
+    {n:'Views',d:'Views video TikTok.',p:'Rp 1.500',u:'/ 1.000',ico:'fas fa-eye',bg:'rgba(105,201,208,.1)',cl:'#69c9d0',bdg:'',bl:''},
+    {n:'Share',d:'Share video TikTok.',p:'Rp 3.000',u:'/ 500',ico:'fas fa-share',bg:'rgba(255,255,255,.04)',cl:'#fff',bdg:'',bl:''},
+    {n:'FYP Boost',d:'Boost ke halaman FYP.',p:'Rp 15.000',u:'/ video',ico:'fas fa-fire',bg:'rgba(238,29,82,.12)',cl:'#ee1d52',bdg:'bdg-new',bl:'New'},
+    {n:'Comments',d:'Komentar video TikTok.',p:'Rp 7.000',u:'/ 100',ico:'fas fa-comment',bg:'rgba(105,201,208,.1)',cl:'#69c9d0',bdg:'',bl:''},
+    {n:'Live Views',d:'Penonton TikTok Live.',p:'Rp 9.000',u:'/ 100',ico:'fas fa-video',bg:'rgba(255,255,255,.06)',cl:'#fff',bdg:'bdg-hot',bl:'Hot'},
+  ],
+  youtube:[
+    {n:'Subscribers',d:'Subscriber YouTube real.',p:'Rp 8.000',u:'/ 1.000',ico:'fas fa-user-plus',bg:'rgba(255,0,0,.1)',cl:'#ff0000',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Views',d:'Views video YouTube.',p:'Rp 3.000',u:'/ 1.000',ico:'fas fa-eye',bg:'rgba(255,0,0,.08)',cl:'#ff0000',bdg:'bdg-fast',bl:'Fast'},
+    {n:'Likes',d:'Likes video YouTube.',p:'Rp 5.000',u:'/ 1.000',ico:'fas fa-thumbs-up',bg:'rgba(255,0,0,.08)',cl:'#ff0000',bdg:'',bl:''},
+    {n:'Comments',d:'Komentar video YouTube.',p:'Rp 10.000',u:'/ 100',ico:'fas fa-comment',bg:'rgba(255,0,0,.08)',cl:'#ff0000',bdg:'',bl:''},
+    {n:'Watch Time',d:'Jam tayang untuk monetisasi.',p:'Rp 25.000',u:'/ 100 jam',ico:'fas fa-clock',bg:'rgba(255,0,0,.1)',cl:'#ff0000',bdg:'bdg-new',bl:'New'},
+    {n:'Share & Save',d:'Share dan simpan video.',p:'Rp 4.000',u:'/ 500',ico:'fas fa-share',bg:'rgba(255,0,0,.08)',cl:'#ff0000',bdg:'',bl:''},
+    {n:'Live Views',d:'Penonton YouTube Live.',p:'Rp 12.000',u:'/ 100',ico:'fas fa-video',bg:'rgba(255,0,0,.1)',cl:'#ff0000',bdg:'bdg-hot',bl:'Hot'},
+  ],
+  twitter:[
+    {n:'Followers',d:'Followers Twitter/X real.',p:'Rp 5.500',u:'/ 1.000',ico:'fas fa-user-plus',bg:'rgba(29,161,242,.1)',cl:'#1da1f2',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Likes',d:'Likes tweet kamu.',p:'Rp 3.000',u:'/ 1.000',ico:'fas fa-heart',bg:'rgba(29,161,242,.08)',cl:'#1da1f2',bdg:'bdg-fast',bl:'Fast'},
+    {n:'Retweets',d:'Retweet jangkauan lebih luas.',p:'Rp 4.000',u:'/ 1.000',ico:'fas fa-retweet',bg:'rgba(29,161,242,.08)',cl:'#1da1f2',bdg:'',bl:''},
+    {n:'Impressions',d:'Impression tweet kamu.',p:'Rp 2.000',u:'/ 1.000',ico:'fas fa-eye',bg:'rgba(29,161,242,.08)',cl:'#1da1f2',bdg:'',bl:''},
+    {n:'Poll Votes',d:'Vote untuk Twitter Poll.',p:'Rp 5.000',u:'/ 1.000',ico:'fas fa-poll',bg:'rgba(29,161,242,.1)',cl:'#1da1f2',bdg:'bdg-new',bl:'New'},
+    {n:'Replies',d:'Reply tweet kamu.',p:'Rp 8.000',u:'/ 100',ico:'fas fa-comment',bg:'rgba(29,161,242,.08)',cl:'#1da1f2',bdg:'',bl:''},
+    {n:'Bookmarks',d:'Bookmark tweet kamu.',p:'Rp 3.500',u:'/ 1.000',ico:'fas fa-bookmark',bg:'rgba(29,161,242,.08)',cl:'#1da1f2',bdg:'bdg-hot',bl:'Hot'},
+  ],
+  facebook:[
+    {n:'Page Likes',d:'Likes halaman Facebook.',p:'Rp 6.000',u:'/ 1.000',ico:'fas fa-thumbs-up',bg:'rgba(24,119,242,.1)',cl:'#1877f2',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Followers',d:'Followers profil Facebook.',p:'Rp 5.000',u:'/ 1.000',ico:'fas fa-user-plus',bg:'rgba(24,119,242,.08)',cl:'#1877f2',bdg:'',bl:''},
+    {n:'Post Likes',d:'Likes postingan Facebook.',p:'Rp 3.000',u:'/ 1.000',ico:'fas fa-heart',bg:'rgba(24,119,242,.08)',cl:'#1877f2',bdg:'bdg-fast',bl:'Fast'},
+    {n:'Video Views',d:'Views video Facebook.',p:'Rp 2.500',u:'/ 1.000',ico:'fas fa-eye',bg:'rgba(24,119,242,.08)',cl:'#1877f2',bdg:'',bl:''},
+    {n:'Comments',d:'Komentar postingan.',p:'Rp 8.000',u:'/ 100',ico:'fas fa-comment',bg:'rgba(24,119,242,.08)',cl:'#1877f2',bdg:'',bl:''},
+    {n:'Shares',d:'Share postingan Facebook.',p:'Rp 4.000',u:'/ 500',ico:'fas fa-share',bg:'rgba(24,119,242,.08)',cl:'#1877f2',bdg:'bdg-new',bl:'New'},
+    {n:'Reviews ⭐5',d:'Review bintang 5 untuk page.',p:'Rp 12.000',u:'/ 100',ico:'fas fa-star',bg:'rgba(24,119,242,.1)',cl:'#1877f2',bdg:'bdg-hot',bl:'Hot'},
+  ],
+  spotify:[
+    {n:'Streams',d:'Stream lagu atau podcast.',p:'Rp 4.000',u:'/ 1.000',ico:'fas fa-headphones',bg:'rgba(30,215,96,.1)',cl:'#1db954',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Followers',d:'Followers akun Spotify.',p:'Rp 6.000',u:'/ 1.000',ico:'fas fa-user-plus',bg:'rgba(30,215,96,.08)',cl:'#1db954',bdg:'',bl:''},
+    {n:'Saves',d:'Simpan lagu ke library.',p:'Rp 5.000',u:'/ 1.000',ico:'fas fa-save',bg:'rgba(30,215,96,.08)',cl:'#1db954',bdg:'bdg-fast',bl:'Fast'},
+    {n:'Playlist Followers',d:'Followers playlist kamu.',p:'Rp 5.500',u:'/ 1.000',ico:'fas fa-list',bg:'rgba(30,215,96,.08)',cl:'#1db954',bdg:'',bl:''},
+    {n:'Monthly Listeners',d:'Pendengar bulanan Spotify.',p:'Rp 8.000',u:'/ 1.000',ico:'fas fa-chart-line',bg:'rgba(30,215,96,.1)',cl:'#1db954',bdg:'bdg-new',bl:'New'},
+    {n:'Podcast Plays',d:'Plays episode podcast.',p:'Rp 3.500',u:'/ 1.000',ico:'fas fa-podcast',bg:'rgba(30,215,96,.08)',cl:'#1db954',bdg:'',bl:''},
+    {n:'Likes & Shares',d:'Suka dan share lagu/album.',p:'Rp 4.500',u:'/ 1.000',ico:'fas fa-heart',bg:'rgba(30,215,96,.1)',cl:'#1db954',bdg:'bdg-hot',bl:'Hot'},
+  ],
+  linkedin:[
+    {n:'Connections',d:'Koneksi LinkedIn profesional.',p:'Rp 7.000',u:'/ 500',ico:'fas fa-handshake',bg:'rgba(0,119,181,.1)',cl:'#0077b5',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Post Likes',d:'Likes postingan LinkedIn.',p:'Rp 4.000',u:'/ 1.000',ico:'fas fa-thumbs-up',bg:'rgba(0,119,181,.08)',cl:'#0077b5',bdg:'bdg-fast',bl:'Fast'},
+    {n:'Profile Views',d:'Kunjungan ke profil.',p:'Rp 5.000',u:'/ 1.000',ico:'fas fa-eye',bg:'rgba(0,119,181,.08)',cl:'#0077b5',bdg:'',bl:''},
+    {n:'Followers',d:'Followers halaman LinkedIn.',p:'Rp 6.000',u:'/ 1.000',ico:'fas fa-user-plus',bg:'rgba(0,119,181,.08)',cl:'#0077b5',bdg:'bdg-new',bl:'New'},
+    {n:'Comments',d:'Komentar konten LinkedIn.',p:'Rp 9.000',u:'/ 100',ico:'fas fa-comment',bg:'rgba(0,119,181,.08)',cl:'#0077b5',bdg:'',bl:''},
+    {n:'Endorsements',d:'Endorse skill di profil.',p:'Rp 8.000',u:'/ 100',ico:'fas fa-certificate',bg:'rgba(0,119,181,.1)',cl:'#0077b5',bdg:'bdg-hot',bl:'Hot'},
+    {n:'Shares',d:'Share artikel atau postingan.',p:'Rp 5.000',u:'/ 500',ico:'fas fa-share',bg:'rgba(0,119,181,.08)',cl:'#0077b5',bdg:'',bl:''},
+  ],
+};
+function renderSvc(p){
+  var g=document.getElementById('svc-grid'),h='';
+  (SVC[p]||[]).forEach(function(s){
+    h+='<a class="svc-card" href="https://wa.me/6281234567890" target="_blank" style="display:block;text-decoration:none">'
+      +'<div class="svc-glow" style="background:'+s.cl+'"></div>'
+      +(s.bdg?'<span class="svc-bdg '+s.bdg+'">'+s.bl+'</span>':'')
+      +'<div class="svc-ico" style="background:'+s.bg+'"><i class="'+s.ico+'" style="color:'+s.cl+'"></i></div>'
+      +'<div class="svc-name">'+s.n+'</div>'
+      +'<div class="svc-desc">'+s.d+'</div>'
+      +'<div class="svc-price">'+s.p+'</div><div class="svc-unit">'+s.u+'</div>'
+      +'<div class="svc-cta">Order Sekarang →</div>'
+      +'</a>';
+  });
+  g.innerHTML=h;
+  setTimeout(chkRv,50);
+}
+renderSvc('instagram');
+document.querySelectorAll('.ptab').forEach(function(t){
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.ptab').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    renderSvc(this.dataset.p);
+  });
+});
 
-    // REVEAL
-    function checkRv() {
-      document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-scale').forEach(function (el, i) {
-        var r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight * .9) {
-          setTimeout(function () { el.classList.add('show'); }, i % 8 * 60);
-        }
-      });
-    }
-    window.addEventListener('scroll', checkRv);
-    checkRv();
+/* REVEAL */
+function chkRv(){
+  document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(function(el,i){
+    if(el.getBoundingClientRect().top<window.innerHeight*.91)
+      setTimeout(function(){el.classList.add('in');},i%6*70);
+  });
+}
+window.addEventListener('scroll',chkRv,{passive:true});chkRv();
 
-    // GSAP ANIMATIONS
-    (function () {
-      if (typeof gsap === 'undefined') return;
-      gsap.registerPlugin(ScrollTrigger);
-      // Hero text stagger
-      gsap.from('.hero-eyebrow', { opacity: 0, y: 20, duration: .7, delay: 2.8, ease: 'power3.out' });
-      gsap.from('.hero-h1 span, .hero-h1', { opacity: 0, y: 60, duration: .9, delay: 3.0, stagger: .12, ease: 'power3.out' });
-      gsap.from('.hero-desc', { opacity: 0, y: 25, duration: .7, delay: 3.35, ease: 'power3.out' });
-      gsap.from('.hero-btns', { opacity: 0, y: 20, duration: .7, delay: 3.5, ease: 'power3.out' });
-      gsap.from('.hero-proof', { opacity: 0, y: 15, duration: .7, delay: 3.65, ease: 'power3.out' });
-      gsap.from('.hero-main-card', { opacity: 0, x: 60, duration: 1.1, delay: 2.8, ease: 'power3.out' });
-      gsap.from('.hfc1', { opacity: 0, x: -30, duration: .8, delay: 3.4, ease: 'power3.out' });
-      gsap.from('.hfc2', { opacity: 0, x: 30, duration: .8, delay: 3.6, ease: 'power3.out' });
-      // Counter
-      document.querySelectorAll('.stat-val').forEach(function (el) {
-        var t = parseInt(el.dataset.c);
-        gsap.from(el, { scrollTrigger: { trigger: el, start: 'top 85%' }, textContent: 0, duration: 2.5, ease: 'power2.out', snap: { textContent: 1 }, onUpdate: function () { el.textContent = Math.ceil(parseFloat(el.textContent)).toLocaleString() + '+'; } });
-      });
-      // Parallax bento
-      gsap.utils.toArray('.bento-card').forEach(function (c, i) {
-        gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%' }, opacity: 0, y: 40, duration: .6, delay: i % 4 * .08, ease: 'power3.out' });
-      });
-      // Pricing parallax
-      gsap.utils.toArray('.pcard').forEach(function (c, i) {
-        gsap.from(c, { scrollTrigger: { trigger: '.price-grid', start: 'top 80%' }, opacity: 0, y: 60, duration: .7, delay: i * .15, ease: 'power3.out' });
-      });
-      // Testimonials
-      gsap.utils.toArray('.tc').forEach(function (c, i) {
-        gsap.from(c, { scrollTrigger: { trigger: c, start: 'top 90%' }, opacity: 0, y: 40, duration: .6, delay: i % 3 * .1, ease: 'power3.out' });
-      });
-    })();
+/* GSAP + Counter */
+window.addEventListener('load',function(){
+  if(typeof gsap==='undefined')return;
+  gsap.registerPlugin(ScrollTrigger);
+  // Hero
+  var tl=gsap.timeline({delay:2.7});
+  tl.from('.hero-tag',{opacity:0,y:20,duration:.6,ease:'power3.out'})
+    .from('.hero-h1',{opacity:0,y:80,duration:1,ease:'power3.out'},'-=.3')
+    .from('.hero-desc',{opacity:0,y:30,duration:.7,ease:'power3.out'},'-=.5')
+    .from('.hero-btns',{opacity:0,y:24,duration:.6,ease:'power3.out'},'-=.4')
+    .from('.hero-trust',{opacity:0,y:16,duration:.6,ease:'power3.out'},'-=.4')
+    .from('.hero-stats',{opacity:0,y:24,duration:.7,ease:'power3.out'},'-=.3');
+  // Counter
+  document.querySelectorAll('.cnt-val').forEach(function(el){
+    var t=parseInt(el.dataset.c);
+    gsap.from(el,{scrollTrigger:{trigger:el,start:'top 85%'},textContent:0,duration:2.5,ease:'power2.out',snap:{textContent:1},onUpdate:function(){el.textContent=Math.ceil(parseFloat(el.textContent)).toLocaleString()+'+';}});
+  });
+  // Masonry cards
+  ScrollTrigger.batch('.svc-card',{onEnter:function(els){gsap.from(els,{opacity:0,y:40,duration:.65,stagger:.06,ease:'power3.out'});},start:'top 88%'});
+  // Pricing
+  ScrollTrigger.batch('.pc',{onEnter:function(els){gsap.from(els,{opacity:0,y:60,duration:.75,stagger:.15,ease:'power3.out'});},start:'top 82%'});
+  // Testi
+  ScrollTrigger.batch('.tc',{onEnter:function(els){gsap.from(els,{opacity:0,y:44,duration:.65,stagger:.1,ease:'power3.out'});},start:'top 88%'});
+  // How steps
+  ScrollTrigger.batch('.how-step',{onEnter:function(els){gsap.from(els,{opacity:0,x:-36,duration:.65,stagger:.12,ease:'power3.out'});},start:'top 85%'});
+  // Hero bg text float
+  gsap.to('.hero-bg-text',{scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1.5},y:-60,ease:'none'});
+});
 
-    // GSAP SCRIPT LOAD
-    var gs = document.createElement('script'); gs.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
-    var gst = document.createElement('script'); gst.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js';
-    document.head.appendChild(gs); document.head.appendChild(gst);
+/* Load GSAP */
+var gs=document.createElement('script');gs.src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js';
+var gst=document.createElement('script');gst.src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js';
+document.head.appendChild(gs);gs.onload=function(){document.head.appendChild(gst);};
 
-    // FAQ
-    function faqToggle(q) {
-      var it = q.parentElement, open = it.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(function (x) { x.classList.remove('open'); });
-      if (!open) it.classList.add('open');
-    }
+/* FAQ */
+function fiT(q){var it=q.parentElement,o=it.classList.contains('open');document.querySelectorAll('.fi').forEach(function(x){x.classList.remove('open');});if(!o)it.classList.add('open');}
 
-    // SMOOTH SCROLL
-    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var t = document.querySelector(this.getAttribute('href'));
-        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-      });
-    });
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var t=document.querySelector(this.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
 
-    // CARD TILT
-    document.addEventListener('mouseover', function (e) {
-      var c = e.target.closest('.bento-card,.pcard,.tc,.how-card');
-      if (!c || c._tilt) return;
-      c._tilt = true;
-      function mv(e) { var r = c.getBoundingClientRect(); var rx = (e.clientY - r.top - r.height / 2) / 16, ry = (r.width / 2 - (e.clientX - r.left)) / 16; c.style.transform = 'perspective(800px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-6px)'; c.style.transition = 'transform .1s'; }
-      function ml() { c.style.transform = ''; c.style.transition = 'transform .6s cubic-bezier(.22,1,.36,1)'; c.removeEventListener('mousemove', mv); c.removeEventListener('mouseleave', ml); }
-      c.addEventListener('mousemove', mv);
-      c.addEventListener('mouseleave', ml);
-    });
+/* TILT */
+document.addEventListener('mouseover',function(e){
+  var c=e.target.closest('.svc-card,.pc,.tc,.how-card,.op-order');
+  if(!c||c._t)return;c._t=true;
+  function mv(e){var r=c.getBoundingClientRect(),rx=(e.clientY-r.top-r.height/2)/18,ry=(r.width/2-(e.clientX-r.left))/18;c.style.transform='perspective(900px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateY(-6px)';c.style.transition='transform .1s ease-out';}
+  function ml(){c.style.transform='';c.style.transition='transform .6s cubic-bezier(.22,1,.36,1)';c.removeEventListener('mousemove',mv);c.removeEventListener('mouseleave',ml);c._t=false;}
+  c.addEventListener('mousemove',mv);c.addEventListener('mouseleave',ml);
+});
 
-    // SCROLL PROGRESS BAR
-    var prog = document.createElement('div');
-    prog.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#7c3aed,#eab308);z-index:9999;transition:width .1s;pointer-events:none';
-    document.body.appendChild(prog);
-    window.addEventListener('scroll', function () {
-      var p = (scrollY / (document.body.scrollHeight - innerHeight)) * 100;
-      prog.style.width = p + '%';
-    });
-  </script>
+/* SCROLL SKEW */
+var ls=0,sk;
+window.addEventListener('scroll',function(){var d=Math.abs(scrollY-ls);ls=scrollY;if(d>25){document.body.style.transform='skewY('+(d>50?.15:.08)+'deg)';clearTimeout(sk);sk=setTimeout(function(){document.body.style.transform='';},120);}},{passive:true});
+</script>
 </body>
-
 </html>
