@@ -264,13 +264,14 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .item:nth-child(1) { animation-delay: .40s; }
-    .item:nth-child(2) { animation-delay: .46s; }
-    .item:nth-child(3) { animation-delay: .50s; }
-    .item:nth-child(4) { animation-delay: .56s; }
-    .item:nth-child(5) { animation-delay: .60s; }
-    .item:nth-child(6) { animation-delay: .66s; }
-    .item:nth-child(7) { animation-delay: .70s; }
+    .item:nth-child(1) { animation-delay: .38s; }
+    .item:nth-child(2) { animation-delay: .43s; }
+    .item:nth-child(3) { animation-delay: .48s; }
+    .item:nth-child(4) { animation-delay: .53s; }
+    .item:nth-child(5) { animation-delay: .58s; }
+    .item:nth-child(6) { animation-delay: .63s; }
+    .item:nth-child(7) { animation-delay: .68s; }
+    .item:nth-child(8) { animation-delay: .73s; }
 
     .item:active {
       transform: scale(.97) translateY(0);
@@ -506,7 +507,7 @@
     <a class="item" href="ssm.html">
       <span class="row-top">
         <span class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v7a2 2 0 0 0 4 0V3M9 10v11"/><path d="M17 3c-1.5 0-3 1.5-3 4s1.5 4 3 4v10"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><path d="M14.5 9.5L16 8l-1.5 4.5L10 14l1.5-4.5z"/></svg>
         </span>
         <span class="status">READY</span>
       </span>
@@ -535,7 +536,8 @@
     // counting badge
     (function () {
       var el = document.getElementById('fCount');
-      var target = 7, cur = 0;
+      var target = document.querySelectorAll('#dirList .item').length;
+      var cur = 0;
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduce) { el.textContent = target; return; }
       var iv = setInterval(function () {
